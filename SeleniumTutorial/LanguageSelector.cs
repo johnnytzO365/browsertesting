@@ -24,7 +24,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckSelectorTextInEnglishRootSite()
         {
-            driver.Navigate().GoToUrl("http://vm-sp2013/el");
+            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
             List<IWebElement> links = driver.FindElements(By.TagName("a")).ToList();
             IWebElement ls = driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderCustomHeader_PlaceHolderCustomHeaderTop_ctl00_ctl00_LangSwitchButton']"));
             string displayText = ls.Text;
@@ -34,7 +34,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckLanguageChangeFriendlyURLs()
         {
-            driver.Navigate().GoToUrl("http://vm-sp2013/en");
+            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en");
             IWebElement ls = driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderCustomHeader_PlaceHolderCustomHeaderTop_ctl00_ctl00_LangSwitchButton']"));
             string displayText = ls.Text;
             Assert.AreEqual("EL", displayText);
@@ -49,7 +49,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckLanguageChangeNormalURLs()
         {
-            driver.Navigate().GoToUrl("http://vm-sp2013/english/Pages/Default.aspx");
+            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/english/Pages/Default.aspx");
             IWebElement ls = driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderCustomHeader_PlaceHolderCustomHeaderTop_ctl00_ctl00_LangSwitchButton']"));
             string displayText = ls.Text;
             Assert.AreEqual("EL", displayText);
