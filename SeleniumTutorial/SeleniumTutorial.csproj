@@ -59,12 +59,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContactForm.cs" />
+    <Compile Include="FooterNavigation.cs" />
     <Compile Include="GlobalNavigation.cs" />
+    <Compile Include="HomeNews.cs" />
     <Compile Include="LanguageSelector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
