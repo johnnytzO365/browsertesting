@@ -60,10 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContactForm.cs" />
+    <Compile Include="eSpot.cs" />
     <Compile Include="FooterNavigation.cs" />
     <Compile Include="GlobalNavigation.cs" />
     <Compile Include="HomeNews.cs" />
     <Compile Include="LanguageSelector.cs" />
+    <Compile Include="Link.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
