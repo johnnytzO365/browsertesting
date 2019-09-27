@@ -8,7 +8,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System.Net;
 using System.Threading;
-	
+
 namespace SeleniumTutorial
 {
     class Link
@@ -23,7 +23,7 @@ namespace SeleniumTutorial
         public void CheckLinksOnGlobalNav()
         {
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
-            
+
             IList<IWebElement> links = driver.FindElements(By.ClassName("expanded"));
             foreach (IWebElement link in links)
             {
@@ -43,22 +43,23 @@ namespace SeleniumTutorial
         }
 
         [Test]
-        public void CheckLinksOnRetail() 
+        public void CheckLinksOnRetail()
         {
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
 
             IWebElement parentMenu = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[1]/div/div[2]/div/ul/li[1]/a"));
             parentMenu.Click();
             IList<IWebElement> links = driver.FindElements(By.ClassName("megamenu")).ToList();
-           
+
             foreach (IWebElement link in links)
             {
 
                 var url = link.FindElement(By.CssSelector("a")).GetAttribute("href");
-                if (url != null) { 
-                     IsLinkWorking(url);//ελέγχει αν όλα τα links στο Retail 
+                if (url != null)
+                {
+                    IsLinkWorking(url);//ελέγχει αν όλα τα links στο Retail 
                 }
-                
+
             }
         }
 
@@ -108,7 +109,7 @@ namespace SeleniumTutorial
         public void CheckALink()
         {
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
-            IWebElement parentMenu= driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[1]/div/div[2]/div/ul/li[1]/a"));
+            IWebElement parentMenu = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[1]/div/div[2]/div/ul/li[1]/a"));
             parentMenu.Click();
             IWebElement brokenLink = parentMenu.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderCustomHeader_PlaceHolderCustomHeaderMain_ctl09_DefaultMobilePanel_tabsRepeater_ctl00_mainCategoriesRepeater_ctl06_MenuItemPanel']/ul/li[1]/a"));
 
@@ -117,7 +118,7 @@ namespace SeleniumTutorial
 
             Thread.Sleep(5000);
         }
-       
+
         bool IsLinkWorking(string url)
         {
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
@@ -142,9 +143,9 @@ namespace SeleniumTutorial
             {
                 return false;
             }
- 
+
         }
-      
+
         [TearDown]
         public void CloseBrowser()
         {
