@@ -22,7 +22,7 @@ namespace SeleniumTutorial
         public void CheckNBGFooterNavigationNodeCount()
         {
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013");
-            List<IWebElement> test = driver.FindElements(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[4]/div/ul[2]/li")).ToList();
+            List<IWebElement> test = driver.FindElements(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[4]/div/ul[2]/li")).ToList(); //make a list with the elements on bottom
             Assert.AreEqual(3, test.Count);
         }
 
@@ -30,7 +30,7 @@ namespace SeleniumTutorial
         public void CheckNBGFooterSocialMediaNodeCount()
         {
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013");
-            List<IWebElement> test = driver.FindElements(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[4]/div/div/a")).ToList();
+            List<IWebElement> test = driver.FindElements(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[4]/div/div/a")).ToList();  //make a list with the elements on bottom
             Assert.AreEqual(3, test.Count);
         }
 
