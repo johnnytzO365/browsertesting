@@ -31,6 +31,11 @@ namespace SeleniumTutorial
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/greek/the-group/press-office/e-spot/views-news/Pages/Forms/AllItems.aspx");
 
             ClickFilesOnRibbon();
+            
+            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[id*='Ribbon.Documents.New.NewDocument']")));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id*='Ribbon.Documents.New.NewDocument']")));
+            driver.FindElement(By.CssSelector("[id*='Ribbon.Documents.New.NewDocument']"));
+
 
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='Ribbon.Documents.New.NewDocument-Large']/a[1]/span")));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='Ribbon.Documents.New.NewDocument-Large']/a[1]/span")));
@@ -84,6 +89,9 @@ namespace SeleniumTutorial
             driver.SwitchTo().Alert().Accept();
             Thread.Sleep(2000);
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
+            var retail = driver.FindElement(By.XPath("//*[@id='ctl00_SPWebPartManager1_g_24ad1d81_af05_410e_95e6_34e91ebb74b2']/div/div/div[1]/div"));
+            List<IWebElement> links = retail.FindElements(By.CssSelector("a")).ToList();
+            Assert.AreEqual(9, links.Count);
             Thread.Sleep(2000);
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/greek/the-group/press-office/e-spot/views-news/Pages/Forms/AllItems.aspx");
 
@@ -98,6 +106,8 @@ namespace SeleniumTutorial
             driver.FindElement(By.XPath("//*[@id='Ribbon.Documents.Manage.Delete-Small']")).Click();  //Choose Delete
 
             driver.SwitchTo().Alert().Accept();
+    
+            
             Thread.Sleep(2000);
         }
 
