@@ -21,86 +21,116 @@ namespace SeleniumTutorial
         public void StartBrowser()
         {
             driver = new ChromeDriver("C:\\Users\\spsetup\\Documents\\Visual Studio 2012\\Projects\\SeleniumTutorial\\.nuget\\selenium.chrome.webdriver.76.0.0\\driver");
-            driver.Manage().Window.Maximize();
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
+            driver.Manage().Window.Maximize();  //to use the desired width of window
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(40));
         }
 
         [Test]
         public void CheckHomeNewsWebPartEnglishText()
         {
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en");
-            IWebElement ls = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[3]/div[2]/div/div/div/div/div/div/h3/a"));
-            string displayText = ls.Text;
-            Assert.AreEqual("News & Announcements", displayText);
+            IWebElement news = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[3]/div[2]/div/div/div/div/div/div/h3/a"));
+            if (news != null)
+            {
+                string displayText = news.Text;
+                Assert.AreEqual("News & Announcements", displayText);
+            }
+            else
+                Assert.Fail("Couldn't find what you are looking for!");
         }
 
         [Test]
         public void CheckHomeNewsWebPartGreekText()
         {
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
-            IWebElement ls = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[3]/div[2]/div/div/div/div/div/div/h3/a"));
-            string displayText = ls.Text;
-            Assert.AreEqual("Νέα & Ανακοινώσεις", displayText);
+            IWebElement news = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[3]/div[2]/div/div/div/div/div/div/h3/a"));
+            if (news != null)
+            {
+                string displayText = news.Text;
+                Assert.AreEqual("Νέα & Ανακοινώσεις", displayText);
+            }
+            else
+                Assert.Fail("Couldn't find what you are looking for!");
         }
 
         [Test]
         public void CheckHomeNewsWebPartNodeCountEl()
         {
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
-            IWebElement ls = driver.FindElement(By.CssSelector("[id^='ctl00_SPWebPartManager1']"));
-            List<IWebElement> listNodes = ls.FindElements(By.XPath("./div/div/div/div/ul/li")).ToList();
+            IWebElement news = driver.FindElement(By.CssSelector("[id^='ctl00_SPWebPartManager1']"));
+            if (news != null)
+            {
+                List<IWebElement> listNodes = news.FindElements(By.XPath("./div/div/div/div/ul/li")).ToList();  //count the elements on the list at el
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/greek/news/Pages/Forms/AllItems.aspx");
-            List<IWebElement> listPages = driver.FindElements(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr/td[9]")).ToList();
-            int count = 0;
-            for (int i = 0; i < listPages.Count; i++)
-                if (String.Equals(listPages[i].Text, "Εγκεκριμένα"))
-                    count++;
+                driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/greek/news/Pages/Forms/AllItems.aspx");  //count the approved pages
+                List<IWebElement> listPages = driver.FindElements(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr/td[9]")).ToList();
+                int count = 0;
+                for (int i = 0; i < listPages.Count; i++)
+                    if (String.Equals(listPages[i].Text, "Εγκεκριμένα"))
+                        count++;
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el/news");
-            List<IWebElement> listNews = driver.FindElements(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[3]/div[3]/div[2]/div")).ToList();
+                driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el/news");  //count the elements on the list at el/news
+                List<IWebElement> listNews = driver.FindElements(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[3]/div[3]/div[2]/div")).ToList();
 
-            Assert.AreEqual(count - 1, listNodes.Count, listNews.Count);
+                Assert.AreEqual(count - 1, listNodes.Count, listNews.Count);  //compare, pages must be -1 because of Default.aspx
+            }
+            else
+                Assert.Fail("Couldn't find what you are looking for!");
         }
 
         [Test]
         public void CheckHomeNewsWebPartNodeCountEn()
         {
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en");
-            IWebElement ls = driver.FindElement(By.CssSelector("[id^='ctl00_SPWebPartManager1']"));
-            List<IWebElement> listNodes = ls.FindElements(By.XPath("./div/div/div/div/ul/li")).ToList();
+            IWebElement news = driver.FindElement(By.CssSelector("[id^='ctl00_SPWebPartManager1']"));
+            if (news != null)
+            {
+                List<IWebElement> listNodes = news.FindElements(By.XPath("./div/div/div/div/ul/li")).ToList();  //count the elements on the list at el
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/english/news/Pages/Forms/AllItems.aspx");
-            List<IWebElement> listPages = driver.FindElements(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr/td[9]")).ToList();
-            int count = 0;
-            for (int i = 0; i < listPages.Count; i++)
-                if (String.Equals(listPages[i].Text, "Approved"))
-                    count++;
+                driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/english/news/Pages/Forms/AllItems.aspx");  //count the approved pages
+                List<IWebElement> listPages = driver.FindElements(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr/td[9]")).ToList();
+                int count = 0;
+                for (int i = 0; i < listPages.Count; i++)
+                    if (String.Equals(listPages[i].Text, "Approved"))
+                        count++;
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en/news");
-            List<IWebElement> listNews = driver.FindElements(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[3]/div[3]/div[2]/div")).ToList();
+                driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en/news");  //count the elements on the list at el/news
+                List<IWebElement> listNews = driver.FindElements(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[3]/div[3]/div[2]/div")).ToList();
 
-            Assert.AreEqual(count - 1, listNodes.Count, listNews.Count);
+                Assert.AreEqual(count - 1, listNodes.Count, listNews.Count);  //compare, pages must be -1 because of Default.aspx
+            }
+            else
+                Assert.Fail("Couldn't find what you are looking for!");
         }
 
         [Test]
         public void CheckHomeNewsWebPartLinkEn()
         {
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en");
-            IWebElement ls = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[3]/div[2]/div/div/div/div/div/div/h3/a"));
-            ls.Click();
-            Assert.IsTrue(driver.Url.Contains("vm-sp2013/en/news"));
+            IWebElement link = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[3]/div[2]/div/div/div/div/div/div/h3/a"));
+            if (link != null)
+            {
+                link.Click();
+                Assert.IsTrue(driver.Url.Contains("vm-sp2013/en/news"));
+            }
+            else
+                Assert.Fail("Couldn't find what you are looking for!");
         }
 
         [Test]
         public void CheckHomeNewsWebPartLinkEl()
         {
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
-            IWebElement ls = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[3]/div[2]/div/div/div/div/div/div/h3/a")); 
-            ls.Click();
-            Assert.IsTrue(driver.Url.Contains("vm-sp2013/el/news"));
+            IWebElement link = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[3]/div[2]/div/div/div/div/div/div/h3/a"));
+            if (link != null)
+            {
+                link.Click();
+                Assert.IsTrue(driver.Url.Contains("vm-sp2013/el/news"));
+            }
+            else
+                Assert.Fail("Couldn't find what you are looking for!");
         }
-        /*
+        
         [Test]
         public void CheckHomeNewsAddAndDeleteEn()
         {
@@ -111,56 +141,85 @@ namespace SeleniumTutorial
             Thread.Sleep(1000);
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[id^='Ribbon.Documents.New.NewDocument']")));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id^='Ribbon.Documents.New.NewDocument']")));
-            IWebElement ls = driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.New.NewDocument']"));
-            driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.New.NewDocument']"));
-            ls.FindElement(By.XPath("./a[1]/span")).Click();     //Click New Document
+            IWebElement newDocument = driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.New.NewDocument']"));
+            if (newDocument != null)
+                newDocument.FindElement(By.XPath("./a[1]/span")).Click();
+            else
+                Assert.Fail("Couldn't find New Document on Ribbon!");
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[name$='titleTextBox']")));
-            driver.FindElement(By.CssSelector("[name$='titleTextBox']")).SendKeys("Test");
-            driver.FindElement(By.CssSelector("[id$='buttonCreatePage']")).Click();    //Click Create
+            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[name$='titleTextBox']")));  //wait for the new form to appear
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));
-            ls = driver.FindElement(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody"));
-            ls.FindElement(By.CssSelector("[title='Test']")).Click();
+            IWebElement Title = driver.FindElement(By.CssSelector("[name$='titleTextBox']"));
+            if(Title != null)
+                Title.SendKeys("Test");
+             else
+                Assert.Fail("Couldn't find Title input box!");
+
+            IWebElement Create = driver.FindElement(By.CssSelector("[id$='buttonCreatePage']"));
+            if(Create!=null)
+                Create.Click();
+            else
+                Assert.Fail("Couldn't find Create button!");
+
+            CheckTestItem();
 
             ClickFilesOnRibbon();
 
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[id^='Ribbon.Documents.EditCheckout.CheckIn']")));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id^='Ribbon.Documents.EditCheckout.CheckIn']")));
-            driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.EditCheckout.CheckIn']")).Click();  //Choose Check in
+            IWebElement CheckIn = driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.EditCheckout.CheckIn']"));
+            if (CheckIn != null)
+                CheckIn.Click();
+            else
+                Assert.Fail("Couldn't Find Check In Button!");
 
-            IWebDriver dialogDriver = driver.SwitchTo().Frame(driver.FindElement(By.ClassName("ms-dlgFrame")));
-            WebDriverWait dialogWait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
+            IWebDriver CheckinDialog = driver.SwitchTo().Frame(driver.FindElement(By.ClassName("ms-dlgFrame")));  
+            WebDriverWait CheckinWait = new WebDriverWait(CheckinDialog, TimeSpan.FromSeconds(40));
 
-            dialogWait.Until(ExpectedConditions.ElementIsVisible(By.Id("ActionCheckinPublish")));
-            dialogWait.Until(ExpectedConditions.ElementToBeClickable(By.Id("ActionCheckinPublish")));
-            dialogDriver.FindElement(By.Id("ActionCheckinPublish")).Click();  //Click Major Version
+            CheckinWait.Until(ExpectedConditions.ElementIsVisible(By.Id("ActionCheckinPublish")));  //wait for dialog to appear
+            CheckinWait.Until(ExpectedConditions.ElementToBeClickable(By.Id("ActionCheckinPublish")));
+            IWebElement publish = CheckinDialog.FindElement(By.Id("ActionCheckinPublish"));
+            if (publish != null)
+                publish.Click();
+            else
+                Assert.Fail("Couldn't find Publish Major Version Radio Button");
 
-            dialogWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='CheckinOk']")));
-            dialogDriver.FindElement(By.XPath("//*[@id='CheckinOk']")).Click();  //Click OK
+            IWebElement OK = CheckinDialog.FindElement(By.XPath("//*[@id='CheckinOk']"));
+            if (OK != null)
+                OK.Click();
+            else
+                Assert.Fail("Couldn't find OK button!");
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));
-            ls = driver.FindElement(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody"));
-            ls.FindElement(By.CssSelector("[title='Test']")).Click();
+            CheckTestItem();
 
             ClickFilesOnRibbon();
 
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[id^='Ribbon.Documents.Workflow.Moderate']")));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id^='Ribbon.Documents.Workflow.Moderate']")));
-            driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.Workflow.Moderate']")).Click();  //Choose Approve-Reject
+            IWebElement approve_reject = driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.Workflow.Moderate']"));
+            if (approve_reject != null)
+                approve_reject.Click();
+            else
+                Assert.Fail("Couldn't find Approve-Reject button on Ribbon");
 
-            IWebDriver newDialogDriver = driver.SwitchTo().Frame(driver.FindElement(By.ClassName("ms-dlgFrame")));
-            WebDriverWait newDialogWait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
+            IWebDriver ApproveDialog = driver.SwitchTo().Frame(driver.FindElement(By.ClassName("ms-dlgFrame")));
+            WebDriverWait ApproveWait = new WebDriverWait(ApproveDialog, TimeSpan.FromSeconds(40));
 
-            newDialogWait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[id$='RadioBtnApprovalStatus_0']")));
-            newDialogWait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id$='RadioBtnApprovalStatus_0']")));
-            newDialogDriver.FindElement(By.CssSelector("[id$='RadioBtnApprovalStatus_0']")).Click();  //Click Approve
+            ApproveWait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[id$='RadioBtnApprovalStatus_0']")));  //wait for dialog window to appear
+            ApproveWait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id$='RadioBtnApprovalStatus_0']")));
+            IWebElement approve = ApproveDialog.FindElement(By.CssSelector("[id$='RadioBtnApprovalStatus_0']"));
+            if (approve != null)
+                approve.Click();
+            else
+                Assert.Fail("Couldn't find Approve Radio Button!");
 
-            newDialogWait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id$='RptControls_BtnSubmit']")));
-            newDialogDriver.FindElement(By.CssSelector("[id$='RptControls_BtnSubmit']")).Click();  //Click OK
+            OK = ApproveDialog.FindElement(By.CssSelector("[id$='RptControls_BtnSubmit']"));
+            if (OK != null)
+                OK.Click();
+            else
+                Assert.Fail("Couldn't find OK button!");
 
+            wait.Until(ExpectedConditions.AlertIsPresent());
             driver.SwitchTo().Alert().Accept();
             Thread.Sleep(1000);
 
@@ -168,19 +227,21 @@ namespace SeleniumTutorial
 
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/english/news/Pages/Forms/AllItems.aspx");
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));
-            ls = driver.FindElement(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody"));
-            ls.FindElement(By.CssSelector("[title='Test']")).Click();
+            CheckTestItem();
 
             ClickFilesOnRibbon();
 
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[id^='Ribbon.Documents.Manage.Delete']")));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id^='Ribbon.Documents.Manage.Delete']")));
-            driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.Manage.Delete']")).Click();  //Choose Delete
+            IWebElement delete = driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.Manage.Delete']"));
+            if (delete != null)
+                delete.Click();
+            else
+                Assert.Fail("Couldn't find Delete Button!");
 
+            wait.Until(ExpectedConditions.AlertIsPresent());
             driver.SwitchTo().Alert().Accept();
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
 
             CheckHomeNewsWebPartNodeCountEn();
         }
@@ -195,97 +256,111 @@ namespace SeleniumTutorial
             Thread.Sleep(1000);
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[id^='Ribbon.Documents.New.NewDocument']")));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id^='Ribbon.Documents.New.NewDocument']")));
-            IWebElement ls = driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.New.NewDocument']"));
-            driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.New.NewDocument']"));
-            ls.FindElement(By.XPath("./a[1]/span")).Click();     //Click New Document
+            IWebElement newDocument = driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.New.NewDocument']"));
+            if (newDocument != null)
+                newDocument.FindElement(By.XPath("./a[1]/span")).Click();
+            else
+                Assert.Fail("Couldn't find New Document on Ribbon!");
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[name$='titleTextBox']")));
-            driver.FindElement(By.CssSelector("[name$='titleTextBox']")).SendKeys("Test");
-            driver.FindElement(By.CssSelector("[id$='buttonCreatePage']")).Click();    //Click Create
+            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[name$='titleTextBox']")));  //wait for the new form to appear
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));
-            List<IWebElement> list = driver.FindElements(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr/td")).ToList();
-            for (int i = 0; i < list.Count; i++)
-            {
-                IWebElement temp = list[i];
-                if (temp.Text == "Test")
-                {
-                    temp.Click();
-                    break;
-                }
-            }
+            IWebElement Title = driver.FindElement(By.CssSelector("[name$='titleTextBox']"));
+            if(Title != null)
+                Title.SendKeys("Test");
+             else
+                Assert.Fail("Couldn't find Title input box!");
+
+            IWebElement Create = driver.FindElement(By.CssSelector("[id$='buttonCreatePage']"));
+            if(Create!=null)
+                Create.Click();
+            else
+                Assert.Fail("Couldn't find Create button!");
+
+            CheckTestItem();
 
             ClickFilesOnRibbon();
 
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[id^='Ribbon.Documents.EditCheckout.CheckIn']")));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id^='Ribbon.Documents.EditCheckout.CheckIn']")));
-            driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.EditCheckout.CheckIn']")).Click();  //Choose Check in
+            IWebElement CheckIn = driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.EditCheckout.CheckIn']"));
+            if (CheckIn != null)
+                CheckIn.Click();
+            else
+                Assert.Fail("Couldn't Find Check In Button!");
 
-            IWebDriver dialogDriver = driver.SwitchTo().Frame(driver.FindElement(By.ClassName("ms-dlgFrame")));
-            WebDriverWait dialogWait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
+            IWebDriver CheckinDialog = driver.SwitchTo().Frame(driver.FindElement(By.ClassName("ms-dlgFrame")));  
+            WebDriverWait CheckinWait = new WebDriverWait(CheckinDialog, TimeSpan.FromSeconds(40));
 
-            dialogWait.Until(ExpectedConditions.ElementIsVisible(By.Id("ActionCheckinPublish")));
-            dialogWait.Until(ExpectedConditions.ElementToBeClickable(By.Id("ActionCheckinPublish")));
-            dialogDriver.FindElement(By.Id("ActionCheckinPublish")).Click();  //Click Major Version
+            CheckinWait.Until(ExpectedConditions.ElementIsVisible(By.Id("ActionCheckinPublish")));  //wait for dialog to appear
+            CheckinWait.Until(ExpectedConditions.ElementToBeClickable(By.Id("ActionCheckinPublish")));
+            IWebElement publish = CheckinDialog.FindElement(By.Id("ActionCheckinPublish"));
+            if (publish != null)
+                publish.Click();
+            else
+                Assert.Fail("Couldn't find Publish Major Version Radio Button");
 
-            dialogWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='CheckinOk']")));
-            dialogDriver.FindElement(By.XPath("//*[@id='CheckinOk']")).Click();  //Click OK
+            IWebElement OK = CheckinDialog.FindElement(By.XPath("//*[@id='CheckinOk']"));
+            if (OK != null)
+                OK.Click();
+            else
+                Assert.Fail("Couldn't find OK button!");
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));
-            list = driver.FindElements(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr/td")).ToList();
-            for (int i = 0; i < list.Count; i++)
-            {
-                IWebElement temp = list[i];
-                if (temp.Text == "Test")
-                {
-                    temp.Click();
-                    break;
-                }
-            }
-
+            CheckTestItem();
 
             ClickFilesOnRibbon();
 
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[id^='Ribbon.Documents.Workflow.Moderate']")));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id^='Ribbon.Documents.Workflow.Moderate']")));
-            driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.Workflow.Moderate']")).Click();  //Choose Approve-Reject
+            IWebElement approve_reject = driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.Workflow.Moderate']"));
+            if (approve_reject != null)
+                approve_reject.Click();
+            else
+                Assert.Fail("Couldn't find Approve-Reject button on Ribbon");
 
-            IWebDriver newDialogDriver = driver.SwitchTo().Frame(driver.FindElement(By.ClassName("ms-dlgFrame")));
-            WebDriverWait newDialogWait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
+            IWebDriver ApproveDialog = driver.SwitchTo().Frame(driver.FindElement(By.ClassName("ms-dlgFrame")));
+            WebDriverWait ApproveWait = new WebDriverWait(ApproveDialog, TimeSpan.FromSeconds(40));
 
-            newDialogWait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[id$='RadioBtnApprovalStatus_0']")));
-            newDialogWait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id$='RadioBtnApprovalStatus_0']")));
-            newDialogDriver.FindElement(By.CssSelector("[id$='RadioBtnApprovalStatus_0']")).Click();  //Click Approve
+            ApproveWait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[id$='RadioBtnApprovalStatus_0']")));  //wait for dialog window to appear
+            ApproveWait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id$='RadioBtnApprovalStatus_0']")));
+            IWebElement approve = ApproveDialog.FindElement(By.CssSelector("[id$='RadioBtnApprovalStatus_0']"));
+            if (approve != null)
+                approve.Click();
+            else
+                Assert.Fail("Couldn't find Approve Radio Button!");
 
-            newDialogWait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id$='RptControls_BtnSubmit']")));
-            newDialogDriver.FindElement(By.CssSelector("[id$='RptControls_BtnSubmit']")).Click();  //Click OK
+            OK = ApproveDialog.FindElement(By.CssSelector("[id$='RptControls_BtnSubmit']"));
+            if (OK != null)
+                OK.Click();
+            else
+                Assert.Fail("Couldn't find OK button!");
 
+            wait.Until(ExpectedConditions.AlertIsPresent());
             driver.SwitchTo().Alert().Accept();
             Thread.Sleep(1000);
 
             CheckHomeNewsWebPartNodeCountEl();
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/english/news/Pages/Forms/AllItems.aspx");
+            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/greek/news/Pages/Forms/AllItems.aspx");
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));
-            ls = driver.FindElement(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody"));
-            ls.FindElement(By.CssSelector("[title='Test']")).Click();
+            CheckTestItem();
 
             ClickFilesOnRibbon();
 
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[id^='Ribbon.Documents.Manage.Delete']")));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id^='Ribbon.Documents.Manage.Delete']")));
-            driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.Manage.Delete']")).Click();  //Choose Delete
+            IWebElement delete = driver.FindElement(By.CssSelector("[id^='Ribbon.Documents.Manage.Delete']"));
+            if (delete != null)
+                delete.Click();
+            else
+                Assert.Fail("Couldn't find Delete Button!");
 
+            wait.Until(ExpectedConditions.AlertIsPresent());
             driver.SwitchTo().Alert().Accept();
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
 
             CheckHomeNewsWebPartNodeCountEl();
         }
-        */
+        
         [TearDown]
         public void CloseBrowser()
         {
@@ -294,9 +369,32 @@ namespace SeleniumTutorial
 
         public void ClickFilesOnRibbon()
         {
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='Ribbon.Document-title']/a")));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='Ribbon.Document-title']/a")));  //wait for ribbon to appear
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='Ribbon.Document-title']/a")));
-            driver.FindElement(By.XPath("//*[@id='Ribbon.Document-title']/a")).Click();       //Click Files on Ribbon
+            IWebElement files = driver.FindElement(By.XPath("//*[@id='Ribbon.Document-title']/a"));
+            if (files != null)
+                files.Click();
+            else
+                Assert.Fail("Couldn't find Files on Ribbon!");
+        }
+
+        public void CheckTestItem()
+        {
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));   //wait for the list to appear
+            List<IWebElement> list = driver.FindElements(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr/td")).ToList();
+            int i;
+            for (i = 0; i < list.Count; i++)
+            {
+                IWebElement item = list[i];
+                if (item.Text == "Test")
+                {
+                    item.Click();
+                    break;
+                }
+            }
+            if (i == list.Count)
+                Assert.Fail("Couldn't find item named \"Test\"");
         }
     }
 }
