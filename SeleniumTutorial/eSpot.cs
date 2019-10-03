@@ -31,18 +31,18 @@ namespace SeleniumTutorial
         string ButtonForNewPage = "[id*='Ribbon.Documents.New.NewDocument']";
         string TitleOfNewItemPlaceHolder = "ctl00$PlaceHolderMain$pageTitleSection$ctl01$titleTextBox";
         string LastItemOnList = "//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]";
-        string CheckOutButton = "//*[@id='Ribbon.Documents.EditCheckout.CheckIn-Small']";
+        string CheckOutButton = "//*[@id='Ribbon.Documents.EditCheckout.CheckIn-Medium']";
         string PublishButton = "ActionCheckinPublish";
         string ApproveRadioButton = "ctl00_PlaceHolderMain_approveDescription_ctl01_RadioBtnApprovalStatus_0";
-        string ApproveButton = "//*[@id='Ribbon.Documents.Workflow.Moderate-Small']";
+        string ApproveButton = "//*[@id='Ribbon.Documents.Workflow.Moderate-Medium']";
         string EspotWebPart = "//*[@id='ctl00_SPWebPartManager1_g_24ad1d81_af05_410e_95e6_34e91ebb74b2']/div/div/div[1]/div";
-        string DeleteButton = "//*[@id='Ribbon.Documents.Manage.Delete-Small']";
+        string DeleteButton = "//*[@id='Ribbon.Documents.Manage.Delete-Medium']";
 
         [Test]
         public void TestForEspotNews()
         {
             driver.Navigate().GoToUrl(UrlForEspot);
-
+            driver.Manage().Window.Maximize();
             ClickFilesOnRibbon();
 
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(ButtonForNewPage)));
@@ -100,7 +100,7 @@ namespace SeleniumTutorial
             driver.Navigate().GoToUrl(HomeUrlEl);
             var retail = driver.FindElement(By.XPath(EspotWebPart));
             List<IWebElement> links = retail.FindElements(By.CssSelector("a")).ToList();
-            Assert.AreEqual(9, links.Count);
+            Assert.AreEqual(6, links.Count);
             Thread.Sleep(2000);
             driver.Navigate().GoToUrl(UrlForEspot);
 
@@ -123,7 +123,7 @@ namespace SeleniumTutorial
         {
             
             driver.Navigate().GoToUrl(UrlForEspotEn);
-
+            driver.Manage().Window.Maximize();
             ClickFilesOnRibbon();
 
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(ButtonForNewPage)));
