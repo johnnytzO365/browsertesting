@@ -24,17 +24,30 @@ namespace SeleniumTutorial
             driver = new ChromeDriver("C:\\Users\\spsetup\\Documents\\Visual Studio 2012\\Projects\\SeleniumTutorial\\.nuget\\selenium.chrome.webdriver.76.0.0\\driver");
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
         }
+        string HomeUrlEl = "http://spsetup:p@ssw0rd@vm-sp2013/el";
+        string HomeUrlEn = "http://spsetup:p@ssw0rd@vm-sp2013/en";
+        string UrlForEspot = "http://spsetup:p@ssw0rd@vm-sp2013/greek/the-group/press-office/e-spot/views-news/Pages/Forms/AllItems.aspx";
+        string UrlForEspotEn = "http://spsetup:p@ssw0rd@vm-sp2013/english/the-group/press-office/e-spot/views-news/Pages/Forms/AllItems.aspx";
+        string ButtonForNewPage = "[id*='Ribbon.Documents.New.NewDocument']";
+        string TitleOfNewItemPlaceHolder = "ctl00$PlaceHolderMain$pageTitleSection$ctl01$titleTextBox";
+        string LastItemOnList = "//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]";
+        string CheckOutButton = "//*[@id='Ribbon.Documents.EditCheckout.CheckIn-Small']";
+        string PublishButton = "ActionCheckinPublish";
+        string ApproveRadioButton = "ctl00_PlaceHolderMain_approveDescription_ctl01_RadioBtnApprovalStatus_0";
+        string ApproveButton = "//*[@id='Ribbon.Documents.Workflow.Moderate-Small']";
+        string EspotWebPart = "//*[@id='ctl00_SPWebPartManager1_g_24ad1d81_af05_410e_95e6_34e91ebb74b2']/div/div/div[1]/div";
+        string DeleteButton = "//*[@id='Ribbon.Documents.Manage.Delete-Small']";
 
         [Test]
         public void TestForEspotNews()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/greek/the-group/press-office/e-spot/views-news/Pages/Forms/AllItems.aspx");
+            driver.Navigate().GoToUrl(UrlForEspot);
 
             ClickFilesOnRibbon();
-            
-            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[id*='Ribbon.Documents.New.NewDocument']")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id*='Ribbon.Documents.New.NewDocument']")));
-            driver.FindElement(By.CssSelector("[id*='Ribbon.Documents.New.NewDocument']"));
+
+            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(ButtonForNewPage)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(ButtonForNewPage)));
+            driver.FindElement(By.CssSelector(ButtonForNewPage));
 
 
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='Ribbon.Documents.New.NewDocument-Large']/a[1]/span")));
@@ -42,68 +55,62 @@ namespace SeleniumTutorial
             Thread.Sleep(1000);
             driver.FindElement(By.XPath("//*[@id='Ribbon.Documents.New.NewDocument-Large']/a[1]/span")).Click();     //Click New Document
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.Name("ctl00$PlaceHolderMain$pageTitleSection$ctl01$titleTextBox")));
-            driver.FindElement(By.Name("ctl00$PlaceHolderMain$pageTitleSection$ctl01$titleTextBox")).SendKeys("TestSelenium12");
+            wait.Until(ExpectedConditions.ElementIsVisible(By.Name(TitleOfNewItemPlaceHolder)));
+            driver.FindElement(By.Name(TitleOfNewItemPlaceHolder)).SendKeys("TestSelenium12");
             driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderMain_ctl00_RptControls_buttonCreatePage']")).Click();    //Click Create
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")));
-            driver.FindElement(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")).Click();  //Choose the last element of the list
+            ChooseLastItem();
 
             ClickFilesOnRibbon();
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='Ribbon.Documents.EditCheckout.CheckIn-Small']")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='Ribbon.Documents.EditCheckout.CheckIn-Small']")));
-            driver.FindElement(By.XPath("//*[@id='Ribbon.Documents.EditCheckout.CheckIn-Small']")).Click();  //Choose Check in
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(CheckOutButton)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(CheckOutButton)));
+            driver.FindElement(By.XPath(CheckOutButton)).Click();  //Choose Check in
 
             IWebDriver dialogDriver = driver.SwitchTo().Frame(driver.FindElement(By.ClassName("ms-dlgFrame")));
             WebDriverWait dialogWait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
 
-            dialogWait.Until(ExpectedConditions.ElementIsVisible(By.Id("ActionCheckinPublish")));
-            dialogWait.Until(ExpectedConditions.ElementToBeClickable(By.Id("ActionCheckinPublish")));
-            dialogDriver.FindElement(By.Id("ActionCheckinPublish")).Click();  //Click Major Version
+            dialogWait.Until(ExpectedConditions.ElementIsVisible(By.Id(PublishButton)));
+            dialogWait.Until(ExpectedConditions.ElementToBeClickable(By.Id(PublishButton)));
+            dialogDriver.FindElement(By.Id(PublishButton)).Click();  //Click Major Version
 
             dialogWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='CheckinOk']")));
             dialogDriver.FindElement(By.XPath("//*[@id='CheckinOk']")).Click();  //Click OK
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")));
-            driver.FindElement(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")).Click();  //Choose the last element of the list
+            ChooseLastItem();
 
             ClickFilesOnRibbon();
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='Ribbon.Documents.Workflow.Moderate-Small']")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='Ribbon.Documents.Workflow.Moderate-Small']")));
-            driver.FindElement(By.XPath("//*[@id='Ribbon.Documents.Workflow.Moderate-Small']")).Click();  //Choose Approve-Reject
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(ApproveButton)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(ApproveButton)));
+            driver.FindElement(By.XPath(ApproveButton)).Click();  //Choose Approve-Reject
 
             IWebDriver newDialogDriver = driver.SwitchTo().Frame(driver.FindElement(By.ClassName("ms-dlgFrame")));
             WebDriverWait newDialogWait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
 
-            newDialogWait.Until(ExpectedConditions.ElementIsVisible(By.Id("ctl00_PlaceHolderMain_approveDescription_ctl01_RadioBtnApprovalStatus_0")));
-            newDialogWait.Until(ExpectedConditions.ElementToBeClickable(By.Id("ctl00_PlaceHolderMain_approveDescription_ctl01_RadioBtnApprovalStatus_0")));
-            newDialogDriver.FindElement(By.Id("ctl00_PlaceHolderMain_approveDescription_ctl01_RadioBtnApprovalStatus_0")).Click();  //Click Approve
+            newDialogWait.Until(ExpectedConditions.ElementIsVisible(By.Id(ApproveRadioButton)));
+            newDialogWait.Until(ExpectedConditions.ElementToBeClickable(By.Id(ApproveRadioButton)));
+            newDialogDriver.FindElement(By.Id(ApproveRadioButton)).Click();  //Click Approve
 
             newDialogWait.Until(ExpectedConditions.ElementToBeClickable(By.Id("ctl00_PlaceHolderMain_ctl00_RptControls_BtnSubmit")));
             newDialogDriver.FindElement(By.Id("ctl00_PlaceHolderMain_ctl00_RptControls_BtnSubmit")).Click();  //Click OK
 
             driver.SwitchTo().Alert().Accept();
             Thread.Sleep(2000);
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
-            var retail = driver.FindElement(By.XPath("//*[@id='ctl00_SPWebPartManager1_g_24ad1d81_af05_410e_95e6_34e91ebb74b2']/div/div/div[1]/div"));
+            driver.Navigate().GoToUrl(HomeUrlEl);
+            var retail = driver.FindElement(By.XPath(EspotWebPart));
             List<IWebElement> links = retail.FindElements(By.CssSelector("a")).ToList();
             Assert.AreEqual(9, links.Count);
             Thread.Sleep(2000);
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/greek/the-group/press-office/e-spot/views-news/Pages/Forms/AllItems.aspx");
+            driver.Navigate().GoToUrl(UrlForEspot);
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")));
-            driver.FindElement(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")).Click();  //Choose the last element of the list
+            ChooseLastItem();
 
             ClickFilesOnRibbon();
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='Ribbon.Documents.Manage.Delete-Small']")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='Ribbon.Documents.Manage.Delete-Small']")));
-            driver.FindElement(By.XPath("//*[@id='Ribbon.Documents.Manage.Delete-Small']")).Click();  //Choose Delete
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(DeleteButton)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(DeleteButton)));
+            driver.FindElement(By.XPath(DeleteButton)).Click();  //Choose Delete
 
             driver.SwitchTo().Alert().Accept();
     
@@ -114,13 +121,14 @@ namespace SeleniumTutorial
         [Test]    
         public void TestForEspotNewsEN()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/english/the-group/press-office/e-spot/views-news/Pages/Forms/AllItems.aspx");
+            
+            driver.Navigate().GoToUrl(UrlForEspotEn);
 
             ClickFilesOnRibbon();
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("[id*='Ribbon.Documents.New.NewDocument']")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id*='Ribbon.Documents.New.NewDocument']")));
-            driver.FindElement(By.CssSelector("[id*='Ribbon.Documents.New.NewDocument']"));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(ButtonForNewPage)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(ButtonForNewPage)));
+            driver.FindElement(By.CssSelector(ButtonForNewPage));
 
 
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='Ribbon.Documents.New.NewDocument-Large']/a[1]/span")));
@@ -128,68 +136,62 @@ namespace SeleniumTutorial
             Thread.Sleep(1000);
             driver.FindElement(By.XPath("//*[@id='Ribbon.Documents.New.NewDocument-Large']/a[1]/span")).Click();     //Click New Document
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.Name("ctl00$PlaceHolderMain$pageTitleSection$ctl01$titleTextBox")));
-            driver.FindElement(By.Name("ctl00$PlaceHolderMain$pageTitleSection$ctl01$titleTextBox")).SendKeys("TestSelenium12");
+            wait.Until(ExpectedConditions.ElementIsVisible(By.Name(TitleOfNewItemPlaceHolder)));
+            driver.FindElement(By.Name(TitleOfNewItemPlaceHolder)).SendKeys("TestSelenium12");
             driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderMain_ctl00_RptControls_buttonCreatePage']")).Click();    //Click Create
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")));
-            driver.FindElement(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")).Click();  //Choose the last element of the list
+            ChooseLastItem();
 
             ClickFilesOnRibbon();
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='Ribbon.Documents.EditCheckout.CheckIn-Small']")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='Ribbon.Documents.EditCheckout.CheckIn-Small']")));
-            driver.FindElement(By.XPath("//*[@id='Ribbon.Documents.EditCheckout.CheckIn-Small']")).Click();  //Choose Check in
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(CheckOutButton)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(CheckOutButton)));
+            driver.FindElement(By.XPath(CheckOutButton)).Click();  //Choose Check in
 
             IWebDriver dialogDriver = driver.SwitchTo().Frame(driver.FindElement(By.ClassName("ms-dlgFrame")));
             WebDriverWait dialogWait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
 
-            dialogWait.Until(ExpectedConditions.ElementIsVisible(By.Id("ActionCheckinPublish")));
-            dialogWait.Until(ExpectedConditions.ElementToBeClickable(By.Id("ActionCheckinPublish")));
-            dialogDriver.FindElement(By.Id("ActionCheckinPublish")).Click();  //Click Major Version
+            dialogWait.Until(ExpectedConditions.ElementIsVisible(By.Id(PublishButton)));
+            dialogWait.Until(ExpectedConditions.ElementToBeClickable(By.Id(PublishButton)));
+            dialogDriver.FindElement(By.Id(PublishButton)).Click();  //Click Major Version
 
             dialogWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='CheckinOk']")));
             dialogDriver.FindElement(By.XPath("//*[@id='CheckinOk']")).Click();  //Click OK
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")));
-            driver.FindElement(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")).Click();  //Choose the last element of the list
+            ChooseLastItem();
 
             ClickFilesOnRibbon();
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='Ribbon.Documents.Workflow.Moderate-Small']")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='Ribbon.Documents.Workflow.Moderate-Small']")));
-            driver.FindElement(By.XPath("//*[@id='Ribbon.Documents.Workflow.Moderate-Small']")).Click();  //Choose Approve-Reject
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(ApproveButton)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(ApproveButton)));
+            driver.FindElement(By.XPath(ApproveButton)).Click();  //Choose Approve-Reject
 
             IWebDriver newDialogDriver = driver.SwitchTo().Frame(driver.FindElement(By.ClassName("ms-dlgFrame")));
             WebDriverWait newDialogWait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
 
-            newDialogWait.Until(ExpectedConditions.ElementIsVisible(By.Id("ctl00_PlaceHolderMain_approveDescription_ctl01_RadioBtnApprovalStatus_0")));
-            newDialogWait.Until(ExpectedConditions.ElementToBeClickable(By.Id("ctl00_PlaceHolderMain_approveDescription_ctl01_RadioBtnApprovalStatus_0")));
-            newDialogDriver.FindElement(By.Id("ctl00_PlaceHolderMain_approveDescription_ctl01_RadioBtnApprovalStatus_0")).Click();  //Click Approve
+            newDialogWait.Until(ExpectedConditions.ElementIsVisible(By.Id(ApproveRadioButton)));
+            newDialogWait.Until(ExpectedConditions.ElementToBeClickable(By.Id(ApproveRadioButton)));
+            newDialogDriver.FindElement(By.Id(ApproveRadioButton)).Click();  //Click Approve
 
             newDialogWait.Until(ExpectedConditions.ElementToBeClickable(By.Id("ctl00_PlaceHolderMain_ctl00_RptControls_BtnSubmit")));
             newDialogDriver.FindElement(By.Id("ctl00_PlaceHolderMain_ctl00_RptControls_BtnSubmit")).Click();  //Click OK
 
             driver.SwitchTo().Alert().Accept();
             Thread.Sleep(2000);
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en");
-            var retail = driver.FindElement(By.XPath("//*[@id='ctl00_SPWebPartManager1_g_24ad1d81_af05_410e_95e6_34e91ebb74b2']/div/div/div[1]/div"));
+            driver.Navigate().GoToUrl(HomeUrlEn);
+            var retail = driver.FindElement(By.XPath(EspotWebPart));
             List<IWebElement> links = retail.FindElements(By.CssSelector("a")).ToList();
             Assert.AreEqual(3, links.Count);
             Thread.Sleep(2000);
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/greek/the-group/press-office/e-spot/views-news/Pages/Forms/AllItems.aspx");
+            driver.Navigate().GoToUrl(UrlForEspotEn);
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")));
-            driver.FindElement(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]")).Click();  //Choose the last element of the list
+            ChooseLastItem();
 
             ClickFilesOnRibbon();
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='Ribbon.Documents.Manage.Delete-Small']")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='Ribbon.Documents.Manage.Delete-Small']")));
-            driver.FindElement(By.XPath("//*[@id='Ribbon.Documents.Manage.Delete-Small']")).Click();  //Choose Delete
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(DeleteButton)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(DeleteButton)));
+            driver.FindElement(By.XPath(DeleteButton)).Click();  //Choose Delete
 
             driver.SwitchTo().Alert().Accept();
 
@@ -203,6 +205,13 @@ namespace SeleniumTutorial
         {
             driver.Quit();
         }
+
+        public void ChooseLastItem() {
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(LastItemOnList)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(LastItemOnList)));
+            driver.FindElement(By.XPath(LastItemOnList)).Click();  //Choose the last element of the list
+        }
+
         public void ClickFilesOnRibbon()
         {
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='Ribbon.Document-title']/a")));
