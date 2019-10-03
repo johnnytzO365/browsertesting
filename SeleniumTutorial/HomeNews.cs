@@ -21,6 +21,7 @@ namespace SeleniumTutorial
         public void StartBrowser()
         {
             driver = new ChromeDriver("C:\\Users\\spsetup\\Documents\\Visual Studio 2012\\Projects\\SeleniumTutorial\\.nuget\\selenium.chrome.webdriver.76.0.0\\driver");
+            driver.Manage().Window.Maximize();
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
         }
 
@@ -99,7 +100,7 @@ namespace SeleniumTutorial
             ls.Click();
             Assert.IsTrue(driver.Url.Contains("vm-sp2013/el/news"));
         }
-
+        /*
         [Test]
         public void CheckHomeNewsAddAndDeleteEn()
         {
@@ -183,7 +184,7 @@ namespace SeleniumTutorial
 
             CheckHomeNewsWebPartNodeCountEn();
         }
-        /*
+        
         [Test]
         public void CheckHomeNewsAddAndDeleteEl()
         {
@@ -204,8 +205,16 @@ namespace SeleniumTutorial
 
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));
-            ls = driver.FindElement(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody"));
-            ls.FindElement(By.CssSelector("[title='Test']")).Click();
+            List<IWebElement> list = driver.FindElements(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr/td")).ToList();
+            for (int i = 0; i < list.Count; i++)
+            {
+                IWebElement temp = list[i];
+                if (temp.Text == "Test")
+                {
+                    temp.Click();
+                    break;
+                }
+            }
 
             ClickFilesOnRibbon();
 
@@ -225,8 +234,17 @@ namespace SeleniumTutorial
 
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody")));
-            ls = driver.FindElement(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody"));
-            ls.FindElement(By.CssSelector("[title='Test']")).Click();
+            list = driver.FindElements(By.XPath("//*[@id='onetidDoclibViewTbl0']/tbody/tr/td")).ToList();
+            for (int i = 0; i < list.Count; i++)
+            {
+                IWebElement temp = list[i];
+                if (temp.Text == "Test")
+                {
+                    temp.Click();
+                    break;
+                }
+            }
+
 
             ClickFilesOnRibbon();
 
@@ -266,8 +284,8 @@ namespace SeleniumTutorial
             Thread.Sleep(2000);
 
             CheckHomeNewsWebPartNodeCountEl();
-        }*/
-
+        }
+        */
         [TearDown]
         public void CloseBrowser()
         {
