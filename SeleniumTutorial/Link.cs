@@ -99,7 +99,7 @@ namespace SeleniumTutorial
                 var url = link.FindElement(By.CssSelector("a")).GetAttribute("href");
                 if (url != null)
                 {
-                    IsLinkWorking(url);//ελέγχει αν όλα τα links στο Corp
+                    IsLinkWorking(url);//ελέγχει όλα τα links στο Corp
                 }
 
             }
@@ -139,7 +139,7 @@ namespace SeleniumTutorial
                     return false;
                 }
             }
-            catch
+            catch (AssertionException e)
             {
                 return false;
             }
