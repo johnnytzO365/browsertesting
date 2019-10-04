@@ -98,26 +98,26 @@ namespace SeleniumTutorial
             IWebElement new_li = driver.FindElement(By.CssSelector("[id$='newnodetemplate']"));
             IWebElement new_input = new_li.FindElement(By.XPath("./div/span[2]/span/input"));
             new_input.SendKeys("Test" + Keys.Enter);
-            System.Console.Out.Write("1");
+
             CheckFooterTermStoreNodeCount();
-            System.Console.Out.Write("2");
+
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");  //Check that the last node of footer is the newly created Test node
             IWebElement lastNode = driver.FindElement(By.XPath("//*[@class='footer_menu clearfix']/li[last()]/a"));
             if (lastNode != null)
                 Assert.AreEqual(lastNode.Text, "Test");
             else
                 Assert.Fail("Couldn't find last node on footer!");
-            System.Console.Out.Write("3");
+
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/_layouts/15/termstoremanager.aspx");
 
-            Thread.Sleep(1000);
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='_Div7']/span")));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='_Div7']/span")));
+            SiteCollection = driver.FindElement(By.XPath("//*[@id='_Div7']/span"));
             SiteCollection.Click();
-            System.Console.Out.Write("4");
+
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='_Div8']/span")));
+            Footer = driver.FindElement(By.XPath("//*[@id='_Div8']/span"));
             Footer.Click();
-            System.Console.Out.Write("5");
+
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='_Div12']/span[2]/span[2]")));
             IWebElement el = driver.FindElement(By.XPath("//*[@id='_Div12']/span"));
             if (el != null)
@@ -125,10 +125,9 @@ namespace SeleniumTutorial
             else
                 Assert.Fail("Couldn't find el Term!");
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.Id("TaxonomyRootID")));
-            IWebElement Taxonomy = driver.FindElement(By.Id("TaxonomyRootID"));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='TaxonomyRootID']/ul/li[5]/ul/li/ul/li/ul/li[last()]/div/span[2]/span[2]")));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='TaxonomyRootID']/ul/li[5]/ul/li/ul/li/ul/li[last()]/div/span[2]/span[2]")));
-            IWebElement TestArrow = driver.FindElement(By.XPath("//*[@id='TaxonomyRootID']/ul/li[5]/ul/li/ul/li/ul/li[last()]/span[2]/span[2]"));
+            IWebElement TestArrow = driver.FindElement(By.XPath("//*[@id='TaxonomyRootID']/ul/li[5]/ul/li/ul/li/ul/li[last()]/div/span[2]/span[2]"));
             if (TestArrow != null)
                 TestArrow.Click();
             else
