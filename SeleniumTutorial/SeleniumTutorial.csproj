@@ -59,6 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Banner.cs" />
     <Compile Include="ContactForm.cs" />
     <Compile Include="eSpot.cs" />
     <Compile Include="FooterNavigation.cs" />
