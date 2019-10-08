@@ -67,6 +67,7 @@
     <Compile Include="HomeNews.cs" />
     <Compile Include="LanguageSelector.cs" />
     <Compile Include="Link.cs" />
+    <Compile Include="NewsPage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
