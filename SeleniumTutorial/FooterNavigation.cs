@@ -26,132 +26,340 @@ namespace SeleniumTutorial
         }
 
         [Test]
-        public void CheckFooterTermStoreNodeCount()
+        public void CheckFooterTermStoreNodeCountEl()
         {
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
-            List<IWebElement> ItemsInFooter = driver.FindElements(By.XPath("//*[@class='footer_menu clearfix']/li")).ToList();
+            List<IWebElement> ItemsInFooter = null;
+            try
+            {
+                String ItemsInFooterSelector = "//*[@class='footer_menu clearfix']/li";
+                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(ItemsInFooterSelector)));
+                ItemsInFooter = driver.FindElements(By.XPath(ItemsInFooterSelector)).ToList();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find the Footer items in home page!");
+            }
 
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/_layouts/15/termstoremanager.aspx");
+            ClickSiteCollection();
+            ClickFooter();
+            ClickEl();
 
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='_Div7']/span")));
-            IWebElement SiteCollection = driver.FindElement(By.XPath("//*[@id='_Div7']/span"));
-            if (SiteCollection != null)
-                SiteCollection.Click();
+            List<IWebElement> ItemsInTermStore = null;
+            try
+            {
+                String ItemsInTermStoreSelector = "//*[@id='TaxonomyRootID']/ul/li[5]/ul/li/ul/li/ul/li";
+                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(ItemsInTermStoreSelector)));
+                ItemsInTermStore = driver.FindElements(By.XPath(ItemsInTermStoreSelector)).ToList();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find elements below el Term!");
+            }
+
+            if (ItemsInFooter.Count == ItemsInTermStore.Count)
+                Assert.AreEqual(ItemsInFooter.Count, ItemsInTermStore.Count);
+            else if (ItemsInFooter.Count == ItemsInTermStore.Count + 1)
+                Assert.AreEqual(ItemsInFooter.Count, ItemsInTermStore.Count + 1);
             else
-                Assert.Fail("Couldn't find Site Collection Term!");
-
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='_Div8']/span")));
-            IWebElement Footer = driver.FindElement(By.XPath("//*[@id='_Div8']/span"));
-            if (Footer != null)
-                Footer.Click();
-            else
-                Assert.Fail("Couldn't find Footer Navigation Term!");
-
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='_Div12']/span[2]/span[2]")));
-            IWebElement el = driver.FindElement(By.XPath("//*[@id='_Div12']/span"));
-            if (el != null)
-                el.Click();
-            else
-                Assert.Fail("Couldn't find el Term!");
-
-            wait.Until(ExpectedConditions.ElementIsVisible(By.Id("TaxonomyRootID")));
-            IWebElement Taxonomy = driver.FindElement(By.Id("TaxonomyRootID"));
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='TaxonomyRootID']/ul/li[5]/ul/li/ul/li/ul/li")));
-            List<IWebElement> ItemsInTermStore = Taxonomy.FindElements(By.XPath("./ul/li[5]/ul/li/ul/li/ul/li")).ToList();
-
-            Assert.AreEqual(ItemsInFooter.Count, ItemsInTermStore.Count);
+                Assert.Fail("Expecting " + ItemsInTermStore.Count + " or " + (ItemsInTermStore.Count + 1) + " but was " + ItemsInFooter.Count); 
         }
-        /*
+
         [Test]
-        public void CheckFooterAddAndDelete()
+        public void CheckFooterTermStoreNodeCountEn()
+        {
+            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en");
+            List<IWebElement> ItemsInFooter = null;
+            try
+            {
+                String ItemsInFooterSelector = "//*[@class='footer_menu clearfix']/li";
+                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(ItemsInFooterSelector)));
+                ItemsInFooter = driver.FindElements(By.XPath(ItemsInFooterSelector)).ToList();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find the Footer items in home page!");
+            }
+
+            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/_layouts/15/termstoremanager.aspx");
+            ClickSiteCollection();
+            ClickFooter();
+            ClickEn();
+
+            List<IWebElement> ItemsInTermStore = null;
+            try
+            {
+                String ItemsInTermStoreSelector = "//*[@id='TaxonomyRootID']/ul/li[5]/ul/li/ul/li[2]/ul/li";
+                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(ItemsInTermStoreSelector)));
+                ItemsInTermStore = driver.FindElements(By.XPath(ItemsInTermStoreSelector)).ToList();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find elements below el Term!");
+            }
+
+            if (ItemsInFooter.Count == ItemsInTermStore.Count)
+                Assert.AreEqual(ItemsInFooter.Count, ItemsInTermStore.Count);
+            else if (ItemsInFooter.Count == ItemsInTermStore.Count + 1)
+                Assert.AreEqual(ItemsInFooter.Count, ItemsInTermStore.Count + 1);
+            else
+                Assert.Fail("Expecting " + ItemsInTermStore.Count + " or " + (ItemsInTermStore.Count + 1) + " but was " + ItemsInFooter.Count);
+        }
+        
+        [Test]
+        public void CheckFooterAddAndDeleteEl()
         {
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/_layouts/15/termstoremanager.aspx");
 
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='_Div7']/span")));
-            IWebElement SiteCollection = driver.FindElement(By.XPath("//*[@id='_Div7']/span"));
-            if (SiteCollection != null)
-                SiteCollection.Click();
-            else
-                Assert.Fail("Couldn't find Site Collection Term!");
+            ClickSiteCollection();
+            ClickFooter();
 
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='_Div8']/span")));
-            IWebElement Footer = driver.FindElement(By.XPath("//*[@id='_Div8']/span"));
-            if (Footer != null)
-                Footer.Click();
-            else
-                Assert.Fail("Couldn't find Footer Navigation Term!");
-
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='_Div12']/span[2]/span[2]")));
-            IWebElement elArrow = driver.FindElement(By.XPath("//*[@id='_Div12']/span[2]/span[2]"));
-            if (elArrow != null)
+            try
+            {
+                String elArrowSelector = "//*[@id='_Div12']/span[2]/span[2]";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(elArrowSelector)));
+                IWebElement elArrow = driver.FindElement(By.XPath(elArrowSelector));
                 elArrow.Click();
-            else
+            }
+            catch
+            {
                 Assert.Fail("Couldn't find down arrow next to el Term!");
-
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='ctl00_PlaceHolderMain_TermECBMenuNew']/span[1]")));
-            IWebElement createTerm = driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderMain_TermECBMenuNew']/span[1]"));
-            if (createTerm != null)
+            }
+            try
+            {
+                String createTermSelector = "//*[@id='ctl00_PlaceHolderMain_TermECBMenuNew']/span[1]";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(createTermSelector)));
+                IWebElement createTerm = driver.FindElement(By.XPath(createTermSelector));
                 createTerm.Click();
-            else
+            }
+            catch
+            {
                 Assert.Fail("Couldn't find Create Term option!");
+            }
+            try
+            {
+                String new_liSelector = "[id$='newnodetemplate']";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(new_liSelector)));
+                IWebElement new_li = driver.FindElement(By.CssSelector(new_liSelector));
+                String new_inputSelector = "./div/span[2]/span/input";
+                IWebElement new_input = new_li.FindElement(By.XPath(new_inputSelector));
+                new_input.SendKeys("Test" + Keys.Enter);
+            }
+            catch
+            {
+                Assert.Fail("Couldn't create the Test Term!");
+            }
 
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("[id$='newnodetemplate']")));
-            IWebElement new_li = driver.FindElement(By.CssSelector("[id$='newnodetemplate']"));
-            IWebElement new_input = new_li.FindElement(By.XPath("./div/span[2]/span/input"));
-            new_input.SendKeys("Test" + Keys.Enter);
-            System.Console.Out.Write("1");
-            CheckFooterTermStoreNodeCount();
-            System.Console.Out.Write("2");
+            CheckFooterTermStoreNodeCountEl();
+
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");  //Check that the last node of footer is the newly created Test node
-            IWebElement lastNode = driver.FindElement(By.XPath("//*[@class='footer_menu clearfix']/li[last()]/a"));
-            if (lastNode != null)
+            try
+            {
+                String lastNodeSelector = "//*[@class='footer_menu clearfix']/li[last()]/a";
+                IWebElement lastNode = driver.FindElement(By.XPath(lastNodeSelector));
                 Assert.AreEqual(lastNode.Text, "Test");
-            else
+            }
+            catch
+            {
                 Assert.Fail("Couldn't find last node on footer!");
-            System.Console.Out.Write("3");
+            }
+
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/_layouts/15/termstoremanager.aspx");
 
-            Thread.Sleep(1000);
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='_Div7']/span")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='_Div7']/span")));
-            SiteCollection.Click();
-            System.Console.Out.Write("4");
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='_Div8']/span")));
-            Footer.Click();
-            System.Console.Out.Write("5");
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='_Div12']/span[2]/span[2]")));
-            IWebElement el = driver.FindElement(By.XPath("//*[@id='_Div12']/span"));
-            if (el != null)
-                el.Click();
-            else
-                Assert.Fail("Couldn't find el Term!");
+            ClickSiteCollection();
+            ClickFooter();
+            ClickEl();
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.Id("TaxonomyRootID")));
-            IWebElement Taxonomy = driver.FindElement(By.Id("TaxonomyRootID"));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='TaxonomyRootID']/ul/li[5]/ul/li/ul/li/ul/li[last()]/div/span[2]/span[2]")));
-            IWebElement TestArrow = driver.FindElement(By.XPath("//*[@id='TaxonomyRootID']/ul/li[5]/ul/li/ul/li/ul/li[last()]/span[2]/span[2]"));
-            if (TestArrow != null)
+            try
+            {
+                String TestArrowSelector = "//*[@id='TaxonomyRootID']/ul/li[5]/ul/li/ul/li/ul/li[last()]/div/span[2]/span[2]";
+                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(TestArrowSelector)));
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(TestArrowSelector)));
+                IWebElement TestArrow = driver.FindElement(By.XPath(TestArrowSelector));
                 TestArrow.Click();
-            else
+            }
+            catch
+            {
                 Assert.Fail("Couldn't find down arrow next to Test term!");
-
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='ctl00_PlaceHolderMain_LeafTermECBMenuDelete']/span[1]")));
-            IWebElement deleteTerm = driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderMain_LeafTermECBMenuDelete']/span[1]"));
-            if (deleteTerm != null)
+            }
+            try
+            {
+                String deleteTermSelector = "//*[@id='ctl00_PlaceHolderMain_LeafTermECBMenuDelete']/span[1]";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(deleteTermSelector)));
+                IWebElement deleteTerm = driver.FindElement(By.XPath(deleteTermSelector));
                 deleteTerm.Click();
-            else
+            }
+            catch
+            {
                 Assert.Fail("Couldn't find Delete Term option!");
+            }
 
             wait.Until(ExpectedConditions.AlertIsPresent());
             driver.SwitchTo().Alert().Accept();
 
-            CheckFooterTermStoreNodeCount();
+            CheckFooterTermStoreNodeCountEl();
         }
-        */
+
+        [Test]
+        public void CheckFooterAddAndDeleteEn()
+        {
+            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/_layouts/15/termstoremanager.aspx");
+
+            ClickSiteCollection();
+            ClickFooter();
+
+            try
+            {
+                String enArrowSelector = "//*[@id='_Div13']/span[2]/span[2]";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(enArrowSelector)));
+                IWebElement enArrow = driver.FindElement(By.XPath(enArrowSelector));
+                enArrow.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find down arrow next to el Term!");
+            }
+            try
+            {
+                String createTermSelector = "//*[@id='ctl00_PlaceHolderMain_TermECBMenuNew']/span[1]";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(createTermSelector)));
+                IWebElement createTerm = driver.FindElement(By.XPath(createTermSelector));
+                createTerm.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Create Term option!");
+            }
+            try
+            {
+                String new_liSelector = "[id$='newnodetemplate']";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(new_liSelector)));
+                IWebElement new_li = driver.FindElement(By.CssSelector(new_liSelector));
+                String new_inputSelector = "./div/span[2]/span/input";
+                IWebElement new_input = new_li.FindElement(By.XPath(new_inputSelector));
+                new_input.SendKeys("Test" + Keys.Enter);
+            }
+            catch
+            {
+                Assert.Fail("Couldn't create the Test Term!");
+            }
+
+            CheckFooterTermStoreNodeCountEn();
+
+            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en");  //Check that the last node of footer is the newly created Test node
+            try
+            {
+                String lastNodeSelector = "//*[@class='footer_menu clearfix']/li[last()]/a";
+                IWebElement lastNode = driver.FindElement(By.XPath(lastNodeSelector));
+                Assert.AreEqual(lastNode.Text, "Test");
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find last node on footer!");
+            }
+
+            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/_layouts/15/termstoremanager.aspx");
+
+            ClickSiteCollection();
+            ClickFooter();
+            ClickEn();
+
+            try
+            {
+                String TestArrowSelector = "//*[@id='TaxonomyRootID']/ul/li[5]/ul/li/ul/li[2]/ul/li[last()]/div/span[2]/span[2]";
+                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(TestArrowSelector)));
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(TestArrowSelector)));
+                IWebElement TestArrow = driver.FindElement(By.XPath(TestArrowSelector));
+                TestArrow.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find down arrow next to Test term!");
+            }
+            try
+            {
+                String deleteTermSelector = "//*[@id='ctl00_PlaceHolderMain_LeafTermECBMenuDelete']/span[1]";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(deleteTermSelector)));
+                IWebElement deleteTerm = driver.FindElement(By.XPath(deleteTermSelector));
+                deleteTerm.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Delete Term option!");
+            }
+
+            wait.Until(ExpectedConditions.AlertIsPresent());
+            driver.SwitchTo().Alert().Accept();
+
+            CheckFooterTermStoreNodeCountEn();
+        }
+        
+
         [TearDown]
         public void CloseBrowser()
         {
             driver.Quit();
+        }
+
+        public void ClickSiteCollection()
+        {
+            try
+            {
+                String SiteCollectionSelector = "//*[@id='_Div7']/span";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(SiteCollectionSelector)));
+                IWebElement SiteCollection = driver.FindElement(By.XPath(SiteCollectionSelector));
+                SiteCollection.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Site Collection Term!");
+            }
+        }
+
+        public void ClickFooter()
+        {
+            try
+            {
+                String FooterSelector = "//*[@id='_Div8']/span";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(FooterSelector)));
+                IWebElement Footer = driver.FindElement(By.XPath(FooterSelector));
+                Footer.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Footer Navigation Term!");
+            }
+        }
+
+        public void ClickEl()
+        {
+            try
+            {
+                String elSelector = "//*[@id='_Div12']/span";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(elSelector)));
+                IWebElement el = driver.FindElement(By.XPath(elSelector));
+                el.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find el Term!");
+            }
+        }
+
+        public void ClickEn()
+        {
+            try
+            {
+                String enSelector = "//*[@id='_Div13']/span";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(enSelector)));
+                IWebElement en = driver.FindElement(By.XPath(enSelector));
+                en.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find el Term!");
+            }
         }
     }
 }
