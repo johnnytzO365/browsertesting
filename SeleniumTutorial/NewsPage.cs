@@ -92,9 +92,113 @@ namespace SeleniumTutorial
         }
 
         [Test]
-        public void CheckNewsSearchWithKeyWord()
+        public void CheckNewsSearchByKeyWordEl()
         {
+            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el/news");
 
+            try
+            {
+                String SearchSelector = "//*[@id='ctl00_PlaceHolderCustomMainContentContainer_PlaceHolderMain_ctl00_DefaultMobilePanel_searchH3']/span";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(SearchSelector)));
+                IWebElement Search = driver.FindElement(By.XPath(SearchSelector));
+                Search.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Search Arrow to Click!");
+            }
+            try
+            {
+                String keyWordSelector = "[id$='KeywordTextBox']";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(keyWordSelector)));
+                IWebElement keyWord = driver.FindElement(By.CssSelector(keyWordSelector));
+                keyWord.SendKeys("NewsTest");
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Key Word Input Box!");
+            }
+            try
+            {
+                String searchSubmitSelector = "[id$='SubmitButton']";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(searchSubmitSelector)));
+                IWebElement searchSubmit = driver.FindElement(By.CssSelector(searchSubmitSelector));
+                searchSubmit.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Search Button!");
+            }
+            try
+            {
+                String titleSelector = "[class='title field']";
+                List<IWebElement> title = driver.FindElements(By.CssSelector(titleSelector)).ToList();
+                for (int i = 0; i < title.Count; i++)
+                {
+                    IWebElement text = title[i].FindElement(By.XPath("./h3/a"));
+                    String titleText = text.Text;
+                    Assert.True(titleText.Contains("NewsTest"));
+                }
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find News Titles!");
+            }
+        }
+
+        [Test]
+        public void CheckNewsSearchByKeyWordEn()
+        {
+            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en/news");
+
+            try
+            {
+                String SearchSelector = "//*[@id='ctl00_PlaceHolderCustomMainContentContainer_PlaceHolderMain_ctl00_DefaultMobilePanel_searchH3']/span";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(SearchSelector)));
+                IWebElement Search = driver.FindElement(By.XPath(SearchSelector));
+                Search.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Search Arrow to Click!");
+            }
+            try
+            {
+                String keyWordSelector = "[id$='KeywordTextBox']";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(keyWordSelector)));
+                IWebElement keyWord = driver.FindElement(By.CssSelector(keyWordSelector));
+                keyWord.SendKeys("NewsTest");
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Key Word Input Box!");
+            }
+            try
+            {
+                String searchSubmitSelector = "[id$='SubmitButton']";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(searchSubmitSelector)));
+                IWebElement searchSubmit = driver.FindElement(By.CssSelector(searchSubmitSelector));
+                searchSubmit.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Search Button!");
+            }
+            try
+            {
+                String titleSelector = "[class='title field']";
+                List<IWebElement> title = driver.FindElements(By.CssSelector(titleSelector)).ToList();
+                for (int i = 0; i < title.Count; i++)
+                {
+                    IWebElement text = title[i].FindElement(By.XPath("./h3/a"));
+                    String titleText = text.Text;
+                    Assert.True(titleText.Contains("NewsTest"));
+                }
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find News Titles!");
+            }
         }
 
         [Test]
