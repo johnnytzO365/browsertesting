@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System.Threading;
+using System.Configuration;
 
 namespace SeleniumTutorial
 {
@@ -19,7 +20,7 @@ namespace SeleniumTutorial
         [SetUp]
         public void StartBrowser()
         {
-            driver = new ChromeDriver("C:\\Users\\spsetup\\Documents\\Visual Studio 2012\\Projects\\SeleniumTutorial\\.nuget\\selenium.chrome.webdriver.76.0.0\\driver");
+            driver = new ChromeDriver(ConfigurationManager.AppSettings["ChromeDriverPath"]);
             driver.Manage().Window.Maximize();  //to use the desired width of window
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(40));
         }
