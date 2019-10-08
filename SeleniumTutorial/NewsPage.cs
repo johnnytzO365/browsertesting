@@ -25,24 +25,70 @@ namespace SeleniumTutorial
         }
 
         [Test]
-        public void CheckNewsOrder()
+        public void CheckNewsOrderEl()
         {
             driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el/news");
 
             List<IWebElement> NewsListDates = null;
             try
             {
-                NewsListDates = driver.FindElements(By.ClassName("date field")).ToList();
+                wait.Until(ExpectedConditions.ElementExists(By.ClassName("date")));
+                NewsListDates = driver.FindElements(By.ClassName("date")).ToList();
             }
             catch
             {
                 Assert.Fail("Couldn't find Dates of News Articles!");
             }
+            List<DateTime> allDates = new List<DateTime>();
+            
             for (int i = 0; i < NewsListDates.Count; i++)
             {
-                Console.WriteLine(NewsListDates[i]);
+                String thisDateString = NewsListDates[i].Text;
+                if (thisDateString != null && thisDateString != "")
+                {
+                    DateTime thisDate = Convert.ToDateTime(thisDateString);
+                    allDates.Add(thisDate);
+                }
             }
+            for (int i = 1; i < allDates.Count; i++)
+            {
+                if(allDates[i-1]<allDates[i])
+                    Assert.Fail("The Dates are not in the correct order!");
+            }
+        }
 
+        [Test]
+        public void CheckNewsOrderEn()
+        {
+            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en/news");
+
+            List<IWebElement> NewsListDates = null;
+            try
+            {
+                wait.Until(ExpectedConditions.ElementExists(By.ClassName("date")));
+                NewsListDates = driver.FindElements(By.ClassName("date")).ToList();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Dates of News Articles!");
+            }
+            Console.WriteLine("OK");
+            List<DateTime> allDates = new List<DateTime>();
+
+            for (int i = 0; i < NewsListDates.Count; i++)
+            {
+                String thisDateString = NewsListDates[i].Text;
+                if (thisDateString != null && thisDateString != "")
+                {
+                    DateTime thisDate = Convert.ToDateTime(thisDateString);
+                    allDates.Add(thisDate);
+                }
+            }
+            for (int i = 1; i < allDates.Count; i++)
+            {
+                if (allDates[i - 1] < allDates[i])
+                    Assert.Fail("The Dates are not in the correct order!");
+            }
         }
 
         [Test]
