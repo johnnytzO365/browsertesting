@@ -8,6 +8,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System.Net;
 using System.Threading;
+using System.Configuration;
 
 namespace SeleniumTutorial
 {
@@ -17,7 +18,7 @@ namespace SeleniumTutorial
         [SetUp]
         public void StartBrowser()
         {
-            driver = new ChromeDriver("C:\\Users\\spsetup\\Documents\\Visual Studio 2012\\Projects\\SeleniumTutorial\\.nuget\\selenium.chrome.webdriver.76.0.0\\driver");
+            driver = new ChromeDriver(ConfigurationManager.AppSettings["ChromeDriverPath"]);
         }
         [Test]
         public void CheckLinksOnGlobalNav()

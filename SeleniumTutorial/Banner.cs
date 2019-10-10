@@ -12,6 +12,7 @@ using System.Threading;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System.Configuration;
 
 namespace SeleniumTutorial
 {
@@ -23,7 +24,7 @@ namespace SeleniumTutorial
         [SetUp]
         public void StartBrowser()
         {
-            driver = new ChromeDriver("C:\\Users\\spsetup\\Documents\\Visual Studio 2012\\Projects\\SeleniumTutorial\\.nuget\\selenium.chrome.webdriver.76.0.0\\driver");
+            driver = new ChromeDriver(ConfigurationManager.AppSettings["ChromeDriverPath"]);
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
         }
         string HomeUrlEl = "http://spsetup:p@ssw0rd@vm-sp2013/el";

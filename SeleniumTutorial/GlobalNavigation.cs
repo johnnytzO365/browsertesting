@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace SeleniumTutorial
         [SetUp]
         public void StartBrowser()
         {
-            driver = new ChromeDriver("C:\\Users\\spsetup\\Documents\\visual studio 2012\\Projects\\SeleniumTutorial\\.nuget\\selenium.chrome.webdriver.76.0.0\\driver");
+            driver = new ChromeDriver(ConfigurationManager.AppSettings["ChromeDriverPath"]);
         }
 
         [Test]        
