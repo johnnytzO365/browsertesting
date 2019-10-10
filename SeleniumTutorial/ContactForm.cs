@@ -29,7 +29,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckFormSubmitEl()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/greek/Pages/Contact.aspx");  //go to contact form
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "greek/Pages/Contact.aspx");  //go to contact form
 
             //Fill and submit form
             IWebElement name = driver.FindElement(By.CssSelector("[id$='txtFullName']"));
@@ -81,7 +81,7 @@ namespace SeleniumTutorial
             else
                 Assert.Fail("Couldn't find Submit Button!");
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/Lists/ContactForms/AllItems.aspx");  //go to contact list
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "Lists/ContactForms/AllItems.aspx");  //go to contact list
 
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@class='ms-listviewtable']/tbody/tr[last()]")));
             IWebElement lastItem = driver.FindElement(By.XPath("//*[@class='ms-listviewtable']/tbody/tr[last()]"));
@@ -148,7 +148,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckFormSubmitEn()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/english/Pages/Contact.aspx");  //go to contact form
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "english/Pages/Contact.aspx");  //go to contact form
 
             //Fill and submit form
             IWebElement name = driver.FindElement(By.CssSelector("[id$='txtFullName']"));
@@ -200,7 +200,7 @@ namespace SeleniumTutorial
             else
                 Assert.Fail("Couldn't find Submit Button!");
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/Lists/ContactForms/AllItems.aspx");  //go to contact list
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "Lists/ContactForms/AllItems.aspx");  //go to contact list
 
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@class='ms-listviewtable']/tbody/tr[last()]")));
             IWebElement lastItem = driver.FindElement(By.XPath("//*[@class='ms-listviewtable']/tbody/tr[last()]"));
