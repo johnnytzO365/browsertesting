@@ -25,10 +25,10 @@ namespace SeleniumTutorial
             driver = new ChromeDriver(ConfigurationManager.AppSettings["ChromeDriverPath"]);
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
         }
-        string HomeUrlEl = "http://spsetup:p@ssw0rd@vm-sp2013/el";
-        string HomeUrlEn = "http://spsetup:p@ssw0rd@vm-sp2013/en";
-        string UrlForEspot = "http://spsetup:p@ssw0rd@vm-sp2013/greek/the-group/press-office/e-spot/views-news/Pages/Forms/AllItems.aspx";
-        string UrlForEspotEn = "http://spsetup:p@ssw0rd@vm-sp2013/english/the-group/press-office/e-spot/views-news/Pages/Forms/AllItems.aspx";
+        string HomeUrlEl = (ConfigurationManager.AppSettings["ServerName"])+"el";
+        string HomeUrlEn = (ConfigurationManager.AppSettings["ServerName"])+"en";
+        string UrlForEspot = (ConfigurationManager.AppSettings["ServerName"]) + "greek/the-group/press-office/e-spot/views-news/Pages/Forms/AllItems.aspx";
+        string UrlForEspotEn = (ConfigurationManager.AppSettings["ServerName"]) + "english/the-group/press-office/e-spot/views-news/Pages/Forms/AllItems.aspx";
         string ButtonForNewPage = "[id*='Ribbon.Documents.New.NewDocument']";
         string TitleOfNewItemPlaceHolder = "ctl00$PlaceHolderMain$pageTitleSection$ctl01$titleTextBox";
         string LastItemOnList = "//*[@id='onetidDoclibViewTbl0']/tbody/tr[last()]/td[1]";
