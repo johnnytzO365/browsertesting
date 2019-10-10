@@ -23,7 +23,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckLinksOnGlobalNav()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "el");
 
             IList<IWebElement> links = driver.FindElements(By.ClassName("expanded"));
             foreach (IWebElement link in links)
@@ -37,7 +37,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckRetailNode()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "el");
             var retail = driver.FindElement(By.ClassName("megamenu"));
             List<IWebElement> links = retail.FindElements(By.CssSelector("a")).ToList();
             Assert.AreEqual(34, links.Count);//μετράει τα links που είναι μέσα στο local navigation
@@ -46,7 +46,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckLinksOnRetail()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "el");
 
             IWebElement parentMenu = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[1]/div/div[2]/div/ul/li[1]/a"));
             parentMenu.Click();
@@ -67,7 +67,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckLinksOnBuss()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "el");
 
             IWebElement parentMenu = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[1]/div/div[2]/div/ul/li[2]/a"));
             parentMenu.Click();
@@ -88,7 +88,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckLinksOnCorp()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "el");
 
             IWebElement parentMenu = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[1]/div/div[2]/div/ul/li[3]/a"));
             parentMenu.Click();
@@ -109,7 +109,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckALink()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "el");
             IWebElement parentMenu = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[1]/div/div[2]/div/ul/li[1]/a"));
             parentMenu.Click();
             IWebElement brokenLink = parentMenu.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderCustomHeader_PlaceHolderCustomHeaderMain_ctl09_DefaultMobilePanel_tabsRepeater_ctl00_mainCategoriesRepeater_ctl06_MenuItemPanel']/ul/li[1]/a"));
