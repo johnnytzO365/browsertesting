@@ -203,7 +203,13 @@ namespace SeleniumTutorial
         }
 
         [Test]
-        public void CheckNewsSearchWithDate()
+        public void CheckNewsSearchByDateEl()
+        {
+
+        }
+
+        [Test]
+        public void CheckNewsSearchByDateEn()
         {
 
         }
