@@ -28,7 +28,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckNewsOrderEl()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el/news");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "el/news");
 
             List<IWebElement> NewsListDates = null;
             try
@@ -61,7 +61,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckNewsOrderEn()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en/news");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "en/news");
 
             List<IWebElement> NewsListDates = null;
             try
@@ -95,7 +95,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckNewsSearchByKeyWordEl()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el/news");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "el/news");
 
             try
             {
@@ -150,7 +150,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckNewsSearchByKeyWordEn()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en/news");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "en/news");
 
             try
             {

@@ -28,7 +28,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckFooterTermStoreNodeCountEl()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "el");
             List<IWebElement> ItemsInFooter = null;
             try
             {
@@ -41,7 +41,7 @@ namespace SeleniumTutorial
                 Assert.Fail("Couldn't find the Footer items in home page!");
             }
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/_layouts/15/termstoremanager.aspx");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "_layouts/15/termstoremanager.aspx");
             ClickSiteCollection();
             ClickFooter();
             ClickEl();
@@ -69,7 +69,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckFooterTermStoreNodeCountEn()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "en");
             List<IWebElement> ItemsInFooter = null;
             try
             {
@@ -82,7 +82,7 @@ namespace SeleniumTutorial
                 Assert.Fail("Couldn't find the Footer items in home page!");
             }
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/_layouts/15/termstoremanager.aspx");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "_layouts/15/termstoremanager.aspx");
             ClickSiteCollection();
             ClickFooter();
             ClickEn();
@@ -110,7 +110,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckFooterAddAndDeleteEl()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/_layouts/15/termstoremanager.aspx");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "_layouts/15/termstoremanager.aspx");
 
             ClickSiteCollection();
             ClickFooter();
@@ -153,7 +153,7 @@ namespace SeleniumTutorial
 
             CheckFooterTermStoreNodeCountEl();
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");  //Check that the last node of footer is the newly created Test node
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "el");  //Check that the last node of footer is the newly created Test node
             try
             {
                 String lastNodeSelector = "//*[@class='footer_menu clearfix']/li[last()]/a";
@@ -165,7 +165,7 @@ namespace SeleniumTutorial
                 Assert.Fail("Couldn't find last node on footer!");
             }
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/_layouts/15/termstoremanager.aspx");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "_layouts/15/termstoremanager.aspx");
 
             ClickSiteCollection();
             ClickFooter();
@@ -204,7 +204,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckFooterAddAndDeleteEn()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/_layouts/15/termstoremanager.aspx");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "_layouts/15/termstoremanager.aspx");
 
             ClickSiteCollection();
             ClickFooter();
@@ -247,7 +247,7 @@ namespace SeleniumTutorial
 
             CheckFooterTermStoreNodeCountEn();
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en");  //Check that the last node of footer is the newly created Test node
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "en");  //Check that the last node of footer is the newly created Test node
             try
             {
                 String lastNodeSelector = "//*[@class='footer_menu clearfix']/li[last()]/a";

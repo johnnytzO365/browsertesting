@@ -22,7 +22,7 @@ namespace SeleniumTutorial
         [Test]        
         public void CheckNBGNavigationNodeCount()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]));
             List<IWebElement> test = driver.FindElements(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[1]/div/div[2]/div/ul/li")).ToList();            
             Assert.AreEqual(3, test.Count);
         }

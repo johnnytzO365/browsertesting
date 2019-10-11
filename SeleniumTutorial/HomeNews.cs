@@ -29,7 +29,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckHomeNewsWebPartEnglishText()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "en");
             try
             {
                 String newsSelector = "//*[@id='DeltaPlaceHolderMain']/div/div[3]/div[2]/div/div/div/div/div/div/h3/a";
@@ -46,7 +46,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckHomeNewsWebPartGreekText()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "el");
             try
             {
                 String newsSelector = "//*[@id='DeltaPlaceHolderMain']/div/div[3]/div[2]/div/div/div/div/div/div/h3/a";
@@ -63,7 +63,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckHomeNewsWebPartNodeCountEl()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "el");
             IWebElement news = null;
             try
             {
@@ -85,8 +85,8 @@ namespace SeleniumTutorial
             {
                 Assert.Fail("Couldn't find the list of the News on Home Page!");
             }
-                
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/greek/news/Pages/Forms/AllItems.aspx");  //count the approved pages
+
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "greek/news/Pages/Forms/AllItems.aspx");  //count the approved pages
             
             List<IWebElement> listPages = null;
             try
@@ -104,7 +104,7 @@ namespace SeleniumTutorial
                 if (String.Equals(listPages[i].Text, "Εγκεκριμένα"))
                     count++;
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el/news");  //count the elements on the list at el/news
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "el/news");  //count the elements on the list at el/news
                 
             List<IWebElement> listNews = null;
             try
@@ -124,7 +124,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckHomeNewsWebPartNodeCountEn()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "en");
             IWebElement news = null;
             try
             {
@@ -147,7 +147,7 @@ namespace SeleniumTutorial
                 Assert.Fail("Couldn't find the list of the News on Home Page!");
             }
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/english/news/Pages/Forms/AllItems.aspx");  //count the approved pages
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "english/news/Pages/Forms/AllItems.aspx");  //count the approved pages
 
             List<IWebElement> listPages = null;
             try
@@ -165,7 +165,7 @@ namespace SeleniumTutorial
                 if (String.Equals(listPages[i].Text, "Approved"))
                     count++;
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en/news");  //count the elements on the list at el/news
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "en/news");  //count the elements on the list at el/news
 
             List<IWebElement> listNews = null;
             try
@@ -185,7 +185,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckHomeNewsWebPartLinkEn()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "en");
             String linkSelector = "//*[@id='DeltaPlaceHolderMain']/div/div[3]/div[2]/div/div/div/div/div/div/h3/a";
             try
             {
@@ -203,7 +203,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckHomeNewsWebPartLinkEl()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "el");
             String linkSelector = "//*[@id='DeltaPlaceHolderMain']/div/div[3]/div[2]/div/div/div/div/div/div/h3/a";
             try
             {
@@ -221,7 +221,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckHomeNewsAddAndDeleteEn()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/english/news/Pages/Forms/AllItems.aspx");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "english/news/Pages/Forms/AllItems.aspx");
 
             if (CheckTestItem() == -0)
             {
@@ -360,7 +360,7 @@ namespace SeleniumTutorial
 
             CheckHomeNewsWebPartNodeCountEn();
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/english/news/Pages/Forms/AllItems.aspx");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "english/news/Pages/Forms/AllItems.aspx");
 
             CheckTestItem();
 
@@ -374,7 +374,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckHomeNewsAddAndDeleteEl()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/greek/news/Pages/Forms/AllItems.aspx");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "greek/news/Pages/Forms/AllItems.aspx");
 
             if (CheckTestItem() == 0)
             {
@@ -513,7 +513,7 @@ namespace SeleniumTutorial
 
             CheckHomeNewsWebPartNodeCountEl();
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/greek/news/Pages/Forms/AllItems.aspx");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "greek/news/Pages/Forms/AllItems.aspx");
 
             CheckTestItem();
 

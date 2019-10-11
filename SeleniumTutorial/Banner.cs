@@ -27,8 +27,11 @@ namespace SeleniumTutorial
             driver = new ChromeDriver(ConfigurationManager.AppSettings["ChromeDriverPath"]);
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
         }
-        string HomeUrlEl = "http://spsetup:p@ssw0rd@vm-sp2013/el";
-        string UrlForBanner = "http://spsetup:p@ssw0rd@vm-sp2013/greek/Banners/Forms/AllItems.aspx?InitialTabId=Ribbon.Document&VisibilityContext=WSSTabPersistence";
+
+        string HomeUrlEl = (ConfigurationManager.AppSettings["ServerName"]) + "el";
+        string HomeUrlEn = (ConfigurationManager.AppSettings["ServerName"]) + "en";
+        string UrlForBanner = (ConfigurationManager.AppSettings["ServerName"]) + "greek/Banners/Forms/AllItems.aspx?InitialTabId=Ribbon.Document&VisibilityContext=WSSTabPersistence";
+        string UrlForBannerEn = (ConfigurationManager.AppSettings["ServerName"]) + "english/Banners/Forms/AllItems.aspx?InitialTabId=Ribbon.Document&VisibilityContext=WSSTabPersistence";
         string ButtonForNewPage = "//*[@id='Ribbon.Documents.New.NewDocument-Large']/a[2]";
         string ButtonSlider = "//*[@id='Ribbon.Document.All.NewDocument.Menu.ContentTypes.1-Menu32']";
         string ImgInputFieldClickButt = "//*[@id='ctl00_PlaceHolderMain_UploadDocumentSection_ctl05_InputFile']";
@@ -67,7 +70,7 @@ namespace SeleniumTutorial
             uploadElement.SendKeys(@"C:\Users\spsetup\Pictures\plateforme-travail-collaboratif-securise.jpg");
             dialogDriver.FindElement(By.Id("ctl00_PlaceHolderMain_ctl03_RptControls_btnOK")).Click();//click ok for upload
 
-            Thread.Sleep(1000);
+            Thread.Sleep(1000);                                                
             IWebElement slideElementChoose = driver.FindElement(By.XPath("//*[@id='ctl00_ctl41_g_f280e4d1_4e87_4625_add5_1a09b7d5f83a_ctl00_ctl02_ctl00_ctl01_ctl00_ContentTypeChoice']"));//choose slide
             slideElementChoose.Click();
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='ctl00_ctl41_g_f280e4d1_4e87_4625_add5_1a09b7d5f83a_ctl00_ctl02_ctl00_ctl01_ctl00_ContentTypeChoice']/option[2]")));//choose ete
@@ -100,7 +103,7 @@ namespace SeleniumTutorial
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(CheckOutButton)));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(CheckOutButton)));
             driver.FindElement(By.XPath(CheckOutButton)).Click();  //Choose Check in
-            Thread.Sleep(200);
+            Thread.Sleep(2000);
 
             IWebDriver dialogDriver2 = driver.SwitchTo().Frame(driver.FindElement(By.ClassName(PopUpMenu)));
             WebDriverWait dialogWait2 = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
@@ -145,6 +148,112 @@ namespace SeleniumTutorial
             Thread.Sleep(2000);
 
         }
+
+        [Test]
+        public void AddBannerEn()
+        {
+
+            driver.Navigate().GoToUrl(UrlForBannerEn);
+            driver.Manage().Window.Maximize();
+            ClickFilesOnRibbon();
+
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(ButtonForNewPage)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(ButtonForNewPage)));
+            driver.FindElement(By.XPath(ButtonForNewPage)).Click();
+
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(ButtonSlider)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(ButtonSlider)));
+            Thread.Sleep(1000);
+            driver.FindElement(By.XPath(ButtonSlider)).Click();
+
+            IWebDriver dialogDriver = driver.SwitchTo().Frame(driver.FindElement(By.ClassName(PopUpMenu)));
+            WebDriverWait dialogWait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
+
+            dialogWait.Until(ExpectedConditions.ElementIsVisible(By.XPath(ImgInputFieldClickButt)));
+            dialogWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(ImgInputFieldClickButt)));
+            IWebElement uploadElement = dialogDriver.FindElement(By.Id("ctl00_PlaceHolderMain_UploadDocumentSection_ctl05_InputFile"));
+            uploadElement.SendKeys(@"C:\Users\spsetup\Pictures\plateforme-travail-collaboratif-securise.jpg");
+            dialogDriver.FindElement(By.Id("ctl00_PlaceHolderMain_ctl03_RptControls_btnOK")).Click();//click ok for upload
+
+            Thread.Sleep(1000);
+            IWebElement slideElementChoose = driver.FindElement(By.XPath("//*[@id='ctl00_ctl41_g_bd53ee8d_c17b_42ca_a0e8_c5e38b229963_ctl00_ctl02_ctl00_ctl01_ctl00_ContentTypeChoice']"));//choose slide
+            slideElementChoose.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='ctl00_ctl41_g_bd53ee8d_c17b_42ca_a0e8_c5e38b229963_ctl00_ctl02_ctl00_ctl01_ctl00_ContentTypeChoice']/option[2]")));//choose nation home
+            IWebElement nbgSlide = driver.FindElement(By.XPath("//*[@id='ctl00_ctl41_g_bd53ee8d_c17b_42ca_a0e8_c5e38b229963_ctl00_ctl02_ctl00_ctl01_ctl00_ContentTypeChoice']/option[2]"));
+            nbgSlide.Click();
+            IWebElement titleElement = driver.FindElement(By.XPath(TitleInputField));
+            titleElement.SendKeys("zTestTitle");
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='ShowLearnMore_b09d5dab-b552-4e29-b6cb-a888479b0d80_$BooleanField']")));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='ShowLearnMore_b09d5dab-b552-4e29-b6cb-a888479b0d80_$BooleanField']")));
+            IWebElement moreElement = driver.FindElement(By.XPath("//*[@id='ShowLearnMore_b09d5dab-b552-4e29-b6cb-a888479b0d80_$BooleanField']"));
+            moreElement.Click();
+            IWebElement sliderText = driver.FindElement(By.XPath("//*[@id='SliderTabTitle_e3884de0-9459-4937-baee-751b2af4bdc8_$TextField']"));
+            sliderText.SendKeys("zTestTitle");
+            IWebElement sliderPlayTime = driver.FindElement(By.XPath("//*[@id='SliderAutoplayDuration_6e202718-aa6e-41c2-8d38-3f0643d2eee7_$NumberField']"));
+            sliderPlayTime.SendKeys("5");
+            IWebElement pageLookUp = driver.FindElement(By.XPath("//*[@id='PageLookup_6643a689-7410-49cd-b600-1f0ed265944f_$LookupField']"));
+            pageLookUp.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='PageLookup_6643a689-7410-49cd-b600-1f0ed265944f_$LookupField']/option[5]")));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='PageLookup_6643a689-7410-49cd-b600-1f0ed265944f_$LookupField']/option[5]")));
+            IWebElement chooseElement = driver.FindElement(By.XPath("//*[@id='PageLookup_6643a689-7410-49cd-b600-1f0ed265944f_$LookupField']/option[5]"));
+            chooseElement.Click();
+
+            IWebElement saveButton = driver.FindElement(By.XPath("//*[@id='ctl00_ctl41_g_bd53ee8d_c17b_42ca_a0e8_c5e38b229963_ctl00_ctl02_ctl00_toolBarTbl_RightRptControls_ctl00_ctl00_diidIOSaveItem']"));
+            saveButton.Click();
+
+            ChooseItem();
+
+            ClickFilesOnRibbon();
+
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(CheckOutButton)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(CheckOutButton)));
+            driver.FindElement(By.XPath(CheckOutButton)).Click();  //Choose Check in
+            Thread.Sleep(200);
+
+            IWebDriver dialogDriver2 = driver.SwitchTo().Frame(driver.FindElement(By.ClassName(PopUpMenu)));
+            WebDriverWait dialogWait2 = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
+
+            dialogWait2.Until(ExpectedConditions.ElementIsVisible(By.Id(PublishButton)));
+            dialogWait2.Until(ExpectedConditions.ElementToBeClickable(By.Id(PublishButton)));
+            dialogDriver2.FindElement(By.Id(PublishButton)).Click();  //Click Major Version
+
+            ChooseItem();
+
+            ClickFilesOnRibbon();
+
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(ApproveButton)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(ApproveButton)));
+            driver.FindElement(By.XPath(ApproveButton)).Click();  //Choose Approve-Reject
+
+            IWebDriver newDialogDriver = driver.SwitchTo().Frame(driver.FindElement(By.ClassName(PopUpMenu)));
+            WebDriverWait newDialogWait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
+
+            newDialogWait.Until(ExpectedConditions.ElementIsVisible(By.Id(ApproveRadioButton)));
+            newDialogWait.Until(ExpectedConditions.ElementToBeClickable(By.Id(ApproveRadioButton)));
+            newDialogDriver.FindElement(By.Id(ApproveRadioButton)).Click();  //Click Approve
+
+            newDialogWait.Until(ExpectedConditions.ElementToBeClickable(By.Id("ctl00_PlaceHolderMain_ctl00_RptControls_BtnSubmit")));
+            newDialogDriver.FindElement(By.Id("ctl00_PlaceHolderMain_ctl00_RptControls_BtnSubmit")).Click();  //Click OK
+
+            driver.SwitchTo().Alert().Accept();
+            driver.Navigate().GoToUrl(HomeUrlEn);
+            Thread.Sleep(2000);
+
+            driver.Navigate().GoToUrl(UrlForBannerEn);
+            ChooseItem();
+            ClickFilesOnRibbon();
+
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(DeleteButton)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(DeleteButton)));
+            driver.FindElement(By.XPath(DeleteButton)).Click();
+
+            driver.SwitchTo().Alert().Accept();
+
+
+            Thread.Sleep(2000);
+
+        }
+
 
         [TearDown]
         public void CloseBrowser()
