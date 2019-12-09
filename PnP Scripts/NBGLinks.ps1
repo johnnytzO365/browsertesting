@@ -2,12 +2,13 @@
 
 Import-Module SharePointPnPPowerShell2013
 # Iterate all webs
-Connect-PnPOnline -Url https://authqa.nbg.gr -UseWebLogin #you need to open IE, login to https://authqa.nbg.gr/ and leave the window open
+Connect-PnPOnline -Url $args[0] -UseWebLogin #you need to open IE, login to https://authqa.nbg.gr/ and leave the window open
 $authWebUrl = (Get-PnPWeb).Url                            #you need to refresh the window every few minutes
 $webUrl = $authWebUrl.Replace("https://authqa", "https://qa")
 
 $outputPath = "C:\Users\e82331\Desktop\links.txt" #change
-$rootSiteURL = "https://qa.nbg.gr/"
+$rootSiteURL = $args[0]
+
 #root
 Write-Host "Processing web: " $webUrl
 $pages = Get-PnPListItem -List "Pages"

@@ -1,4 +1,4 @@
-﻿$inputPath = "C:\Users\KyriakiBousiou\Desktop\duplicates.txt"
-$outputPath = "C:\Users\KyriakiBousiou\Desktop\unique.txt"
+﻿$inputPath = "C:\Users\KyriakiBousiou\Desktop\NBGLinks-duplicates.txt"
+$outputPath = "C:\Users\KyriakiBousiou\Desktop\NBGLinks.txt"
 
-gc $inputPath | sort | get-unique > $outputPath
+gc $inputPath | sort -CaseSensitive | get-unique > $outputPath
