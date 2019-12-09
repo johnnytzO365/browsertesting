@@ -12,6 +12,7 @@ using System.Threading;
 using System.Configuration;
 using System.IO;
 using OpenQA.Selenium.Chrome;
+using Microsoft.Office;
 
 namespace CopyPasteSPPages
 {
@@ -24,40 +25,69 @@ namespace CopyPasteSPPages
         public void StartBrowser()
         {
             driver.Manage().Window.Maximize();  //to use the desired width of window
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(40));
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
         }
 
         [Test]
         public void CopyPaste()
         {
-            driver.Navigate().GoToUrl("http://mynbgportal:86/InternalCom/Pages/Home.aspx");
-            //String InternalComSelector = "[href='/Home/GetInternalComlist']";
-            //wait.Until(ExpectedConditions.ElementToBeClickable(driver.FindElement(By.CssSelector(InternalComSelector))));
-            //IWebElement InternalCom = driver.FindElement(By.CssSelector(InternalComSelector));
-            //InternalCom.Click();
-            wait.Until(ExpectedConditions.AlertIsPresent());
-            var alert = driver.SwitchTo().Alert();
-            alert.SetAuthenticationCredentials("bank\\e82331", "123sindy^");
-            alert.Accept();
+            String line; 
+            System.IO.StreamReader infile = new System.IO.StreamReader(@"C:\Users\e82331\Desktop\pageUrls.txt");
+            //StreamWriter outfile = new StreamWriter(@"C:\Users\e82331\Desktop\htmls.csv");
+            /*var csv = new StringBuilder();
+            String firstLine = "Title,html";
+            csv.AppendLine(firstLine);*/
+            Microsoft.Office.Interop.Excel.Application oXL;
+            Microsoft.Office.Interop.Excel._Workbook oWB;
+            Microsoft.Office.Interop.Excel._Worksheet oSheet;
+            oXL = new Microsoft.Office.Interop.Excel.Application();
+            oXL.Visible = true;
+            oWB = (Microsoft.Office.Interop.Excel._Workbook)(oXL.Workbooks.Add(""));
+            oSheet = (Microsoft.Office.Interop.Excel._Worksheet)oWB.ActiveSheet;
 
-            List<IWebElement> elements = driver.FindElements(By.CssSelector("div.row.node.article")).ToList();
-            foreach (IWebElement element in elements)
+            oSheet.Cells[1, 1] = "Title";
+            oSheet.Cells[1, 2] = "html";
+
+            int counter = 2;
+            while ((line = infile.ReadLine()) != null)
             {
-                IWebElement link = element.FindElement(By.XPath("./div/a"));
-                String href = link.GetAttribute("href");
-                if (href.EndsWith(".aspx"))
+                driver.Navigate().GoToUrl(line);
+                try
                 {
-                    link.Click();
-                    String originalWindowHandle = driver.CurrentWindowHandle;
-                    IWebDriver newDriver = driver.SwitchTo().Window(originalWindowHandle);
-                    WebDriverWait newWait = new WebDriverWait(driver, TimeSpan.FromSeconds(40)); 
-                    newWait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("article-content")));
-                    IWebElement content = newDriver.FindElement(By.ClassName("article-content"));
-                    String html = content.GetAttribute("outerHTML");
-                    Console.WriteLine(html);
-                    StreamWriter file = new System.IO.StreamWriter(@"C:\Users\e82331\Documents\htmls.csv");
+                    wait.Until(ExpectedConditions.AlertIsPresent());
+                    var alert = driver.SwitchTo().Alert();
+                    alert.SetAuthenticationCredentials("bank\\e82331", "123sindy^");
+                    alert.Accept();
                 }
+                catch
+                {
+                    continue;
+                }
+
+                wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("article-content")));
+                IWebElement content = driver.FindElement(By.ClassName("article-content"));
+                String html = content.GetAttribute("outerHTML");
+                Console.WriteLine(html);
+
+                String[] UrlSplits = line.Split('/');
+                String Title = UrlSplits[UrlSplits.Length-1];
+                Title.Substring(Title.Length - 5); //trim .aspx
+
+                oSheet.Cells[counter, 1] = Title;
+                oSheet.Cells[counter, 2] = html;
+
+                counter++;
             }
+
+            //File.WriteAllText(@"C:\Users\e82331\Desktop\htmls.csv", csv.ToString());
+            infile.Close();
+            //outfile.Close();
+
+            oXL.Visible = false;
+            oXL.UserControl = false;
+            oWB.SaveAs(@"C:\Users\e82331\Desktop\htmls.xlsx", Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing,false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange,Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oWB.Close();
+            oXL.Quit();
         }
 
         [TearDown]

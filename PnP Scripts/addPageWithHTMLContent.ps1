@@ -1,4 +1,6 @@
-﻿Import-Module SharePointPnPPowerShellOnline
+﻿#First run Install-Module -Name ImportExcel
+
+Import-Module SharePointPnPPowerShellOnline
 
 $UserName = "e82331@nbg.gr"
 $pwd = "123sindy^"
@@ -7,8 +9,8 @@ $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$S
 $Url = "https://groupnbg.sharepoint.com/sites/communicationtopic"
 Connect-PnPOnline -Url $Url -Credentials $Credentials
 
-$inputUrl = "C:\Users\KyriakiBousiou\Desktop\html.csv"
-$file = Import-Csv $inputUrl
+$inputUrl = "C:\Users\KyriakiBousiou\Desktop\html.xlsx"
+$file = Import-Excel -Path $inputUrl
 
 foreach($record in $file) {  
     $page = Add-PnPClientSidePage -Name $record.Title -Publish
