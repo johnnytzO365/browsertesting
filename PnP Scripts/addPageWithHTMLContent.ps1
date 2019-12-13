@@ -69,7 +69,7 @@ else{
 }
 for($i=$startline;$i -le $currentRowCount;$i++) {  
     $pageTitle = $workSheet.Cells($i,1).Text
-    $html = $workSheet.Cells($i,2).Text
+    $html = $workSheet.Cells($i,2).Value2
     $newhtml = $html.Replace("InternalCom/","sites/testSite/")
 
     try{
