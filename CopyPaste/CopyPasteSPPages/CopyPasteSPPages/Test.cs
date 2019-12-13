@@ -61,7 +61,6 @@ namespace CopyPasteSPPages
                 }
                 catch
                 {
-                    continue;
                 }
 
                 wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("article-content")));
@@ -79,9 +78,7 @@ namespace CopyPasteSPPages
                 counter++;
             }
 
-            //File.WriteAllText(@"C:\Users\e82331\Desktop\htmls.csv", csv.ToString());
             infile.Close();
-            //outfile.Close();
 
             oXL.Visible = false;
             oXL.UserControl = false;
