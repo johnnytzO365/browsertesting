@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyPasteSPPages", "CopyPasteSPPages\CopyPasteSPPages.csproj", "{09E8E133-7E0B-436A-B39D-4DDF67A85A10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookieChecker", "CopyPasteSPPages\CookieChecker.csproj", "{09E8E133-7E0B-436A-B39D-4DDF67A85A10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
