@@ -13,6 +13,8 @@ using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System.Configuration;
+using System.Windows.Forms;
+using System.IO;
 
 namespace SeleniumTutorial
 {
@@ -44,6 +46,17 @@ namespace SeleniumTutorial
         string PopUpMenu = "ms-dlgFrame";
         string DeleteButton = "//*[@id='Ribbon.Documents.Manage.Delete-Medium']";
 
+        [Test]
+        public void checkForCopy()
+        {
+            driver.Navigate().GoToUrl("https://groupnbg.sharepoint.com/sites/Transformation/");
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='spPageCanvasContent']/div/div/div/div/div/div/div/div/div[2]/div/div[2]/div/div[2]/div/div/div")));
+            String output = driver.FindElement(By.XPath("//*[@id='spPageCanvasContent']/div/div/div/div/div/div/div/div/div[2]/div/div[2]/div/div[2]/div/div/div")).GetAttribute("value");
+            using (StreamWriter sw = File.AppendText("C:\\Users\\spsetup\\Desktop\\test1.txt"))
+            {
+                sw.WriteLine(output);
+            }
+        }
         [Test]
         public void AddBannerEl() 
         {
