@@ -140,7 +140,15 @@ namespace CookieChecker
                             }
                             catch
                             {
-                                
+                                try
+                                {
+                                    wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='cookGRALL']")));
+                                    driver.FindElement(By.XPath("//*[@id='cookGRALL']")).Click();
+
+                                }
+                                catch
+                                {
+                                }
                             }
                         }
                     }
@@ -164,7 +172,7 @@ namespace CookieChecker
 
             oXL.Visible = false;
             oXL.UserControl = false;
-            oWB.SaveAs(ConfigurationManager.AppSettings["OutputFile"], Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oWB.SaveAs(ConfigurationManager.AppSettings["OutputFileAc"], Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
         }
@@ -246,7 +254,7 @@ namespace CookieChecker
 
             oXL.Visible = false;
             oXL.UserControl = false;
-            oWB.SaveAs(ConfigurationManager.AppSettings["OutputFile"], Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oWB.SaveAs(ConfigurationManager.AppSettings["OutputFileRej"], Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
         }
@@ -292,7 +300,7 @@ namespace CookieChecker
 
             oXL.Visible = false;
             oXL.UserControl = false;
-            oWB.SaveAs(ConfigurationManager.AppSettings["OutputFile"], Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oWB.SaveAs(ConfigurationManager.AppSettings["OutputFileDef"], Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
         }
