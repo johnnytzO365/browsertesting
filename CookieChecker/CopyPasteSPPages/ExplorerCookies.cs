@@ -44,6 +44,7 @@ namespace CookieChecker
                 {
                     wait.Until(ExpectedConditions.ElementIsVisible(By.Id("cookGRALL")));//publicSite CookiesBar
                     driver.FindElement(By.Id("cookGRALL")).Click();
+                    driver.Navigate().Refresh();
                 }
                 catch
                 {
@@ -51,6 +52,7 @@ namespace CookieChecker
                     {
                         wait.Until(ExpectedConditions.ElementIsVisible(By.Id("ccc-notify-accept")));//wizz
                         driver.FindElement(By.Id("ccc-notify-accept")).Click();
+                        driver.Navigate().Refresh();
                     }
                     catch
                     {
@@ -60,6 +62,7 @@ namespace CookieChecker
                             driver.FindElement(By.CssSelector("checkbox_icon")).Click();
                             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("btn electro")));
                             driver.FindElement(By.CssSelector("btn electro")).Click();
+                            driver.Navigate().Refresh();
                         }
                         catch
                         {
@@ -67,6 +70,7 @@ namespace CookieChecker
                             {
                                 wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='cookie - bar']/div/div[2]/div[2]/button")));//act4Greece
                                 driver.FindElement(By.XPath("//*[@id='cookie - bar']/div/div[2]/div[2]/button")).Click();
+                                driver.Navigate().Refresh();
                             }
                             catch
                             {
