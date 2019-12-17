@@ -12,15 +12,7 @@ namespace CookieChecker
     
     class ExplorerCookies
     {
-        IWebDriver driver = new InternetExplorerDriver(@"C:\\Users\\e82337\\Downloads\\browsertesting\\browsertesting\\.nuget");
-        WebDriverWait wait;
-
-        [SetUp]
-        public void StartBrowser()
-        {
-            driver.Manage().Window.Maximize();  //to use the desired width of window
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-        }
+        IWebDriver driver;
 
         [Test]
         public void CookiesBarAcceptAll()
@@ -43,6 +35,9 @@ namespace CookieChecker
             while ((line = infile.ReadLine()) != null)
             {
                 int c2 = 3;
+                driver = new InternetExplorerDriver(@"C:\\Users\\e82337\\Downloads\\browsertesting\\browsertesting\\.nuget");
+                driver.Manage().Window.Maximize();
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
                 driver.Navigate().GoToUrl(line);
 
                 try
@@ -92,6 +87,7 @@ namespace CookieChecker
                 }
                 counter++;
                 driver.Manage().Cookies.DeleteAllCookies();
+                driver.Quit();
             }
 
             infile.Close();
@@ -124,6 +120,9 @@ namespace CookieChecker
             while ((line = infile.ReadLine()) != null)
             {
                 int c2 = 3;
+                driver = new InternetExplorerDriver(@"C:\\Users\\e82337\\Downloads\\browsertesting\\browsertesting\\.nuget");
+                driver.Manage().Window.Maximize();
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
                 driver.Navigate().GoToUrl(line);
 
                 try
@@ -173,6 +172,7 @@ namespace CookieChecker
                 }
                 counter++;
                 driver.Manage().Cookies.DeleteAllCookies();
+                driver.Quit();
             }
 
             infile.Close();
@@ -205,6 +205,9 @@ namespace CookieChecker
             while ((line = infile.ReadLine()) != null)
             {
                 int c2 = 3;
+                driver = new InternetExplorerDriver(@"C:\\Users\\e82337\\Downloads\\browsertesting\\browsertesting\\.nuget");
+                driver.Manage().Window.Maximize();
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
                 driver.Navigate().GoToUrl(line);
 
                 int number = driver.Manage().Cookies.AllCookies.Count;
@@ -218,6 +221,7 @@ namespace CookieChecker
                 }
                 counter++;
                 driver.Manage().Cookies.DeleteAllCookies();
+                driver.Quit();
             }
 
             infile.Close();
