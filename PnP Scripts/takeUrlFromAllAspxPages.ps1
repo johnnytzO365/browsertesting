@@ -14,10 +14,10 @@ $outputPath = "C:\Users\e82337\Desktop\pageUrls.txt"
 $ListItems = Get-PnPListItem -List "Pages"
 ForEach($Item in $ListItems)
 {
-    $name = Get-PnPProperty -ClientObject $Item.File -Property Name
+    $title = Get-PnPProperty -ClientObject $Item.File -Property Title
     if($name.EndsWith(".aspx"))
     {
-        $pageUrl = "http://mynbgportal:86/InternalCom/Pages/" + $name
+        $pageUrl = "http://mynbgportal:86/InternalCom/Pages/" + $title
         $pageUrl | Out-File -FilePath $outputPath -Append
     }
 }

@@ -24,18 +24,18 @@ Import-Module 'C:\Users\KyriakiBousiou\Desktop\PnP Powershell Scripts\WriteLogMo
 $ErrorActionPreference = "SilentlyContinue"
 
 #----------------------------------[Declarations]--------------------------------------------------------------
-$inputPath = "C:\Users\KyriakiBousiou\Desktop\htmls.xlsx"
-$LogPath = "C:\Users\KyriakiBousiou\Desktop\Log.log"
+$inputPath = "C:\Users\KyriakiBousiou\Desktop\PnP Powershell Scripts\htmls.xlsx"
+$LogPath = "C:\Users\KyriakiBousiou\Desktop\PnP Powershell Scripts\Log.log"
 
 #-------------------------------------[Functions]-------------------------------------------------------------
 
 #--------------------------------------[Execution]------------------------------------------------------------
 #Connect
-$UserName = "sindy@bousiou.onmicrosoft.com"
-$pwd = "Gld9q_31"
+$UserName = "e82331@nbg.gr"
+$pwd = "123sindy^"
 [SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
-$Url = "https://bousiou.sharepoint.com/sites/testSite"
+$Url = "https://groupnbg.sharepoint.com/sites/communicationtopic"
 
 try{
     Connect-PnPOnline -Url $Url -Credentials $Credentials
@@ -70,7 +70,7 @@ else{
 for($i=$startline;$i -le $currentRowCount;$i++) {  
     $pageTitle = $workSheet.Cells($i,1).Text
     $html = $workSheet.Cells($i,2).Value2
-    $newhtml = $html.Replace("InternalCom/","sites/testSite/")
+    $newhtml = $html.Replace("/InternalCom/","/sites/communicationtopic/")
 
     try{
         $page = Add-PnPClientSidePage -Name $pageTitle -Publish
