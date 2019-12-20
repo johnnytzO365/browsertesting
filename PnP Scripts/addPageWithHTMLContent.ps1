@@ -7,6 +7,7 @@
 
 .INPUTS
     An xlsx file with two columns: one for the title of the page and one for the html content of each page. The first row is for the names of the columns (it is ignored).
+    It can also be added as an argument a number indicating the line of the xlsx file from which the program will start (in case the script crashes). If a number is not given, the default is 2.
 
 .OUTPUT
     Published SPO pages.
@@ -24,18 +25,18 @@ Import-Module 'C:\Users\KyriakiBousiou\Desktop\PnP Powershell Scripts\WriteLogMo
 $ErrorActionPreference = "SilentlyContinue"
 
 #----------------------------------[Declarations]--------------------------------------------------------------
-$inputPath = "C:\Users\KyriakiBousiou\Desktop\PnP Powershell Scripts\htmls.xlsx"
+$inputPath = "C:\Users\KyriakiBousiou\Desktop\CommunicationPages1.xlsx"
 $LogPath = "C:\Users\KyriakiBousiou\Desktop\PnP Powershell Scripts\Log.log"
 
 #-------------------------------------[Functions]-------------------------------------------------------------
 
 #--------------------------------------[Execution]------------------------------------------------------------
 #Connect
-$UserName = "e82331@nbg.gr"
-$pwd = "123sindy^"
+$UserName = "sindy@bousiou.onmicrosoft.com"
+$pwd = "Gld9q_31"
 [SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
-$Url = "https://groupnbg.sharepoint.com/sites/communicationtopic"
+$Url = "https://bousiou.sharepoint.com/sites/communicationTest"
 
 try{
     Connect-PnPOnline -Url $Url -Credentials $Credentials
@@ -68,20 +69,23 @@ else{
     $startline=$args[0]
 }
 for($i=$startline;$i -le $currentRowCount;$i++) {  
-    $pageTitle = $workSheet.Cells($i,1).Text
-    $html = $workSheet.Cells($i,2).Value2
+    $title = $workSheet.Cells($i,1).Text
+    $pageName = $title.Substring(0,4)
+    $pageTitle = $title.Substring(7,$title.Length-7)
+    $category = $workSheet.Cells($i,3).Text
+    $html = $workSheet.Cells($i,4).Value2
     $newhtml = $html.Replace("/InternalCom/","/sites/communicationtopic/")
 
     try{
-        $page = Add-PnPClientSidePage -Name $pageTitle -Publish
-        Add-PnPClientSideText -Page $pageTitle -Text $newhtml
-        Set-PnPClientSidePage -Identity $pageTitle -Publish
-        $message = $pageTitle+": Completed succesfully"
-        Write-Log -Message "$pageTitle : Completed successfully" -Path $LogPath -Level Info
+        $page = Add-PnPClientSidePage -Name $pageName -Publish -PromoteAs NewsArticle
+        Add-PnPClientSideText -Page $pageName -Text $newhtml
+        Set-PnPClientSidePage -Identity $pageName -Title $pageTitle
+        Set-PnPListItem -List "SitePages" -Identity $page.PageListItem.Id -Values @{"Category"=$category}
+        Set-PnPClientSidePage -Identity $pageName -Publish
+        Write-Log -Message "$title : Completed successfully" -Path $LogPath -Level Info
     }
     catch{
-        Write-Host "Problem with page:" $pageTitle
-        Write-Log -Message "Problem with $pageTitle : $_" -Path $LogPath -Level Warn
+        Write-Log -Message "$title : $_" -Path $LogPath -Level Warn
         continue
     }
 }

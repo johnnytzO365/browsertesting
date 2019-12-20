@@ -31,32 +31,21 @@ namespace CopyPasteSPPages
         [Test]
         public void CopyPaste()
         {
-            String line; 
-            System.IO.StreamReader infile = new System.IO.StreamReader(@"C:\Users\e82331\Desktop\pageUrls.txt");
-            //StreamWriter outfile = new StreamWriter(@"C:\Users\e82331\Desktop\htmls.csv");
-            /*var csv = new StringBuilder();
-            String firstLine = "Title,html";
-            csv.AppendLine(firstLine);*/
-            Microsoft.Office.Interop.Excel.Application oXL;
-            Microsoft.Office.Interop.Excel._Workbook oWB;
-            Microsoft.Office.Interop.Excel._Worksheet oSheet;
-            oXL = new Microsoft.Office.Interop.Excel.Application();
-            oXL.Visible = true;
-            oWB = (Microsoft.Office.Interop.Excel._Workbook)(oXL.Workbooks.Add(""));
-            oSheet = (Microsoft.Office.Interop.Excel._Worksheet)oWB.ActiveSheet;
+            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Users\e82331\Downloads\CommunicationPages.xlsx", ReadOnly: false);
+            Microsoft.Office.Interop.Excel._Worksheet oSheet = xlWorkbook.Sheets[1];
+            Microsoft.Office.Interop.Excel.Range xlRange = oSheet.UsedRange;
 
-            oSheet.Cells[1, 1] = "Title";
-            oSheet.Cells[1, 2] = "html";
-
-            int counter = 2;
-            while ((line = infile.ReadLine()) != null)
+            int rowCount = xlRange.Rows.Count;
+            for(int i=2;i<=rowCount;i++)
             {
-                driver.Navigate().GoToUrl(line);
+                String Url = xlRange.Cells[i, 2].Value2;
+                driver.Navigate().GoToUrl(Url);
                 try
                 {
                     wait.Until(ExpectedConditions.AlertIsPresent());
                     var alert = driver.SwitchTo().Alert();
-                    alert.SetAuthenticationCredentials("bank\\e82331", "123sindy^");
+                    alert.SetAuthenticationCredentials("bank\\e82331", "p@ssw0rd");
                     alert.Accept();
                 }
                 catch
@@ -68,23 +57,14 @@ namespace CopyPasteSPPages
                 String html = content.GetAttribute("outerHTML");
                 Console.WriteLine(html);
 
-                String[] UrlSplits = line.Split('/');
-                String Title = UrlSplits[UrlSplits.Length-1];
-                Title.Substring(Title.Length - 5); //trim .aspx
-
-                oSheet.Cells[counter, 1] = Title;
-                oSheet.Cells[counter, 2] = html;
-
-                counter++;
+                oSheet.Cells[i, 4] = html;
             }
 
-            infile.Close();
-
-            oXL.Visible = false;
-            oXL.UserControl = false;
-            oWB.SaveAs(@"C:\Users\e82331\Desktop\htmls.xlsx", Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing,false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange,Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-            oWB.Close();
-            oXL.Quit();
+            xlApp.Visible = false;
+            xlApp.UserControl = false;
+            xlWorkbook.SaveAs(@"C:\Users\e82331\Desktop\CommunicationPages.xlsx", Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing,false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange,Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            xlWorkbook.Close();
+            xlApp.Quit();
         }
 
         [TearDown]
