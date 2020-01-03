@@ -6,19 +6,29 @@ using System.Linq;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using OpenQA.Selenium.IE;
+using System.Configuration;
 
 namespace CookieChecker
 {
     
     class ExplorerCookies
     {
-        IWebDriver driver;
+        IWebDriver driver = new InternetExplorerDriver(ConfigurationManager.AppSettings["DriverPath"]);
+        WebDriverWait wait;
+
+        [SetUp]
+        public void StartBrowser()
+        {
+            driver.Manage().Window.Maximize();  //to use the desired width of window
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+        }
+
 
         [Test]
         public void CookiesBarAcceptAll()
         {
             String line;
-            System.IO.StreamReader infile = new System.IO.StreamReader(@"C:\Users\e82337\Desktop\domainUrl.txt");
+            System.IO.StreamReader infile = new System.IO.StreamReader(ConfigurationManager.AppSettings["DomainsNames"]);
 
             Microsoft.Office.Interop.Excel.Application oXL;
             Microsoft.Office.Interop.Excel._Workbook oWB;
@@ -35,9 +45,6 @@ namespace CookieChecker
             while ((line = infile.ReadLine()) != null)
             {
                 int c2 = 3;
-                driver = new InternetExplorerDriver(@"C:\\Users\\e82337\\Downloads\\browsertesting\\browsertesting\\.nuget");
-                driver.Manage().Window.Maximize();
-                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
                 driver.Navigate().GoToUrl(line);
 
                 try
@@ -98,7 +105,7 @@ namespace CookieChecker
 
             oXL.Visible = false;
             oXL.UserControl = false;
-            oWB.SaveAs(@"C:\Users\e82337\Desktop\CookiesAccept.xlsx", Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oWB.SaveAs(ConfigurationManager.AppSettings["IEOutputFileAc"], Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
         }
@@ -107,7 +114,7 @@ namespace CookieChecker
         public void CookiesBarRejectAll()
         {
             String line;
-            System.IO.StreamReader infile = new System.IO.StreamReader(@"C:\Users\e82337\Desktop\domainUrl.txt");
+            System.IO.StreamReader infile = new System.IO.StreamReader(ConfigurationManager.AppSettings["DomainsNames"]);
 
             Microsoft.Office.Interop.Excel.Application oXL;
             Microsoft.Office.Interop.Excel._Workbook oWB;
@@ -124,9 +131,6 @@ namespace CookieChecker
             while ((line = infile.ReadLine()) != null)
             {
                 int c2 = 3;
-                driver = new InternetExplorerDriver(@"C:\\Users\\e82337\\Downloads\\browsertesting\\browsertesting\\.nuget");
-                driver.Manage().Window.Maximize();
-                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
                 driver.Navigate().GoToUrl(line);
 
                 try
@@ -183,7 +187,7 @@ namespace CookieChecker
 
             oXL.Visible = false;
             oXL.UserControl = false;
-            oWB.SaveAs(@"C:\Users\e82337\Desktop\CookiesRej.xlsx", Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oWB.SaveAs(ConfigurationManager.AppSettings["IEOutputFileRej"], Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
         }
@@ -192,7 +196,7 @@ namespace CookieChecker
         public void CookiesBarDefault()
         {
             String line;
-            System.IO.StreamReader infile = new System.IO.StreamReader(@"C:\Users\e82337\Desktop\domainUrl.txt");
+            System.IO.StreamReader infile = new System.IO.StreamReader(ConfigurationManager.AppSettings["DomainsNames"]);
 
             Microsoft.Office.Interop.Excel.Application oXL;
             Microsoft.Office.Interop.Excel._Workbook oWB;
@@ -209,9 +213,6 @@ namespace CookieChecker
             while ((line = infile.ReadLine()) != null)
             {
                 int c2 = 3;
-                driver = new InternetExplorerDriver(@"C:\\Users\\e82337\\Downloads\\browsertesting\\browsertesting\\.nuget");
-                driver.Manage().Window.Maximize();
-                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
                 driver.Navigate().GoToUrl(line);
 
                 int number = driver.Manage().Cookies.AllCookies.Count;
@@ -232,7 +233,7 @@ namespace CookieChecker
 
             oXL.Visible = false;
             oXL.UserControl = false;
-            oWB.SaveAs(@"C:\Users\e82337\Desktop\CookiesDef.xlsx", Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oWB.SaveAs(ConfigurationManager.AppSettings["IEOutputFileDef"], Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
         }
