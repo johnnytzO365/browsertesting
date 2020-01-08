@@ -21,7 +21,7 @@ namespace CookieChecker
         public void StartBrowser()
         {
             driver.Manage().Window.Maximize();  //to use the desired width of window
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(4));
         }
 
         [Test]
@@ -114,7 +114,8 @@ namespace CookieChecker
 
             oXL.Visible = false;
             oXL.UserControl = false;
-            oWB.SaveAs(ConfigurationManager.AppSettings["ChromeOutputFileAc"], Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oXL.DisplayAlerts = false;
+            oWB.SaveAs(ConfigurationManager.AppSettings["ChromeOutputFileAc"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
         }
@@ -200,7 +201,8 @@ namespace CookieChecker
 
             oXL.Visible = false;
             oXL.UserControl = false;
-            oWB.SaveAs(ConfigurationManager.AppSettings["ChromeOutputFileRej"], Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oXL.DisplayAlerts = false;
+            oWB.SaveAs(ConfigurationManager.AppSettings["ChromeOutputFileRej"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
         }
@@ -246,7 +248,8 @@ namespace CookieChecker
 
             oXL.Visible = false;
             oXL.UserControl = false;
-            oWB.SaveAs(ConfigurationManager.AppSettings["ChromeOutputFileDef"], Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oXL.DisplayAlerts = false;
+            oWB.SaveAs(ConfigurationManager.AppSettings["ChromeOutputFileDef"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
         }
