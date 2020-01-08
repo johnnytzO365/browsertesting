@@ -20,16 +20,13 @@ $docLibs = Get-PNPList | Where-Object{$_.BaseTemplate -eq 101}
 #process each document library
 foreach($doc in $docLibs)
 {
-    #if($doc.Title -ne "Site Assets") #don't know why yet
-    #{
-        $docSplits = $null
-        $docSplits = ($doc.DocumentTemplateUrl).Split("/")  #build the relative url to the document library
-        $docUrl = "/sites/Transformation/" + $docSplits[3]  #couldn't find a better way
-        ProcessFolder $docUrl ($targetPath+$docSplits[3])
+    $docSplits = $null
+    $docSplits = ($doc.DocumentTemplateUrl).Split("/")  #build the relative url to the document library
+    $docUrl = "/sites/Transformation/" + $docSplits[3]  #couldn't find a better way
+    ProcessFolder $docUrl ($targetPath+$docSplits[3])
 
-        $tempfolders = Get-PnPProperty -ClientObject $doc.RootFolder -Property Folders
-        ProcessSubFolders $tempfolders ($targetPath+$docSplits[3])
-    #}
+    $tempfolders = Get-PnPProperty -ClientObject $doc.RootFolder -Property Folders
+    ProcessSubFolders $tempfolders ($targetPath+$docSplits[3])
 }
 
 function ProcessSubFolders($folders, $targetPath) {
