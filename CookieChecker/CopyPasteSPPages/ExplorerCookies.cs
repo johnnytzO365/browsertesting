@@ -7,6 +7,7 @@ using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using OpenQA.Selenium.IE;
 using System.Configuration;
+using System.Threading;
 
 namespace CookieChecker
 {
@@ -21,12 +22,14 @@ namespace CookieChecker
         {
             driver.Manage().Window.Maximize();  //to use the desired width of window
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            driver.Quit();
         }
 
 
         [Test]
         public void CookiesBarAcceptAll()
         {
+            
             String line;
             System.IO.StreamReader infile = new System.IO.StreamReader(ConfigurationManager.AppSettings["DomainsNames"]);
 
@@ -45,13 +48,27 @@ namespace CookieChecker
             while ((line = infile.ReadLine()) != null)
             {
                 int c2 = 3;
+                IWebDriver driver = new InternetExplorerDriver(ConfigurationManager.AppSettings["DriverPath"]);
+                WebDriverWait wait;
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
                 driver.Navigate().GoToUrl(line);
+                try
+                {
+                    wait.Until(ExpectedConditions.AlertIsPresent());
+                    var alert = driver.SwitchTo().Alert();
+                    alert.SetAuthenticationCredentials("bank\\e82331", "p@ssw0rd");
+                    alert.Accept();
+                }
+                catch
+                {
+                }
 
                 try
                 {
                     wait.Until(ExpectedConditions.ElementIsVisible(By.Id("cookGRALL")));//publicSite CookiesBar
                     driver.FindElement(By.Id("cookGRALL")).Click();
                     driver.Navigate().Refresh();
+                    Thread.Sleep(5000);
                 }
                 catch
                 {
@@ -60,6 +77,7 @@ namespace CookieChecker
                         wait.Until(ExpectedConditions.ElementIsVisible(By.Id("ccc-notify-accept")));//wizz
                         driver.FindElement(By.Id("ccc-notify-accept")).Click();
                         driver.Navigate().Refresh();
+                        Thread.Sleep(5000);
                     }
                     catch
                     {
@@ -75,9 +93,10 @@ namespace CookieChecker
                         {
                             try
                             {
-                                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='cookie - bar']/div/div[2]/div[2]/button")));//act4Greece
-                                driver.FindElement(By.XPath("//*[@id='cookie - bar']/div/div[2]/div[2]/button")).Click();
+                                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='cookie-bar']/div/div[2]/div[2]/button")));//act4Greece
+                                driver.FindElement(By.XPath("//*[@id='cookie-bar']/div/div[2]/div[2]/button")).Click();
                                 driver.Navigate().Refresh();
+                                Thread.Sleep(5000);
                             }
                             catch
                             {
@@ -89,6 +108,7 @@ namespace CookieChecker
                 }
                 int number = driver.Manage().Cookies.AllCookies.Count;
                 List<Cookie> cooks = driver.Manage().Cookies.AllCookies.ToList();
+                Thread.Sleep(5000);
                 oSheet.Cells[counter, 1] = line;
                 oSheet.Cells[counter, 2] = number;
                 foreach (Cookie cook in cooks)
@@ -99,13 +119,17 @@ namespace CookieChecker
                 counter++;
                 driver.Manage().Cookies.DeleteAllCookies();
                 driver.Quit();
+               
             }
 
             infile.Close();
 
             oXL.Visible = false;
             oXL.UserControl = false;
-            oWB.SaveAs(ConfigurationManager.AppSettings["IEOutputFileAc"], Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oXL.DisplayAlerts = false;
+            oXL.EnableEvents = false;
+            oXL.DisplayAlerts = false;
+            oWB.SaveAs(ConfigurationManager.AppSettings["IEOutputFileAc"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
         }
@@ -131,12 +155,25 @@ namespace CookieChecker
             while ((line = infile.ReadLine()) != null)
             {
                 int c2 = 3;
+                IWebDriver driver = new InternetExplorerDriver(ConfigurationManager.AppSettings["DriverPath"]);
+                WebDriverWait wait;
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
                 driver.Navigate().GoToUrl(line);
-
+                try
+                {
+                    wait.Until(ExpectedConditions.AlertIsPresent());
+                    var alert = driver.SwitchTo().Alert();
+                    alert.SetAuthenticationCredentials("bank\\e82337", "Bah7mut13!");
+                    alert.Accept();
+                }
+                catch
+                {
+                }
                 try
                 {
                     wait.Until(ExpectedConditions.ElementIsVisible(By.Id("cookGRALLRej")));//publicSite CookiesBar
                     driver.FindElement(By.Id("cookGRALLRej")).Click();
+                    Thread.Sleep(5000);
                 }
                 catch
                 {
@@ -144,6 +181,7 @@ namespace CookieChecker
                     {
                         wait.Until(ExpectedConditions.ElementIsVisible(By.Id("ccc-notify-accept!")));//wizz
                         driver.FindElement(By.Id("ccc-notify-accept!")).Click();
+                        Thread.Sleep(5000);
                     }
                     catch
                     {
@@ -153,13 +191,15 @@ namespace CookieChecker
                             driver.FindElement(By.ClassName("checkbox_icon")).Click();
                             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("btn")));
                             driver.FindElement(By.CssSelector("btn")).Click();
+                            Thread.Sleep(5000);
                         }
                         catch
                         {
                             try
                             {
-                                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='cookie - bar']/div/div[2]/div[3]/button")));//act4Greece
-                                driver.FindElement(By.XPath("//*[@id='cookie - bar']/div/div[2]/div[3]/button")).Click();
+                                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='cookie-bar']/div/div[2]/div[3]/button")));//act4Greece
+                                driver.FindElement(By.XPath("//*[@id='cookie-bar']/div/div[2]/div[3]/button")).Click();
+                                Thread.Sleep(5000);
                             }
                             catch
                             {
@@ -171,6 +211,7 @@ namespace CookieChecker
                 }
                 int number = driver.Manage().Cookies.AllCookies.Count;
                 List<Cookie> cooks = driver.Manage().Cookies.AllCookies.ToList();
+                Thread.Sleep(5000);
                 oSheet.Cells[counter, 1] = line;
                 oSheet.Cells[counter, 2] = number;
                 foreach (Cookie cook in cooks)
@@ -181,13 +222,16 @@ namespace CookieChecker
                 counter++;
                 driver.Manage().Cookies.DeleteAllCookies();
                 driver.Quit();
+                
             }
 
             infile.Close();
 
             oXL.Visible = false;
             oXL.UserControl = false;
-            oWB.SaveAs(ConfigurationManager.AppSettings["IEOutputFileRej"], Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oXL.DisplayAlerts = false;
+            oXL.DisplayAlerts = false;
+            oWB.SaveAs(ConfigurationManager.AppSettings["IEOutputFileRej"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
         }
@@ -213,10 +257,23 @@ namespace CookieChecker
             while ((line = infile.ReadLine()) != null)
             {
                 int c2 = 3;
+                IWebDriver driver = new InternetExplorerDriver(ConfigurationManager.AppSettings["DriverPath"]);
+                WebDriverWait wait;
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10)); 
                 driver.Navigate().GoToUrl(line);
-
+                try
+                {
+                    wait.Until(ExpectedConditions.AlertIsPresent());
+                    var alert = driver.SwitchTo().Alert();
+                    alert.SetAuthenticationCredentials("bank\\e82337", "Bah7mut13!");
+                    alert.Accept();
+                }
+                catch
+                {
+                }
                 int number = driver.Manage().Cookies.AllCookies.Count;
                 List<Cookie> cooks = driver.Manage().Cookies.AllCookies.ToList();
+                Thread.Sleep(5000);
                 oSheet.Cells[counter, 1] = line;
                 oSheet.Cells[counter, 2] = number;
                 foreach (Cookie cook in cooks)
@@ -227,13 +284,16 @@ namespace CookieChecker
                 counter++;
                 driver.Manage().Cookies.DeleteAllCookies();
                 driver.Quit();
+                
             }
 
             infile.Close();
 
             oXL.Visible = false;
             oXL.UserControl = false;
-            oWB.SaveAs(ConfigurationManager.AppSettings["IEOutputFileDef"], Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oXL.DisplayAlerts = false;
+            oXL.DisplayAlerts = false;
+            oWB.SaveAs(ConfigurationManager.AppSettings["IEOutputFileDef"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
         }
