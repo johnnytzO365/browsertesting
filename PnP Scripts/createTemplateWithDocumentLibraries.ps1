@@ -13,7 +13,7 @@ $connection = Connect-PnPOnline -Url $Url -Credentials $Credentials
 
 #create the template
 $templateUrl = "C:\Users\e82331\Desktop\TeamSiteTemplate\TeamSiteTemplate.xml"
-Get-PnPProvisioningTemplate -Out $templateUrl -Force -PersistBrandingFiles -PersistPublishingFiles -IncludeNativePublishingFiles -Handlers Navigation, Lists,PageContents, Pages, Files
+Get-PnPProvisioningTemplate -Out $templateUrl -Force -PersistBrandingFiles -PersistPublishingFiles -IncludeNativePublishingFiles -Handlers Navigation, Lists,PageContents, Pages #αφαιρεσα παραμετρο Files
 
 #get all document libraries
 $docLibs = Get-PNPList | Where-Object{$_.BaseTemplate -eq 101}
@@ -23,7 +23,7 @@ foreach($doc in $docLibs)
 {
     $docSplits = $null
     $docSplits = ($doc.DefaultViewUrl).Split("/")  #build the relative url to the document library
-    $docUrl = "/sites/sp_team_nbg/" + $docSplits[3]  #couldn't find a better way
+    $docUrl = "/sites/sp_team_nbg/" + $docSplits[3]
     ProcessFolder $docUrl ($targetPath+$docSplits[3])
 
     $tempfolders = Get-PnPProperty -ClientObject $doc.RootFolder -Property Folders
@@ -37,7 +37,7 @@ function ProcessSubFolders($folders, $targetPath) {
         if ($folder.Name -ne "Forms")
         {   
             $targetFolder = $targetPath +"\"+ $folder.Name;
-            ProcessFolder $folder.ServerRelativeUrl.Substring($web.ServerRelativeUrl.Length) $targetFolder #check again first argument 
+            ProcessFolder $folder.ServerRelativeUrl.Substring($web.ServerRelativeUrl.Length) $targetFolder 
             $tempfolders = Get-PnPProperty -ClientObject $folder -Property Folders
             ProcessSubFolders $tempfolders $targetFolder
         }
