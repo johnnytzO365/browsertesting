@@ -1,18 +1,19 @@
 ﻿Import-Module SharePointPnPPowerShell2013
 
+#initializations
+$Url = "http://v000080043:9993/sites/sp_team_nbg/"
+$targetPath = "C:\Users\e82331\Desktop\TeamSiteTemplate\"
+
 #connect
 $UserName = "e82331"
 $PassWord = "p@ssw0rd"
 [SecureString]$SecurePassWord = ConvertTo-SecureString $PassWord -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePassWord)
-$Url = "http://v000080043:9993/sites/sp_team_nbg/"
 $connection = Connect-PnPOnline -Url $Url -Credentials $Credentials
 
 #create the template
 $templateUrl = "C:\Users\e82331\Desktop\TeamSiteTemplate\TeamSiteTemplate.xml"
 Get-PnPProvisioningTemplate -Out $templateUrl -Force -PersistBrandingFiles -PersistPublishingFiles -IncludeNativePublishingFiles -Handlers Navigation, Lists,PageContents, Pages, Files
-
-$targetPath = "C:\Users\e82331\Desktop\TeamSiteTemplate\"
 
 #get all document libraries
 $docLibs = Get-PNPList | Where-Object{$_.BaseTemplate -eq 101}
@@ -21,7 +22,7 @@ $docLibs = Get-PNPList | Where-Object{$_.BaseTemplate -eq 101}
 foreach($doc in $docLibs)
 {
     $docSplits = $null
-    $docSplits = ($doc.DocumentTemplateUrl).Split("/")  #build the relative url to the document library
+    $docSplits = ($doc.DefaultViewUrl).Split("/")  #build the relative url to the document library
     $docUrl = "/sites/sp_team_nbg/" + $docSplits[3]  #couldn't find a better way
     ProcessFolder $docUrl ($targetPath+$docSplits[3])
 
