@@ -69,7 +69,7 @@ else{
     }
     if($Start -eq "")
     {
-        $Start=1
+        $Start=0
     }
     if($End -eq "")
     {
@@ -78,9 +78,17 @@ else{
         $End=$webs.Count
     }
 }
+
+if($webs -eq $null)
+{
+    Connect-PnPOnline -Url $RootSite -UseWebLogin #you need to open IE, login to https://authqa.nbg.gr/ and leave the window open
+    $webs = Get-PnPSubWebs -Recurse
+}
 Import-Module SharePointPnPPowerShell2013
+Import-Module 'C:\Users\e82331\Desktop\Git\browsertesting\PnP Scripts\WriteLogModule.psm1'
+$ErrorActionPreference = "SilentlyContinue"
 #----------------------------------[Declarations]--------------------------------------------------------------
-$LogPath = "C:\Users\KyriakiBousiou\Desktop\PnP Powershell Scripts\Log.log"
+$LogPath = "C:\Users\e82331\Temp\Log.log"
 
 #--------------------------------------[Execution]------------------------------------------------------------
 # Iterate all webs
@@ -90,15 +98,28 @@ $webUrl = $authWebUrl.Replace("https://authqa", "https://qa")
 
 $tempOutputFile=($OutputFile.Split('.'))[0]+"duplicates.txt"
 $rootSiteURL = "https://qa.nbg.gr"
+$hrefs=""
+
 #root
 if($start -eq 0)
 {
+    $start=1
     Write-Host "Processing web: " $webUrl
-    $pages = Get-PnPListItem -List "Pages"
+    Write-Log -Message "Processing web: $webUrl" -Path $LogPath -Level Info
+
+    $pages = Get-PnPListItem -List "Pages" -Query "<View><Query><Where><Eq><FieldRef Name='_ModerationStatus' /><Value Type='ModStat'>Approved</Value></Eq></Where></Query></View>"
     foreach($page in $pages)
     {
         $pageUrl = $rootSiteURL + $page.FieldValues["FileRef"]
-        $pageHTML = Invoke-WebRequest -Uri $pageUrl
+        try
+        {
+            $pageHTML = Invoke-WebRequest -Uri $pageUrl
+        }
+        catch
+        {
+            Write-Log -Message "Error on page $pageURL $_" -Path $LogPath -Level Error
+            continue
+        }
         $links = $pageHTML.Links
         foreach($link in $links)
         {
@@ -120,14 +141,7 @@ if($start -eq 0)
                     }
                     catch
                     {
-                        if($_.Exception.Message.Contains("Invalid URI"))
-                        {
-                            Write-Host "INVALID:" $href
-                        }
-                        elseif($_.Exception.Message.Contains("File Not Found"))
-                        {
-                            Write-Host "NOT FOUND:" $href
-                        }
+                        Write-Log -Message "Error on link $href $_" -Path $LogPath -Level Error
                     }
                 }
             }
@@ -144,11 +158,20 @@ for($i=$start-1;$i -lt $end;$i++)
     $webUrl = $url.Replace("https://authqa", "https://qa")
    
     Write-Host "Processing web: " $webUrl
-    $pages = Get-PnPListItem -List "Pages"
+    Write-Log -Message "Processing web: $webUrl" -Path $LogPath -Level Info
+    $pages = Get-PnPListItem -List "Pages" -Query "<View><Query><Where><Eq><FieldRef Name='_ModerationStatus' /><Value Type='ModStat'>Approved</Value></Eq></Where></Query></View>"
     foreach($page in $pages)
     {
         $pageUrl = $rootSiteURL + $page.FieldValues["FileRef"]
-        $pageHTML = Invoke-WebRequest -Uri $pageUrl
+        try
+        {
+            $pageHTML = Invoke-WebRequest -Uri $pageUrl
+        }
+        catch
+        {
+            Write-Log -Message "Error on page $pageURL $_" -Path $LogPath -Level Error
+            continue
+        }
         $links = $pageHTML.Links
         foreach($link in $links)
         {
@@ -169,14 +192,7 @@ for($i=$start-1;$i -lt $end;$i++)
                     }
                     catch
                     {
-                        if($_.Exception.Message.Contains("Invalid URI"))
-                        {
-                            Write-Host "INVALID:" $href
-                        }
-                        elseif($_.Exception.Message.Contains("File Not Found"))
-                        {
-                            Write-Host "NOT FOUND:" $href
-                        }
+                        Write-Log -Message "Error on link $href $_" -Path $LogPath -Level Error
                     }
                 }
             }
@@ -186,3 +202,4 @@ for($i=$start-1;$i -lt $end;$i++)
 
 #sort file and trim duplicates
 gc $tempOutputFile | sort -CaseSensitive | get-unique > $OutputFile
+Write-Log -Message "Execution Completed" -Path $LogPath -Level Info

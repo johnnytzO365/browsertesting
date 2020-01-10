@@ -1,4 +1,6 @@
-﻿$inputPath = "C:\Users\KyriakiBousiou\Desktop\NBGLinks-duplicates.txt"
-$outputPath = "C:\Users\KyriakiBousiou\Desktop\NBGLinks.txt"
+﻿$Path = "C:\Users\e82331\Desktop\NBGLinksduplicates.txt"
+$TempPath = "C:\Users\e82331\Desktop\Temp.txt"
 
-gc $inputPath | sort -CaseSensitive | get-unique > $outputPath
+gc $inputPath | sort -CaseSensitive | get-unique > $TempPath
+Copy-Item $TempPath -Destination $inputPath
+Remove-Item $TempPath

@@ -2,7 +2,7 @@
 
 #initializations
 $Url = "http://v000080043:9993/sites/sp_team_nbg/"
-$targetPath = "C:\Users\e82331\Desktop\TeamSiteTemplate\"
+$targetPath = "C:\Users\e82331\Desktop\TeamSiteTemplate1\"
 
 #connect
 $UserName = "e82331"
@@ -12,7 +12,7 @@ $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$S
 $connection = Connect-PnPOnline -Url $Url -Credentials $Credentials
 
 #create the template
-$templateUrl = "C:\Users\e82331\Desktop\TeamSiteTemplate\TeamSiteTemplate.xml"
+$templateUrl = "C:\Users\e82331\Desktop\TeamSiteTemplate1\TeamSiteTemplate.xml"
 Get-PnPProvisioningTemplate -Out $templateUrl -Force -PersistBrandingFiles -PersistPublishingFiles -IncludeNativePublishingFiles -Handlers Navigation, Lists,PageContents, Pages #αφαιρεσα παραμετρο Files
 
 #get all document libraries
