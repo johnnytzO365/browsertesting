@@ -8,7 +8,8 @@ using SeleniumExtras.WaitHelpers;
 using System.Threading;
 using OpenQA.Selenium.Chrome;
 using System.Configuration;
-
+using System.Security;
+using Microsoft.SharePoint.Client;
 
 namespace CookieChecker
 {
@@ -118,6 +119,7 @@ namespace CookieChecker
             oWB.SaveAs(ConfigurationManager.AppSettings["ChromeOutputFileAc"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
+            uploadToTeamSite(ConfigurationManager.AppSettings["ChromeOutputFileAc"]);
         }
 
         [Test]
@@ -205,6 +207,8 @@ namespace CookieChecker
             oWB.SaveAs(ConfigurationManager.AppSettings["ChromeOutputFileRej"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
+
+            uploadToTeamSite(ConfigurationManager.AppSettings["ChromeOutputFileRej"]);
         }
 
         [Test]
@@ -252,6 +256,7 @@ namespace CookieChecker
             oWB.SaveAs(ConfigurationManager.AppSettings["ChromeOutputFileDef"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
+            uploadToTeamSite(ConfigurationManager.AppSettings["ChromeOutputFileDef"]);
         }
 
         [TearDown]
@@ -265,6 +270,52 @@ namespace CookieChecker
                             && cook.Name != "_gid" && cook.Name != "Consent" && cook.Name != "NID")
             {
                 Console.Write(cook.Name);
+            }
+        }
+
+        public void uploadToTeamSite(String localPath)
+        {
+            var siteUrl = "http://v000080043:9993/sites/sp_team_nbg/";
+            var userName = ConfigurationManager.AppSettings["username"];
+            var password = ConfigurationManager.AppSettings["password"];
+            using (ClientContext clientContext = new ClientContext(siteUrl))
+            {
+                SecureString securePassword = new SecureString();
+                foreach (char c in password.ToCharArray())
+                {
+                    securePassword.AppendChar(c);
+                }
+                clientContext.AuthenticationMode = ClientAuthenticationMode.Default;
+                clientContext.Credentials = new SharePointOnlineCredentials(userName, securePassword);
+
+                clientContext.ExecuteQuery();
+
+                var ServerVersion = clientContext.ServerLibraryVersion.Major;
+
+                var site = clientContext.Site;
+                var web = clientContext.Site.RootWeb;
+
+                clientContext.Load(web, w => w.ServerRelativeUrl);
+                clientContext.ExecuteQuery();
+
+                var serverRelativeUrl = clientContext.Site.RootWeb.ServerRelativeUrl;
+
+                var name = DateTime.Now.ToString("yyyy/MM/dd");
+                var list = clientContext.Web.GetList("CookieCheckerResults");
+                list.EnableFolderCreation = true;
+                list.Update();
+                clientContext.ExecuteQuery();
+
+                //To create the folder
+                ListItemCreationInformation itemCreateInfo = new ListItemCreationInformation();
+
+                itemCreateInfo.UnderlyingObjectType = FileSystemObjectType.Folder;
+                itemCreateInfo.LeafName = name;
+
+                ListItem newItem = list.AddItem(itemCreateInfo);
+                newItem["Title"] = name;
+                newItem.Update();
+                clientContext.ExecuteQuery();
             }
         }
     }

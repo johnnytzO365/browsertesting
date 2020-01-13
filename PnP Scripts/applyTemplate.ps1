@@ -1,8 +1,6 @@
-﻿Import-Module SharePointPnPPowerShellOnline
-
-#initializations
-$templateUrl = "C:\Users\e82331\Desktop\TeamSiteTemplate\TeamSiteTemplate.xml"
-$Url = "https://bousiou.sharepoint.com/sites/TeamSiteBackup/"
+﻿#initializations
+$templateUrl = "C:\Users\e82331\Desktop\TeamSiteTemplate4\TeamSiteTemplate.xml"
+$Url = "https://bousiou.sharepoint.com/sites/TeamSiteBackup"
 
 #connect
 $UserName = "sindy@bousiou.onmicrosoft.com"
