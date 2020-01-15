@@ -1,12 +1,12 @@
 ﻿#initializations
-$Url = "http://swisspost.spdev.local"
-$banksCSV = "C:\Users\IoannisTzanos\Downloads\BANKS.csv"
-$branchesCSV = "C:\Users\IoannisTzanos\Downloads\BRANCHES.csv"
+$Url = "http://v000080043:9993/sites/hebic/"
+$banksCSV = "C:\Users\e82331\Desktop\Banks.csv"
+$branchesCSV = "C:\Users\e82331\Desktop\Branches.csv"
 
 $ErrorActionPreference = "SilentlyContinue"
 
 #connect
-$UserName = "spsetup"
+$UserName = "e82331"
 $pwd = "p@ssw0rd"
 [SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
@@ -32,7 +32,7 @@ if ($list -eq $null)
     {}
 }
 
-$Banks = import-csv -Delimiter ";" -Path $banksCSV -Encoding UTF8
+$Banks = import-csv -Delimiter ";" -Path $banksCSV -Encoding ASCII
 
 $items =Get-PnPListItem -List “BANKS”
 foreach ($item in $items)
@@ -73,8 +73,7 @@ if ($list -eq $null)
     {}
 }
 
-Get-Content  $branchesCSV | Out-File $tempBranch -Encoding utf8
-$Branches = import-csv -Delimiter ";" -Path $tempBranch -Encoding Unicode
+$Branches = import-csv -Delimiter ";" -Path $branchesCSV -Encoding Unicode
 
 $items =Get-PnPListItem -List “BRANCHES”
 foreach ($item in $items)
