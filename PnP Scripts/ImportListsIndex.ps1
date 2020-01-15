@@ -124,6 +124,3 @@ foreach ($Branch in $Branches){
         "branchZipCode"= $tk1+$tk2;
     }
 }
-
-Remove-Item -Path $tempBank -Force
-Remove-Item -Path $tempBranch -Force
