@@ -19,13 +19,13 @@ $listName = "BANKS"
 try
 {
     New-PnPList -Title $listName -Template GenericList
-    Add-PnPField -List $listName -DisplayName "Code" -InternalName "Code" -Type Text -AddToDefaultView
-    Add-PnPField -List $listName -DisplayName "Name" -InternalName "Name" -Type Text -AddToDefaultView
-    Add-PnPField -List $listName -DisplayName "Region" -InternalName "Region" -Type Text -AddToDefaultView
-    Add-PnPField -List $listName -DisplayName "Bic" -InternalName "Bic" -Type Text -AddToDefaultView
-    Add-PnPField -List $listName -DisplayName "Tel" -InternalName "Tel" -Type Text -AddToDefaultView
-    Add-PnPField -List $listName -DisplayName "Fax" -InternalName "Fax" -Type Text -AddToDefaultView
-    Add-PnPField -List $listName -DisplayName "WebSite" -InternalName "WebSite" -Type Text -AddToDefaultView
+    Add-PnPField -List $listName -DisplayName "Code" -InternalName "bankCode" -Type Text -AddToDefaultView
+    Add-PnPField -List $listName -DisplayName "Name" -InternalName "bankName" -Type Text -AddToDefaultView
+    Add-PnPField -List $listName -DisplayName "Region" -InternalName "bankRegion" -Type Text -AddToDefaultView
+    Add-PnPField -List $listName -DisplayName "Bic" -InternalName "bankBic" -Type Text -AddToDefaultView
+    Add-PnPField -List $listName -DisplayName "Tel" -InternalName "bankTel" -Type Text -AddToDefaultView
+    Add-PnPField -List $listName -DisplayName "Fax" -InternalName "bankFax" -Type Text -AddToDefaultView
+    Add-PnPField -List $listName -DisplayName "WebSite" -InternalName "bankWebSite" -Type Text -AddToDefaultView
 }
 catch
 {}
@@ -41,13 +41,13 @@ foreach ($item in $items)
 }
 foreach ($Bank in $Banks){
     Add-PnPListItem -List "BANKS" -Values @{
-        "Code"=$Bank.'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ';
-        "Bic"=$Bank.'SWIFT BIC';                                                   
-        "Name"= $Bank.'ΕΠΙΣΗΜΗ ΟΝΟΜΑΣΙΑ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)';                    
-        "Tel"= $Bank.'ΤΗΛΕΦΩΝΟ ΤΟΥ ΤΗΛΕΦΩΝΙΚΟΥ ΚΕΝΤΡΟΥ';
-        "Fax"= $Bank.'ΚΕΝΤΡΙΚΟFAX';
-        "Region"= $Bank.'ΔΙΕΥΘΥΝΣΗ ΕΔΡΑΣ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)';
-        "WebSite"= $Bank.'ΗΛΕΚΤΡΟΝΙΚΗ ΔΙΕΥΘΥΝΣΗ ΤΟΥ WEBSITE';
+        "bankCode"=$Bank.'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ';
+        "bankBic"=$Bank.'SWIFT BIC';                                                   
+        "bankName"= $Bank.'ΕΠΙΣΗΜΗ ΟΝΟΜΑΣΙΑ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)';                    
+        "bankTel"= $Bank.'ΤΗΛΕΦΩΝΟ ΤΟΥ ΤΗΛΕΦΩΝΙΚΟΥ ΚΕΝΤΡΟΥ';
+        "bankFax"= $Bank.'ΚΕΝΤΡΙΚΟFAX';
+        "bankRegion"= $Bank.'ΔΙΕΥΘΥΝΣΗ ΕΔΡΑΣ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)';
+        "bankWebSite"= $Bank.'ΗΛΕΚΤΡΟΝΙΚΗ ΔΙΕΥΘΥΝΣΗ ΤΟΥ WEBSITE';
     }
 }
 
@@ -56,14 +56,14 @@ $listName = "BRANCHES"
 try
 {
     New-PnPList -Title $listName -Template GenericList
-    Add-PnPField -List $listName -DisplayName "Hebic" -InternalName "Hebic" -Type Text -AddToDefaultView
-    Add-PnPField -List $listName -DisplayName "Name" -InternalName "Name" -Type Text -AddToDefaultView
-    Add-PnPField -List $listName -DisplayName "Region" -InternalName "Region" -Type Text -AddToDefaultView
-    Add-PnPField -List $listName -DisplayName "Address" -InternalName "Address" -Type Text -AddToDefaultView
-    Add-PnPField -List $listName -DisplayName "Tel" -InternalName "Tel" -Type Text -AddToDefaultView
-    Add-PnPField -List $listName -DisplayName "Community" -InternalName "Community" -Type Text -AddToDefaultView
-    Add-PnPField -List $listName -DisplayName "Municipality" -InternalName "Municipality" -Type Text -AddToDefaultView
-    Add-PnPField -List $listName -DisplayName "ZipCode" -InternalName "ZipCode" -Type Text -AddToDefaultView
+    Add-PnPField -List $listName -DisplayName "Hebic" -InternalName "branchHebic" -Type Text -AddToDefaultView
+    Add-PnPField -List $listName -DisplayName "Name" -InternalName "branchName" -Type Text -AddToDefaultView
+    Add-PnPField -List $listName -DisplayName "Region" -InternalName "branchRegion" -Type Text -AddToDefaultView
+    Add-PnPField -List $listName -DisplayName "Address" -InternalName "branchAddress" -Type Text -AddToDefaultView
+    Add-PnPField -List $listName -DisplayName "Tel" -InternalName "branchTel" -Type Text -AddToDefaultView
+    Add-PnPField -List $listName -DisplayName "Community" -InternalName "branchCommunity" -Type Text -AddToDefaultView
+    Add-PnPField -List $listName -DisplayName "Municipality" -InternalName "branchMunicipality" -Type Text -AddToDefaultView
+    Add-PnPField -List $listName -DisplayName "ZipCode" -InternalName "branchZipCode" -Type Text -AddToDefaultView
 }
 catch
 {}
@@ -78,14 +78,14 @@ foreach ($item in $items)
 }
 foreach ($Branch in $Branches){
     Add-PnPListItem -List "BRANCHES" -Values @{
-        "Hebic"=$Branch.'ΚΩΔΙΚΟΣ HEBIC';                                                   
-        "Name"= $Branch.'ΟΝΟΜΑΣΙΑ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)';                    
-        "Region"=$Branch.'ΟΝΟΜΑΣΙΑ ΤΟΠΟΘΕΣΙΑΣ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)';
-        "Address"= $Branch.'Διεύθυνση (οδός, αριθμός) ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)';
-        "Tel"= $Branch.'ΑΡΙΘΜΟΣ ΤΗΛΕΦΩΝΟΥ';
-        "Community"= $Branch.'ΤΑΧΥΔΡΟΜΙΚΗ ΠΕΡΙΟΧΗ (ΕΛΛΗΝΙΚΑ)';
-        "Municipality"= $Branch.'ΔΗΜΟΣ/ΚΟΙΝΟΤΗΤΑ';
-        "ZipCode"= $Branch.'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ'+$Branch.'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
+        "branchHebic"=$Branch.'ΚΩΔΙΚΟΣ HEBIC';                                                   
+        "branchName"= $Branch.'ΟΝΟΜΑΣΙΑ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)';                    
+        "branchRegion"=$Branch.'ΟΝΟΜΑΣΙΑ ΤΟΠΟΘΕΣΙΑΣ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)';
+        "branchAddress"= $Branch.'Διεύθυνση (οδός, αριθμός) ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)';
+        "branchTel"= $Branch.'ΑΡΙΘΜΟΣ ΤΗΛΕΦΩΝΟΥ';
+        "branchCommunity"= $Branch.'ΤΑΧΥΔΡΟΜΙΚΗ ΠΕΡΙΟΧΗ (ΕΛΛΗΝΙΚΑ)';
+        "branchMunicipality"= $Branch.'ΔΗΜΟΣ/ΚΟΙΝΟΤΗΤΑ';
+        "branchZipCode"= $Branch.'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ'+$Branch.'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
     }
 }
 
