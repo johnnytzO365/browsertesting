@@ -81,8 +81,7 @@ if ($list -eq $null)
     {}
 }
 
-Get-Content  $branchesCSV | Out-File $tempBranch -Encoding utf8
-$Branches = import-csv -Delimiter ";" -Path $tempBranch -Encoding Unicode
+$Branches = import-csv -Delimiter ";" -Path $branchesCSV -Encoding UTF8
 
 $items =Get-PnPListItem -List “BRANCHES”
 foreach ($item in $items)
