@@ -10,6 +10,7 @@ using OpenQA.Selenium.Chrome;
 using System.Configuration;
 using System.Security;
 using Microsoft.SharePoint.Client;
+using System.IO;
 
 namespace CookieChecker
 {
@@ -300,22 +301,27 @@ namespace CookieChecker
 
                 var serverRelativeUrl = clientContext.Site.RootWeb.ServerRelativeUrl;
 
-                var name = DateTime.Now.ToString("yyyy/MM/dd");
-                var list = clientContext.Web.GetList("CookieCheckerResults");
-                list.EnableFolderCreation = true;
-                list.Update();
+                //Check and create folder
+                String name = DateTime.Now.ToString("yyyy/MM/dd");
+                Microsoft.SharePoint.Client.List list = clientContext.Web.Lists.GetByTitle("CookieCheckerResults");
+                FolderCollection folders = list.RootFolder.Folders;
+                clientContext.Load(folders);
                 clientContext.ExecuteQuery();
 
-                //To create the folder
-                ListItemCreationInformation itemCreateInfo = new ListItemCreationInformation();
+                var folderExists = folders.Any(X => X.Name == name);
+                if (!folderExists)
+                {
+                    Folder newFolder = folders.Add(name);
+                    clientContext.Load(newFolder);
+                    clientContext.ExecuteQuery();
+                }
 
-                itemCreateInfo.UnderlyingObjectType = FileSystemObjectType.Folder;
-                itemCreateInfo.LeafName = name;
-
-                ListItem newItem = list.AddItem(itemCreateInfo);
-                newItem["Title"] = name;
-                newItem.Update();
-                clientContext.ExecuteQuery();
+                //Add the file
+                String[] Splits = localPath.Split('/');
+                using (FileStream fs = new FileStream(localPath, FileMode.Open))
+                {
+                    Microsoft.SharePoint.Client.File.SaveBinaryDirect(clientContext, "/CookieCheckerResults/"+name+Splits[Splits.Length-1], fs, true);
+                }
             }
         }
     }
