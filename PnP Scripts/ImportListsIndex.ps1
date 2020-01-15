@@ -1,12 +1,12 @@
 ﻿#initializations
-$Url = "http://v000080043:9993/sites/hebic/"
-$banksCSV = "C:\Users\e82331\Desktop\Banks.csv"
-$branchesCSV = "C:\Users\e82331\Desktop\Branches.csv"
+$Url = "http://swisspost.spdev.local"
+$banksCSV = "C:\Users\KyriakiBousiou\Desktop\BANKS.csv"
+$branchesCSV = "C:\Users\KyriakiBousiou\Desktop\BRANCHES.csv"
 
 $ErrorActionPreference = "SilentlyContinue"
 
 #connect
-$UserName = "e82331"
+$UserName = "spsetup"
 $pwd = "p@ssw0rd"
 [SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
@@ -32,7 +32,7 @@ if ($list -eq $null)
     {}
 }
 
-$Banks = import-csv -Delimiter ";" -Path $banksCSV -Encoding ASCII
+$Banks = import-csv -Delimiter ";" -Path $banksCSV -Encoding UTF8
 
 $items =Get-PnPListItem -List “BANKS”
 foreach ($item in $items)
@@ -41,8 +41,16 @@ foreach ($item in $items)
     Remove-PnPListItem -List "BANKS” -Identity $id -Force
 }
 foreach ($Bank in $Banks){
+    if([int]$Bank.'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ' -ge 100)
+    {
+        $code = $Bank.'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ'
+    }
+    else
+    {
+        $code = "0"+$Bank.'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ'
+    }
     Add-PnPListItem -List "BANKS" -Values @{
-        "bankCode"=$Bank.'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ';
+        "bankCode"=$code;
         "bankBic"=$Bank.'SWIFT BIC';                                                   
         "bankName"= $Bank.'ΕΠΙΣΗΜΗ ΟΝΟΜΑΣΙΑ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)';                    
         "bankTel"= $Bank.'ΤΗΛΕΦΩΝΙΚΟ ΚΕΝΤΡΟ';
@@ -73,7 +81,8 @@ if ($list -eq $null)
     {}
 }
 
-$Branches = import-csv -Delimiter ";" -Path $branchesCSV -Encoding Unicode
+Get-Content  $branchesCSV | Out-File $tempBranch -Encoding utf8
+$Branches = import-csv -Delimiter ";" -Path $tempBranch -Encoding Unicode
 
 $items =Get-PnPListItem -List “BRANCHES”
 foreach ($item in $items)
@@ -81,15 +90,39 @@ foreach ($item in $items)
     Remove-PnPListItem -List "BRANCHES” -Identity $item.Id -Force
 }
 foreach ($Branch in $Branches){
+    if([int]$Bank.'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ' -ge 1000000)
+    {
+        $hebic = $Branch.'ΚΩΔΙΚΟΣ HEBIC';
+    }
+    else
+    {
+        $hebic = "0"+$Branch.'ΚΩΔΙΚΟΣ HEBIC';
+    }
+    if([int]$Branch.'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ' -ge 100)
+    {
+        $tk1 = $Branch.'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
+    }
+    else
+    {
+        $tk1 = "0"+$Branch.'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
+    }
+    if([int]$Branch.'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ' -ge 10)
+    {
+        $tk2 = $Branch.'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
+    }
+    else
+    {
+        $tk2 = "0"+$Branch.'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
+    }
     Add-PnPListItem -List "BRANCHES" -Values @{
-        "branchHebic"=$Branch.'ΚΩΔΙΚΟΣ HEBIC';                                                   
+        "branchHebic"=$hebic;                                                   
         "branchName"= $Branch.'ΟΝΟΜΑΣΙΑ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)';                    
         "branchRegion"=$Branch.'ΟΝΟΜΑΣΙΑ ΤΟΠΟΘΕΣΙΑΣ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)';
         "branchAddress"= $Branch.'Διεύθυνση ΕΛΛΗΝΙΚΑ';
         "branchTel"= $Branch.'ΑΡΙΘΜΟΣ ΤΗΛΕΦΩΝΟΥ';
         "branchCommunity"= $Branch.'ΤΑΧΥΔΡΟΜΙΚΗ ΠΕΡΙΟΧΗ (ΕΛΛΗΝΙΚΑ)';
         "branchMunicipality"= $Branch.'ΔΗΜΟΣ/ΚΟΙΝΟΤΗΤΑ';
-        "branchZipCode"= $Branch.'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ'+$Branch.'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
+        "branchZipCode"= $tk1+$tk2;
     }
 }
 
