@@ -1,21 +1,24 @@
 ﻿#initializations
-$Url = "http://v000080043:9993/sites/sp_team_nbg/TestEvretirio/"
-$banksCSV = "C:\Users\e82331\Downloads\BANKS.csv"
-$branchesCSV = "C:\Users\e82331\Downloads\BRANCHES.csv"
+$Url = "http://swisspost.spdev.local"
+$banksCSV = "C:\Users\IoannisTzanos\Downloads\BANKS1.csv"
+$branchesCSV = "C:\Users\IoannisTzanos\Downloads\BRANCHES1.csv"
 $tempBank = "C:\Temp\banks_utf8.csv"
 $tempBranch = "C:\Temp\branches_utf8.csv"
 
 $ErrorActionPreference = "SilentlyContinue"
 
 #connect
-$UserName = "e82331"
+$UserName = "spsetup"
 $pwd = "p@ssw0rd"
 [SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
-$connection = Connect-PnPOnline -Url $Url -Credentials $Credentials
+Connect-PnPOnline -Url $Url -Credentials $Credentials
 
 #create the list
 $listName = "BANKS"
+$list = Get-PnPList $listName
+if ($list -eq $null)
+{
 try
 {
     New-PnPList -Title $listName -Template GenericList
@@ -29,9 +32,9 @@ try
 }
 catch
 {}
+}
 
-Get-Content  $banksCSV | Out-File $tempBank -Encoding utf8
-$Banks = import-csv -Delimiter ";" -Path $tempBank -Encoding Unicode
+$Banks = import-csv -Delimiter ";" -Path $banksCSV -Encoding UTF8
 
 $items =Get-PnPListItem -List “BANKS”
 foreach ($item in $items)
@@ -47,7 +50,7 @@ foreach ($Bank in $Banks){
         "bankTel"= $Bank.'ΤΗΛΕΦΩΝΟ ΤΟΥ ΤΗΛΕΦΩΝΙΚΟΥ ΚΕΝΤΡΟΥ';
         "bankFax"= $Bank.'ΚΕΝΤΡΙΚΟFAX';
         "bankRegion"= $Bank.'ΔΙΕΥΘΥΝΣΗ ΕΔΡΑΣ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)';
-        "bankWebSite"= $Bank.'ΗΛΕΚΤΡΟΝΙΚΗ ΔΙΕΥΘΥΝΣΗ ΤΟΥ WEBSITE';
+        "bankWebSite"= $Bank.'ΗΛΕΚΤΡΟΝΙΚΗ ΔΙΕΥΘΥΝΣΗ-URL';
     }
 }
 
