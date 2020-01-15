@@ -1,12 +1,12 @@
 ﻿#initializations
-$Url = "http://swisspost.spdev.local"
-$banksCSV = "C:\Users\KyriakiBousiou\Desktop\BANKS.csv"
-$branchesCSV = "C:\Users\KyriakiBousiou\Desktop\BRANCHES.csv"
+$Url = "http://v000080043:9993/sites/hebic/"
+$banksCSV = "C:\Users\e82331\Desktop\BANKS.csv"
+$branchesCSV = "C:\Users\e82331\Desktop\BRANCHES.csv"
 
 $ErrorActionPreference = "SilentlyContinue"
 
 #connect
-$UserName = "spsetup"
+$UserName = "e82331"
 $pwd = "p@ssw0rd"
 [SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
@@ -120,7 +120,7 @@ foreach ($Branch in $Branches){
         "branchAddress"= $Branch.'Διεύθυνση ΕΛΛΗΝΙΚΑ';
         "branchTel"= $Branch.'ΑΡΙΘΜΟΣ ΤΗΛΕΦΩΝΟΥ';
         "branchCommunity"= $Branch.'ΤΑΧΥΔΡΟΜΙΚΗ ΠΕΡΙΟΧΗ (ΕΛΛΗΝΙΚΑ)';
-        "branchMunicipality"= $Branch.'ΔΗΜΟΣ/ΚΟΙΝΟΤΗΤΑ';
+        "branchMunicipality"= $Branch.'ΔΗΜΟΣ/ ΚΟΙΝΟΤΗΤΑ';
         "branchZipCode"= $tk1+$tk2;
     }
 }
