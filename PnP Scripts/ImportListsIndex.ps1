@@ -5,6 +5,8 @@ $branchesCSV = "C:\Users\e82331\Downloads\BRANCHES.csv"
 $tempBank = "C:\Temp\banks_utf8.csv"
 $tempBranch = "C:\Temp\branches_utf8.csv"
 
+$ErrorActionPreference = "SilentlyContinue"
+
 #connect
 $UserName = "e82331"
 $pwd = "p@ssw0rd"
@@ -76,13 +78,16 @@ foreach ($item in $items)
 }
 foreach ($Branch in $Branches){
     Add-PnPListItem -List "BRANCHES" -Values @{
-            "Hebic"=$Branch.'ΚΩΔΙΚΟΣ HEBIC';                                                   
-            "Name"= $Branch.'ΟΝΟΜΑΣΙΑ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)';                    
-            "Region"=$Branch.'ΟΝΟΜΑΣΙΑ ΤΟΠΟΘΕΣΙΑΣ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)';
-            "Address"= $Branch.'Διεύθυνση (οδός, αριθμός) ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)';
-            "Tel"= $Branch.'ΑΡΙΘΜΟΣ ΤΗΛΕΦΩΝΟΥ';
-            "Community"= $Branch.'ΤΑΧΥΔΡΟΜΙΚΗ ΠΕΡΙΟΧΗ (ΕΛΛΗΝΙΚΑ)';
-            "Municipality"= $Branch.'ΔΗΜΟΣ/ΚΟΙΝΟΤΗΤΑ';
-            "ZipCode"= $Branch.'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ'+$Branch.'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
-        }
+        "Hebic"=$Branch.'ΚΩΔΙΚΟΣ HEBIC';                                                   
+        "Name"= $Branch.'ΟΝΟΜΑΣΙΑ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)';                    
+        "Region"=$Branch.'ΟΝΟΜΑΣΙΑ ΤΟΠΟΘΕΣΙΑΣ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)';
+        "Address"= $Branch.'Διεύθυνση (οδός, αριθμός) ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)';
+        "Tel"= $Branch.'ΑΡΙΘΜΟΣ ΤΗΛΕΦΩΝΟΥ';
+        "Community"= $Branch.'ΤΑΧΥΔΡΟΜΙΚΗ ΠΕΡΙΟΧΗ (ΕΛΛΗΝΙΚΑ)';
+        "Municipality"= $Branch.'ΔΗΜΟΣ/ΚΟΙΝΟΤΗΤΑ';
+        "ZipCode"= $Branch.'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ'+$Branch.'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
+    }
 }
+
+Remove-Item -Path $tempBank -Force
+Remove-Item -Path $tempBranch -Force
