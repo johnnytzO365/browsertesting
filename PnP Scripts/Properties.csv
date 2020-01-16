@@ -1,0 +1,16 @@
+﻿Column1;Column2
+ows_bankCode;bankCode
+ows_bankName;bankName
+ows_bankRegion;bankRegiom
+ows_bankBic;bankBic
+ows_bankTel;bankTel
+ows_bankFax;bankFax
+ows_bankWebSite;bankWebSite
+ows_branchHebic;branchHebic
+ows_branchName;branchName
+ows_branchRegion;branchRegion
+ows_branchAddress;branchAddress
+ows_branchTel;branchTel
+ows_branchCommunity;branchCommunity
+ows_branchMunicipality;branchMunicipality
+ows_branchZipCode;branchZipCode
