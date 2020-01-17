@@ -11,6 +11,7 @@ using System.Configuration;
 using System.Security;
 using Microsoft.SharePoint.Client;
 using System.IO;
+using System.Net;
 
 namespace CookieChecker
 {
@@ -96,13 +97,13 @@ namespace CookieChecker
                             }
                         }
                     }
-                   
+
                 }
-                int number=driver.Manage().Cookies.AllCookies.Count;
-                List<Cookie> cooks = driver.Manage().Cookies.AllCookies.ToList();
+                int number = driver.Manage().Cookies.AllCookies.Count;
+                List<OpenQA.Selenium.Cookie> cooks = driver.Manage().Cookies.AllCookies.ToList();
                 oSheet.Cells[counter, 1] = line;
                 oSheet.Cells[counter, 2] = number;
-                foreach (Cookie cook in cooks)
+                foreach (OpenQA.Selenium.Cookie cook in cooks)
                 {
                     TestForNewCookies(cook);
                     oSheet.Cells[counter, c2] = cook.Name;
@@ -187,10 +188,10 @@ namespace CookieChecker
 
                 }
                 int number = driver.Manage().Cookies.AllCookies.Count;
-                List<Cookie> cooks = driver.Manage().Cookies.AllCookies.ToList();
+                List<OpenQA.Selenium.Cookie> cooks = driver.Manage().Cookies.AllCookies.ToList();
                 oSheet.Cells[counter, 1] = line;
                 oSheet.Cells[counter, 2] = number;
-                foreach (Cookie cook in cooks)
+                foreach (OpenQA.Selenium.Cookie cook in cooks)
                 {
                     TestForNewCookies(cook);
                     oSheet.Cells[counter, c2] = cook.Name;
@@ -236,10 +237,10 @@ namespace CookieChecker
                 driver.Navigate().GoToUrl(line);
 
                 int number = driver.Manage().Cookies.AllCookies.Count;
-                List<Cookie> cooks = driver.Manage().Cookies.AllCookies.ToList();
+                List<OpenQA.Selenium.Cookie> cooks = driver.Manage().Cookies.AllCookies.ToList();
                 oSheet.Cells[counter, 1] = line;
                 oSheet.Cells[counter, 2] = number;
-                foreach (Cookie cook in cooks)
+                foreach (OpenQA.Selenium.Cookie cook in cooks)
                 {
                     TestForNewCookies(cook);
                     oSheet.Cells[counter, c2] = cook.Name;
@@ -260,35 +261,15 @@ namespace CookieChecker
             uploadToTeamSite(ConfigurationManager.AppSettings["ChromeOutputFileDef"]);
         }
 
-        [TearDown]
-        public void CloseBrowser()
+        [Test]
+        public void uploadToTeamSite1()
         {
-            driver.Quit();
-        }
-
-        public void TestForNewCookies(Cookie cook ) {
-            if (cook.Name != "NBGPUBLICConsent" && cook.Name != "NBGpublicSite" && cook.Name != "WSS_FullScreenMode" && cook.Name != "_ga" && cook.Name != "_gat"
-                            && cook.Name != "_gid" && cook.Name != "Consent" && cook.Name != "NID")
-            {
-                Console.Write(cook.Name);
-            }
-        }
-
-        public void uploadToTeamSite(String localPath)
-        {
+            String localPath = @"C:\Users\e82331\Desktop\Git\browsertesting\CookieChecker\Chrome-CookiesDef.xlsx";
             var siteUrl = "http://v000080043:9993/sites/sp_team_nbg/";
-            var userName = ConfigurationManager.AppSettings["username"];
-            var password = ConfigurationManager.AppSettings["password"];
             using (ClientContext clientContext = new ClientContext(siteUrl))
             {
-                SecureString securePassword = new SecureString();
-                foreach (char c in password.ToCharArray())
-                {
-                    securePassword.AppendChar(c);
-                }
-                clientContext.AuthenticationMode = ClientAuthenticationMode.Default;
-                clientContext.Credentials = new SharePointOnlineCredentials(userName, securePassword);
-
+                NetworkCredential _myCredentials = new NetworkCredential("e82331", "p@ssw0rd");
+                clientContext.Credentials = _myCredentials;
                 clientContext.ExecuteQuery();
 
                 var ServerVersion = clientContext.ServerLibraryVersion.Major;
@@ -302,7 +283,7 @@ namespace CookieChecker
                 var serverRelativeUrl = clientContext.Site.RootWeb.ServerRelativeUrl;
 
                 //Check and create folder
-                String name = DateTime.Now.ToString("yyyy/MM/dd");
+                String name = DateTime.Now.ToString("yyyy.MM.dd");
                 Microsoft.SharePoint.Client.List list = clientContext.Web.Lists.GetByTitle("CookieCheckerResults");
                 FolderCollection folders = list.RootFolder.Folders;
                 clientContext.Load(folders);
@@ -317,10 +298,68 @@ namespace CookieChecker
                 }
 
                 //Add the file
-                String[] Splits = localPath.Split('/');
+                String[] Splits = localPath.Split('\\');
                 using (FileStream fs = new FileStream(localPath, FileMode.Open))
                 {
-                    Microsoft.SharePoint.Client.File.SaveBinaryDirect(clientContext, "/CookieCheckerResults/"+name+Splits[Splits.Length-1], fs, true);
+                    Microsoft.SharePoint.Client.File.SaveBinaryDirect(clientContext, "/sites/sp_team_nbg/CookieCheckerResults/" + name + "/" + Splits[Splits.Length - 1], fs, true);
+                }
+            }
+        }
+
+        [TearDown]
+        public void CloseBrowser()
+        {
+            driver.Quit();
+        }
+
+        public void TestForNewCookies(OpenQA.Selenium.Cookie cook)
+        {
+            if (cook.Name != "NBGPUBLICConsent" && cook.Name != "NBGpublicSite" && cook.Name != "WSS_FullScreenMode" && cook.Name != "_ga" && cook.Name != "_gat"
+                            && cook.Name != "_gid" && cook.Name != "Consent" && cook.Name != "NID")
+            {
+                Console.Write(cook.Name);
+            }
+        }
+
+        public void uploadToTeamSite(String localPath)
+        {
+            var siteUrl = "http://v000080043:9993/sites/sp_team_nbg/";
+            using (ClientContext clientContext = new ClientContext(siteUrl))
+            {
+                NetworkCredential _myCredentials = new NetworkCredential("e82331", "p@ssw0rd");
+                clientContext.Credentials = _myCredentials;
+                clientContext.ExecuteQuery();
+
+                var ServerVersion = clientContext.ServerLibraryVersion.Major;
+
+                var site = clientContext.Site;
+                var web = clientContext.Site.RootWeb;
+
+                clientContext.Load(web, w => w.ServerRelativeUrl);
+                clientContext.ExecuteQuery();
+
+                var serverRelativeUrl = clientContext.Site.RootWeb.ServerRelativeUrl;
+
+                //Check and create folder
+                String name = DateTime.Now.ToString("yyyy.MM.dd");
+                Microsoft.SharePoint.Client.List list = clientContext.Web.Lists.GetByTitle("CookieCheckerResults");
+                FolderCollection folders = list.RootFolder.Folders;
+                clientContext.Load(folders);
+                clientContext.ExecuteQuery();
+
+                var folderExists = folders.Any(X => X.Name == name);
+                if (!folderExists)
+                {
+                    Folder newFolder = folders.Add(name);
+                    clientContext.Load(newFolder);
+                    clientContext.ExecuteQuery();
+                }
+
+                //Add the file
+                String[] Splits = localPath.Split('\\');
+                using (FileStream fs = new FileStream(localPath, FileMode.Open))
+                {
+                    Microsoft.SharePoint.Client.File.SaveBinaryDirect(clientContext, "/sites/sp_team_nbg/CookieCheckerResults/" + name + "/" + Splits[Splits.Length - 1], fs, true);
                 }
             }
         }
