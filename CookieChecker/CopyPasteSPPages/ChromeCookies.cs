@@ -261,51 +261,6 @@ namespace CookieChecker
             uploadToTeamSite(ConfigurationManager.AppSettings["ChromeOutputFileDef"]);
         }
 
-        [Test]
-        public void uploadToTeamSite1()
-        {
-            String localPath = @"C:\Users\e82331\Desktop\Git\browsertesting\CookieChecker\Chrome-CookiesDef.xlsx";
-            var siteUrl = "http://v000080043:9993/sites/sp_team_nbg/";
-            using (ClientContext clientContext = new ClientContext(siteUrl))
-            {
-                NetworkCredential _myCredentials = new NetworkCredential("e82331", "p@ssw0rd");
-                clientContext.Credentials = _myCredentials;
-                clientContext.ExecuteQuery();
-
-                var ServerVersion = clientContext.ServerLibraryVersion.Major;
-
-                var site = clientContext.Site;
-                var web = clientContext.Site.RootWeb;
-
-                clientContext.Load(web, w => w.ServerRelativeUrl);
-                clientContext.ExecuteQuery();
-
-                var serverRelativeUrl = clientContext.Site.RootWeb.ServerRelativeUrl;
-
-                //Check and create folder
-                String name = DateTime.Now.ToString("yyyy.MM.dd");
-                Microsoft.SharePoint.Client.List list = clientContext.Web.Lists.GetByTitle("CookieCheckerResults");
-                FolderCollection folders = list.RootFolder.Folders;
-                clientContext.Load(folders);
-                clientContext.ExecuteQuery();
-
-                var folderExists = folders.Any(X => X.Name == name);
-                if (!folderExists)
-                {
-                    Folder newFolder = folders.Add(name);
-                    clientContext.Load(newFolder);
-                    clientContext.ExecuteQuery();
-                }
-
-                //Add the file
-                String[] Splits = localPath.Split('\\');
-                using (FileStream fs = new FileStream(localPath, FileMode.Open))
-                {
-                    Microsoft.SharePoint.Client.File.SaveBinaryDirect(clientContext, "/sites/sp_team_nbg/CookieCheckerResults/" + name + "/" + Splits[Splits.Length - 1], fs, true);
-                }
-            }
-        }
-
         [TearDown]
         public void CloseBrowser()
         {
