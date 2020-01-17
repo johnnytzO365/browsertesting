@@ -1,12 +1,12 @@
 ﻿#initializations
-$Url = "http://v000080043:9993/sites/hebic/"
-$banksCSV = "C:\Users\e82331\Desktop\BANKS.csv"
-$branchesCSV = "C:\Users\e82331\Desktop\BRANCHES.csv"
+$Url = "http://swisspost.spdev.local/"
+$banksCSV = "C:\Users\TheocharisGIANNOPOUL\Desktop\BANKS.csv"
+$branchesCSV = "C:\Users\TheocharisGIANNOPOUL\Desktop\BRANCHES.csv"
 
 $ErrorActionPreference = "SilentlyContinue"
 
 #connect
-$UserName = "e82331"
+$UserName = "spsetup"
 $pwd = "p@ssw0rd"
 [SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
@@ -38,8 +38,9 @@ $items =Get-PnPListItem -List “BANKS”
 foreach ($item in $items)
 {
     $id = Get-PnPProperty -ClientObject $item -Property Id
-    Remove-PnPListItem -List "BANKS” -Identity $id -Force
+    Remove-PnPListItem -List “BANKS” -Identity $id -Force
 }
+
 foreach ($Bank in $Banks){
     if([int]$Bank.'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ' -ge 100)
     {
@@ -49,14 +50,69 @@ foreach ($Bank in $Banks){
     {
         $code = "0"+$Bank.'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ'
     }
+	
+	if(!$Bank.'SWIFT BIC' )
+    {
+        $bic = "-"
+    }
+    else
+    {
+        $bic = $Bank.'SWIFT BIC'
+    }
+	
+	if(!$Bank.'ΕΠΙΣΗΜΗ ΟΝΟΜΑΣΙΑ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)' )
+    {
+        $name = "-"
+    }
+    else
+    {
+        $name = $Bank.'ΕΠΙΣΗΜΗ ΟΝΟΜΑΣΙΑ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)'
+    }
+	
+	if(!$Bank.'ΤΗΛΕΦΩΝΙΚΟ ΚΕΝΤΡΟ' )
+    {
+        $tel = "-"
+    }
+    else
+    {
+        $tel = $Bank.'ΤΗΛΕΦΩΝΙΚΟ ΚΕΝΤΡΟ'
+    }
+	
+	if(!$Bank.'ΚΕΝΤΡΙΚΟFAX' )
+    {
+        $fax = "-"
+    }
+    else
+    {
+        $fax = $Bank.'ΚΕΝΤΡΙΚΟFAX'
+    }
+	
+	if(!$Bank.'ΔΙΕΥΘΥΝΣΗ ΕΔΡΑΣ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)' )
+    {
+        $region = "-"
+    }
+    else
+    {
+        $region = $Bank.'ΔΙΕΥΘΥΝΣΗ ΕΔΡΑΣ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)'
+    }
+	
+	if(!$Bank.'ΗΛΕΚΤΡΟΝΙΚΗ ΔΙΕΥΘΥΝΣΗ-URL' )
+    {
+        $website = "-"
+    }
+    else
+    {
+        $website = $Bank.'ΗΛΕΚΤΡΟΝΙΚΗ ΔΙΕΥΘΥΝΣΗ-URL'
+    }
+	
     Add-PnPListItem -List "BANKS" -Values @{
         "bankCode"=$code;
-        "bankBic"=$Bank.'SWIFT BIC';                                                   
-        "bankName"= $Bank.'ΕΠΙΣΗΜΗ ΟΝΟΜΑΣΙΑ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)';                    
-        "bankTel"= $Bank.'ΤΗΛΕΦΩΝΙΚΟ ΚΕΝΤΡΟ';
-        "bankFax"= $Bank.'ΚΕΝΤΡΙΚΟFAX';
-        "bankRegion"= $Bank.'ΔΙΕΥΘΥΝΣΗ ΕΔΡΑΣ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)';
-        "bankWebSite"= $Bank.'ΗΛΕΚΤΡΟΝΙΚΗ ΔΙΕΥΘΥΝΣΗ-URL';
+        "bankBic"=$bic;                                                   
+        "bankName"= $name;                    
+        "bankTel"= $tel;
+        "bankFax"= $fax;
+        "bankRegion"= $region;
+        "bankWebSite"= $website;
     }
 }
 
@@ -86,7 +142,7 @@ $Branches = import-csv -Delimiter ";" -Path $branchesCSV -Encoding UTF8
 $items =Get-PnPListItem -List “BRANCHES”
 foreach ($item in $items)
 {
-    Remove-PnPListItem -List "BRANCHES” -Identity $item.Id -Force
+    Remove-PnPListItem -List "BRANCHES" -Identity $item.Id -Force
 }
 foreach ($Branch in $Branches){
     if([int]$Bank.'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ' -ge 1000000)
@@ -113,14 +169,68 @@ foreach ($Branch in $Branches){
     {
         $tk2 = "0"+$Branch.'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
     }
+	
+	if(!$Branch.'ΟΝΟΜΑΣΙΑ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)' )
+    {
+        $name = "-"
+    }
+    else
+    {
+        $name = $Branch.'ΟΝΟΜΑΣΙΑ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)'
+    }
+	
+	if(!$Branch.'ΟΝΟΜΑΣΙΑ ΤΟΠΟΘΕΣΙΑΣ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)' )
+    {
+        $region = "-"
+    }
+    else
+    {
+        $region = $Branch.'ΟΝΟΜΑΣΙΑ ΤΟΠΟΘΕΣΙΑΣ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)'
+    }
+	
+	if(!$Branch.'Διεύθυνση ΕΛΛΗΝΙΚΑ' )
+    {
+        $address = "-"
+    }
+    else
+    {
+        $address = $Branch.'Διεύθυνση ΕΛΛΗΝΙΚΑ'
+    }
+		
+	if(!$Branch.'ΑΡΙΘΜΟΣ ΤΗΛΕΦΩΝΟΥ' )
+    {
+        $tel = "-"
+    }
+    else
+    {
+        $tel = $Branch.'ΑΡΙΘΜΟΣ ΤΗΛΕΦΩΝΟΥ'
+    }
+			
+	if(!$Branch.'ΤΑΧΥΔΡΟΜΙΚΗ ΠΕΡΙΟΧΗ (ΕΛΛΗΝΙΚΑ)' )
+    {
+        $community = "-"
+    }
+    else
+    {
+        $community = $Branch.'ΤΑΧΥΔΡΟΜΙΚΗ ΠΕΡΙΟΧΗ (ΕΛΛΗΝΙΚΑ)'
+    }	
+	
+	if(!$Branch.'ΔΗΜΟΣ/ ΚΟΙΝΟΤΗΤΑ' )
+    {
+        $municipality = "-"
+    }
+    else
+    {
+        $municipality = $Branch.'ΔΗΜΟΣ/ ΚΟΙΝΟΤΗΤΑ'
+    }
     Add-PnPListItem -List "BRANCHES" -Values @{
         "branchHebic"=$hebic;                                                   
-        "branchName"= $Branch.'ΟΝΟΜΑΣΙΑ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)';                    
-        "branchRegion"=$Branch.'ΟΝΟΜΑΣΙΑ ΤΟΠΟΘΕΣΙΑΣ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)';
-        "branchAddress"= $Branch.'Διεύθυνση ΕΛΛΗΝΙΚΑ';
-        "branchTel"= $Branch.'ΑΡΙΘΜΟΣ ΤΗΛΕΦΩΝΟΥ';
-        "branchCommunity"= $Branch.'ΤΑΧΥΔΡΟΜΙΚΗ ΠΕΡΙΟΧΗ (ΕΛΛΗΝΙΚΑ)';
-        "branchMunicipality"= $Branch.'ΔΗΜΟΣ/ ΚΟΙΝΟΤΗΤΑ';
+        "branchName"= $name;                    
+        "branchRegion"=$region;
+        "branchAddress"= $address;
+        "branchTel"= $tel;
+        "branchCommunity"= $community;
+        "branchMunicipality"= $municipality;
         "branchZipCode"= $tk1+$tk2;
     }
 }
