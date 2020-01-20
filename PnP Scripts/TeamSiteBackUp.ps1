@@ -28,6 +28,7 @@ function ProcessFolder($docUrl,$targetPath)
     For ($i = 0; $i -lt $total; $i++) 
     {
         $file = $folder.Files[$i]
+        Get-PnPFile -ServerRelativeUrl $file.ServerRelativeUrl -Path $targetPath -FileName $file.Name -AsFile -Force
     }
 }
 
