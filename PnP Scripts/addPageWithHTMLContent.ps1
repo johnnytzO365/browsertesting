@@ -21,7 +21,7 @@
 
 #-----------------------------------[Initialisations]----------------------------------------------------------
 Import-Module SharePointPnPPowerShellOnline
-Import-Module 'C:\Users\KyriakiBousiou\Desktop\PnP Powershell Scripts\WriteLogModule.psm1'
+Import-Module 'C:\Users\e82331\Desktop\Git\browsertesting\PnP Scripts\WriteLogModule.psm1'
 $ErrorActionPreference = "SilentlyContinue"
 
 #----------------------------------[Declarations]--------------------------------------------------------------
@@ -33,7 +33,7 @@ $LogPath = "C:\Users\KyriakiBousiou\Desktop\PnP Powershell Scripts\Log.log"
 #--------------------------------------[Execution]------------------------------------------------------------
 #Connect
 $UserName = "sindy@bousiou.onmicrosoft.com"
-$pwd = "Gld9q_31"
+$pwd = "Y?Ugjxgar"
 [SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
 $Url = "https://bousiou.sharepoint.com/sites/communicationTest"
@@ -81,6 +81,9 @@ for($i=$startline;$i -le $currentRowCount;$i++) {
         Add-PnPClientSideText -Page $pageName -Text $newhtml
         Set-PnPClientSidePage -Identity $pageName -Title $pageTitle
         Set-PnPListItem -List "SitePages" -Identity $page.PageListItem.Id -Values @{"Category"=$category}
+        Set-PnPClientSidePage -Identity $page -ThumbnailUrl ""    #insert server relative url, for thumbnail
+        $page.SetCustomPageHeader("")     #insert server relative url, for banner
+        $page.Save()
         Set-PnPClientSidePage -Identity $pageName -Publish
         Write-Log -Message "$title : Completed successfully" -Path $LogPath -Level Info
     }
