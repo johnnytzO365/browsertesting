@@ -5,13 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-using System.Threading;
 using OpenQA.Selenium.Chrome;
 using System.Configuration;
-using System.Security;
 using Microsoft.SharePoint.Client;
 using System.IO;
 using System.Net;
+using Microsoft.Office.Interop.Excel;
+using SendGrid.SmtpApi;
+using System.Net.Mail;
+using Microsoft.SharePoint.Client.Utilities;
+using System.Security;
 
 namespace CookieChecker
 {
@@ -33,13 +36,13 @@ namespace CookieChecker
             String line;
             System.IO.StreamReader infile = new System.IO.StreamReader(ConfigurationManager.AppSettings["DomainsNames"]);
 
-            Microsoft.Office.Interop.Excel.Application oXL;
-            Microsoft.Office.Interop.Excel._Workbook oWB;
-            Microsoft.Office.Interop.Excel._Worksheet oSheet;
-            oXL = new Microsoft.Office.Interop.Excel.Application();
+            Application oXL;
+            Workbook oWB;
+            Worksheet oSheet;
+            oXL = new Application();
             oXL.Visible = true;
-            oWB = (Microsoft.Office.Interop.Excel._Workbook)(oXL.Workbooks.Add(""));
-            oSheet = (Microsoft.Office.Interop.Excel._Worksheet)oWB.ActiveSheet;
+            oWB = oXL.Workbooks.Add("");
+            oSheet = oWB.ActiveSheet;
 
             oSheet.Cells[1, 1] = "Domain";
             oSheet.Cells[1, 2] = "Cookies";
@@ -121,7 +124,11 @@ namespace CookieChecker
             oWB.SaveAs(ConfigurationManager.AppSettings["ChromeOutputFileAc"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
-            uploadToTeamSite(ConfigurationManager.AppSettings["ChromeOutputFileAc"]);
+            String path = uploadToTeamSite(ConfigurationManager.AppSettings["ChromeOutputFileAc"]);
+            if (!(TestFile(@"X:\Sample\Chrome-CookiesAccept.xlsx", ConfigurationManager.AppSettings["ChromeOutputFileAc"])))
+            {
+                SendEmail(path, "Chrome Cookies -> Accept");
+            }
         }
 
         [Test]
@@ -130,13 +137,13 @@ namespace CookieChecker
             String line;
             System.IO.StreamReader infile = new System.IO.StreamReader(ConfigurationManager.AppSettings["DomainsNames"]);
 
-            Microsoft.Office.Interop.Excel.Application oXL;
-            Microsoft.Office.Interop.Excel._Workbook oWB;
-            Microsoft.Office.Interop.Excel._Worksheet oSheet;
-            oXL = new Microsoft.Office.Interop.Excel.Application();
+            Application oXL;
+            Workbook oWB;
+            Worksheet oSheet;
+            oXL = new Application();
             oXL.Visible = true;
-            oWB = (Microsoft.Office.Interop.Excel._Workbook)(oXL.Workbooks.Add(""));
-            oSheet = (Microsoft.Office.Interop.Excel._Worksheet)oWB.ActiveSheet;
+            oWB = oXL.Workbooks.Add("");
+            oSheet = oWB.ActiveSheet;
 
             oSheet.Cells[1, 1] = "Domain";
             oSheet.Cells[1, 2] = "Cookies";
@@ -210,7 +217,11 @@ namespace CookieChecker
             oWB.Close();
             oXL.Quit();
 
-            uploadToTeamSite(ConfigurationManager.AppSettings["ChromeOutputFileRej"]);
+            String path = uploadToTeamSite(ConfigurationManager.AppSettings["ChromeOutputFileRej"]);
+            if (!(TestFile(@"X:\Sample\Chrome-CookiesRej.xlsx", ConfigurationManager.AppSettings["ChromeOutputFileRej"])))
+            {
+                SendEmail(path, "Chrome Cookies -> Reject");
+            }
         }
 
         [Test]
@@ -219,13 +230,13 @@ namespace CookieChecker
             String line;
             System.IO.StreamReader infile = new System.IO.StreamReader(ConfigurationManager.AppSettings["DomainsNames"]);
 
-            Microsoft.Office.Interop.Excel.Application oXL;
-            Microsoft.Office.Interop.Excel._Workbook oWB;
-            Microsoft.Office.Interop.Excel._Worksheet oSheet;
-            oXL = new Microsoft.Office.Interop.Excel.Application();
+            Application oXL;
+            Workbook oWB;
+            Worksheet oSheet;
+            oXL = new Application();
             oXL.Visible = true;
-            oWB = (Microsoft.Office.Interop.Excel._Workbook)(oXL.Workbooks.Add(""));
-            oSheet = (Microsoft.Office.Interop.Excel._Worksheet)oWB.ActiveSheet;
+            oWB = (Workbook)(oXL.Workbooks.Add(""));
+            oSheet = (Worksheet)oWB.ActiveSheet;
 
             oSheet.Cells[1, 1] = "Domain";
             oSheet.Cells[1, 2] = "Cookies";
@@ -258,9 +269,13 @@ namespace CookieChecker
             oWB.SaveAs(ConfigurationManager.AppSettings["ChromeOutputFileDef"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
-            uploadToTeamSite(ConfigurationManager.AppSettings["ChromeOutputFileDef"]);
+            String path = uploadToTeamSite(ConfigurationManager.AppSettings["ChromeOutputFileDef"]);
+            if (!(TestFile(@"X:\Sample\Chrome-CookiesDef.xlsx", ConfigurationManager.AppSettings["ChromeOutputFileDef"])))
+            {
+                SendEmail(path,"Chrome Cookies -> Default");
+            }
         }
-
+        
         [TearDown]
         public void CloseBrowser()
         {
@@ -276,7 +291,7 @@ namespace CookieChecker
             }
         }
 
-        public void uploadToTeamSite(String localPath)
+        public String uploadToTeamSite(String localPath)
         {
             var siteUrl = "http://v000080043:9993/sites/sp_team_nbg/";
             using (ClientContext clientContext = new ClientContext(siteUrl))
@@ -316,7 +331,88 @@ namespace CookieChecker
                 {
                     Microsoft.SharePoint.Client.File.SaveBinaryDirect(clientContext, "/sites/sp_team_nbg/CookieCheckerResults/" + name + "/" + Splits[Splits.Length - 1], fs, true);
                 }
+
+                return "http://v000080043:9993/sites/sp_team_nbg/CookieCheckerResults/" + name;
             }
+        }
+
+        public bool TestFile(String path1,String path2)
+        {
+            Application excel1 = new Application();
+            Workbook wb1 = excel1.Workbooks.Open(path1);
+            Worksheet sheet1 = wb1.ActiveSheet;
+
+            Application excel2 = new Application();
+            Workbook wb2 = excel2.Workbooks.Open(path2);
+            Worksheet sheet2 = wb2.ActiveSheet;
+
+            int row1 = sheet1.Cells.Find("*", System.Reflection.Missing.Value,
+                                           System.Reflection.Missing.Value, System.Reflection.Missing.Value,
+                                           XlSearchOrder.xlByRows, XlSearchDirection.xlPrevious,
+                                           false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+            int column1 = sheet1.Cells.Find("*", System.Reflection.Missing.Value,
+                                           System.Reflection.Missing.Value, System.Reflection.Missing.Value,
+                                           XlSearchOrder.xlByColumns, XlSearchDirection.xlPrevious,
+                                           false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+            int row2 = sheet2.Cells.Find("*", System.Reflection.Missing.Value,
+                                           System.Reflection.Missing.Value, System.Reflection.Missing.Value,
+                                           XlSearchOrder.xlByRows, XlSearchDirection.xlPrevious,
+                                           false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+            int column2 = sheet2.Cells.Find("*", System.Reflection.Missing.Value,
+                                           System.Reflection.Missing.Value, System.Reflection.Missing.Value,
+                                           XlSearchOrder.xlByColumns, XlSearchDirection.xlPrevious,
+                                           false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
+            if ((row1 != row2) || (column1 != column2))
+            {
+                return false;
+            }
+            for (int i = 1; i <= row1; i++)
+            {
+                for (int j = 1; j <= column1; j++)
+                {
+                    String str1 = "";
+                    String str2 = "";
+                    if (sheet1.Cells[i, j].Value2 != null)
+                    {
+                        str1 = sheet1.Cells[i, j].Value2.ToString();
+                    }
+                    if (sheet2.Cells[i, j].Value2 != null)
+                    {
+                        str2 = sheet2.Cells[i, j].Value2.ToString();
+                    }
+                    if (!(str1.Equals(str2)))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public void SendEmail(String path,String test)
+        {
+            string ServiceSiteUrl = "https://groupnbg.sharepoint.com/";
+            string ServiceUserName = "e82331@nbg.gr";
+            string ServicePassword = "p@ssw0rd";
+
+            var securePassword = new SecureString();
+            foreach (char c in ServicePassword)
+            {
+                securePassword.AppendChar(c);
+            }
+
+            var onlineCredentials = new SharePointOnlineCredentials(ServiceUserName, securePassword);
+
+            var context = new ClientContext(ServiceSiteUrl);
+            context.Credentials = onlineCredentials;
+            context.ExecuteQuery();
+            var emailp = new EmailProperties();
+            emailp.To = new List<string> { "e82331@nbg.gr" };
+            emailp.From = "e82331@nbg.gr";
+            emailp.Body = "Something went wrong with Cookie Checker Results in test "+test+". Click <a href=\"" + path + "\">here</a> to check.";
+            emailp.Subject = "Cookie Checker Results problem!";
+            Utility.SendEmail(context, emailp);
+            context.ExecuteQuery();
         }
     }
 }
