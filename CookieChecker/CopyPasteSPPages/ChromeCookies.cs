@@ -273,15 +273,9 @@ namespace CookieChecker
         }
 
         [Test]
-        public void TestEncrypt()
+        public void TestSendEmail()
         {
-            var secretSection = ConfigurationManager.GetSection("localSecrets") as NameValueCollection;
-            string secret;
-            if (secretSection != null)
-            {
-                secret = secretSection["Password"]?.ToString();
-                Console.WriteLine("{0}", secret);
-            }
+            Utilities.SendEmail("path", "test");
         }
 
 

@@ -3,6 +3,7 @@ using Microsoft.SharePoint.Client;
 using Microsoft.SharePoint.Client.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -14,10 +15,18 @@ namespace CopyPasteSPPages
     {
         static public String UploadToTeamSite(String localPath)
         {
-            var siteUrl = "http://v000080043:9993/sites/sp_team_nbg/";
+            var siteUrl = ConfigurationManager.AppSettings["teamSiteUrl"];
             using (ClientContext clientContext = new ClientContext(siteUrl))
             {
-                NetworkCredential _myCredentials = new NetworkCredential("e82331", "p@ssw0rd");
+                string username = ConfigurationManager.AppSettings["username"];
+
+                //decrypt password
+                string base64Encoded = ConfigurationManager.AppSettings["password"];
+                string password;
+                byte[] data = System.Convert.FromBase64String(base64Encoded);
+                password = System.Text.ASCIIEncoding.ASCII.GetString(data);
+
+                NetworkCredential _myCredentials = new NetworkCredential(username, password);
                 clientContext.Credentials = _myCredentials;
                 clientContext.ExecuteQuery();
 
@@ -54,7 +63,7 @@ namespace CopyPasteSPPages
                     Microsoft.SharePoint.Client.File.SaveBinaryDirect(clientContext, "/sites/sp_team_nbg/CookieCheckerResults/" + name + "/" + Splits[Splits.Length - 1], fs, true);
                 }
 
-                return "http://v000080043:9993/sites/sp_team_nbg/CookieCheckerResults/" + name;
+                return ConfigurationManager.AppSettings["teamSiteUrl"]+"/CookieCheckerResults/" + name;
             }
         }
 
@@ -113,9 +122,14 @@ namespace CopyPasteSPPages
 
         static public void SendEmail(String path, String test)
         {
-            string ServiceSiteUrl = "https://groupnbg.sharepoint.com/";
-            string ServiceUserName = "e82331@nbg.gr";
-            string ServicePassword = "p@ssw0rd";
+            string ServiceSiteUrl = ConfigurationManager.AppSettings["sharepointOnline"];
+            string ServiceUserName = ConfigurationManager.AppSettings["SPOUsername"];
+
+            //decrypt password
+            string base64Encoded = ConfigurationManager.AppSettings["SPOPassword"];
+            string ServicePassword;
+            byte[] data = System.Convert.FromBase64String(base64Encoded);
+            ServicePassword = System.Text.ASCIIEncoding.ASCII.GetString(data);
 
             var securePassword = new SecureString();
             foreach (char c in ServicePassword)
@@ -128,9 +142,11 @@ namespace CopyPasteSPPages
             var context = new ClientContext(ServiceSiteUrl);
             context.Credentials = onlineCredentials;
             context.ExecuteQuery();
+
+            List<string> mailRecipients = ConfigurationManager.AppSettings["mailRecipients"].Split(';').ToList();
             var emailp = new EmailProperties();
-            emailp.To = new List<string> { "e82331@nbg.gr" };
-            emailp.From = "e82331@nbg.gr";
+            emailp.To = mailRecipients ;
+            emailp.From = ConfigurationManager.AppSettings["SPOUsername"];
             emailp.Body = "Something went wrong with Cookie Checker Results in test " + test + ". Click <a href=\"" + path + "\">here</a> to check.";
             emailp.Subject = "Cookie Checker Results problem!";
             Utility.SendEmail(context, emailp);
