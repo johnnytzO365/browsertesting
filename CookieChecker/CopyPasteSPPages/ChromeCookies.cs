@@ -272,13 +272,6 @@ namespace CookieChecker
             }
         }
 
-        [Test]
-        public void TestSendEmail()
-        {
-            Utilities.SendEmail("path", "test");
-        }
-
-
         [TearDown]
         public void CloseBrowser()
         {

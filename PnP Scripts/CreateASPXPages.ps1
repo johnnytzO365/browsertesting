@@ -81,7 +81,9 @@ for($i=$startline;$i -le $currentRowCount;$i++) {
     $pageName = $title.Substring(0,4)
     $pageTitle = $title.Substring(7,$title.Length-7)
     $category = $workSheet.Cells($i,3).Text
-    $html = $workSheet.Cells($i,4).Value2
+    $date = $workSheet.Cells($i,4).Text
+    $finalDate = $date.Substring(0,$date.Length-6)
+    $html = $workSheet.Cells($i,5).Value2
     $newhtml = $html.Replace("/InternalCom/","/sites/communicationtopic/")
 
     try{
@@ -89,6 +91,7 @@ for($i=$startline;$i -le $currentRowCount;$i++) {
         Add-PnPClientSideText -Page $pageName -Text $newhtml
         Set-PnPClientSidePage -Identity $pageName -Title $pageTitle
         Set-PnPListItem -List "SitePages" -Identity $page.PageListItem.Id -Values @{"Category"=$category}
+        Set-PnPListItem -List "SitePages" -Identity $page.PageListItem.Id -Values @{"ArticleDate"=[DateTime]::ParseExact($finalDate, 'M/d/yyyy',[CultureInfo]::InvariantCulture)}
         
         if($category -eq "Λειτουργία Ομίλου")
         {
