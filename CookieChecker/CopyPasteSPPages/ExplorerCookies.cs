@@ -132,9 +132,10 @@ namespace CookieChecker
             oXL.Quit();
 
             String path = Utilities.UploadToTeamSite(ConfigurationManager.AppSettings["IEOutputFileAc"]);
-            if (!(Utilities.TestFile(@"X:\Sample\Explorer-CookiesAccept.xlsx", ConfigurationManager.AppSettings["IEOutputFileAc"])))
+            String result = Utilities.TestFile(@"http://v000080043:9993/sites/sp_team_nbg/CookieCheckerResults/Sample/IE-CookiesAccept.xlsx", ConfigurationManager.AppSettings["IEOutputFileAc"]);
+            if (!(result.Equals("OK")))
             {
-                Utilities.SendEmail(path, "IE Cookies -> Accept");
+                Utilities.SendEmail(path, "Explorer Cookies -> Acccept",result);
             }
         }
 
@@ -238,9 +239,10 @@ namespace CookieChecker
             oXL.Quit();
 
             String path = Utilities.UploadToTeamSite(ConfigurationManager.AppSettings["IEOutputFileRej"]);
-            if (!(Utilities.TestFile(@"X:\Sample\Explorer-CookiesRej.xlsx", ConfigurationManager.AppSettings["IEOutputFileRej"])))
+            String result = Utilities.TestFile(@"http://v000080043:9993/sites/sp_team_nbg/CookieCheckerResults/Sample/IE-CookiesRej.xlsx", ConfigurationManager.AppSettings["IEOutputFileRej"]);
+            if (!(result.Equals("OK")))
             {
-                Utilities.SendEmail(path, "IE Cookies -> Reject");
+                Utilities.SendEmail(path, "Explorer Cookies -> Reject",result);
             }
         }
 
@@ -301,9 +303,10 @@ namespace CookieChecker
             oXL.Quit();
 
             String path = Utilities.UploadToTeamSite(ConfigurationManager.AppSettings["IEOutputFileDef"]);
-            if (!(Utilities.TestFile(@"X:\Sample\Explorer-CookiesDef.xlsx", ConfigurationManager.AppSettings["IEOutputFileDef"])))
+            String result = Utilities.TestFile(@"http://v000080043:9993/sites/sp_team_nbg/CookieCheckerResults/Sample/IE-CookiesDef.xlsx", ConfigurationManager.AppSettings["IEOutputFileDef"]);
+            if (!(result.Equals("OK")))
             {
-                Utilities.SendEmail(path, "IE Cookies -> Default");
+                Utilities.SendEmail(path, "Explorer Cookies -> Default",result);
             }
         }
 

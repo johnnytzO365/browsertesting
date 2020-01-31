@@ -67,7 +67,7 @@ namespace CopyPasteSPPages
             }
         }
 
-        static public bool TestFile(String path1, String path2)
+        static public String TestFile(String path1, String path2)
         {
             Application excel1 = new Application();
             Workbook wb1 = excel1.Workbooks.Open(path1);
@@ -93,10 +93,12 @@ namespace CopyPasteSPPages
                                            System.Reflection.Missing.Value, System.Reflection.Missing.Value,
                                            XlSearchOrder.xlByColumns, XlSearchDirection.xlPrevious,
                                            false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Column;
-            if ((row1 != row2) || (column1 != column2))
+            if ((row1 != row2))
             {
-                return false;
+                return "Number of sites";
             }
+
+            String ret = "Lines ";
             for (int i = 1; i <= row1; i++)
             {
                 for (int j = 1; j <= column1; j++)
@@ -113,14 +115,14 @@ namespace CopyPasteSPPages
                     }
                     if (!(str1.Equals(str2)))
                     {
-                        return false;
+                        ret += i.ToString()+" ";
                     }
                 }
             }
-            return true;
+            return "OK";
         }
 
-        static public void SendEmail(String path, String test)
+        static public void SendEmail(String path, String test, String result)
         {
             string ServiceSiteUrl = ConfigurationManager.AppSettings["sharepointOnline"];
             string ServiceUserName = ConfigurationManager.AppSettings["SPOUsername"];
@@ -147,7 +149,7 @@ namespace CopyPasteSPPages
             var emailp = new EmailProperties();
             emailp.To = mailRecipients ;
             emailp.From = ConfigurationManager.AppSettings["SPOUsername"];
-            emailp.Body = "Something went wrong with Cookie Checker Results in test " + test + ". Click <a href=\"" + path + "\">here</a> to check.";
+            emailp.Body = "Something went wrong with Cookie Checker Results in test " + test + ". Click <a href=\"" + path + "\">here</a> to check. Problem: "+result;
             emailp.Subject = "Cookie Checker Results problem!";
             Utility.SendEmail(context, emailp);
             context.ExecuteQuery();

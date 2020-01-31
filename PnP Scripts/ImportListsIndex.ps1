@@ -1,12 +1,12 @@
 ﻿#initializations
-$Url = "http://v000080043:9993/sites/hebic/"
+$Url = "http://mynbgportal/sites/hebic/"
 $banksCSV = "C:\Users\e82331\Desktop\Git\browsertesting\PnP Scripts\BANKS.csv"
 $branchesCSV = "C:\Users\e82331\Desktop\Git\browsertesting\PnP Scripts\BRANCHES.csv"
 
 $ErrorActionPreference = "SilentlyContinue"
 
 #connect
-$UserName = "e82331"
+$UserName = "bank\e82331"
 $pwd = "p@ssw0rd"
 [SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
@@ -32,8 +32,8 @@ if ($list -eq $null)
     {}
 }
 
-$Banks = import-csv -Delimiter ";" -Path $banksCSV -Encoding UTF8
-
+#$Banks = import-csv -Delimiter ";" -Path $banksCSV -Encoding UTF8
+<#
 $items =Get-PnPListItem -List “BANKS”
 foreach ($item in $items)
 {
@@ -114,7 +114,7 @@ foreach ($Bank in $Banks){
         "bankRegion"= $region;
         "bankWebSite"= $website;
     }
-}
+}#>
 
 #create the list
 $listName = "BRANCHES"
@@ -137,8 +137,8 @@ if ($list -eq $null)
     {}
 }
 
-$Branches = import-csv -Delimiter ";" -Path $branchesCSV -Encoding UTF8
-
+#$Branches = import-csv -Delimiter ";" -Path $branchesCSV -Encoding UTF8
+<#
 $items =Get-PnPListItem -List “BRANCHES”
 foreach ($item in $items)
 {
@@ -233,4 +233,4 @@ foreach ($Branch in $Branches){
         "branchMunicipality"= $municipality;
         "branchZipCode"= $tk1+$tk2;
     }
-}
+}#>

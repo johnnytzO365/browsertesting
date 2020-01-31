@@ -121,9 +121,10 @@ namespace CookieChecker
             oWB.Close();
             oXL.Quit();
             String path = Utilities.UploadToTeamSite(ConfigurationManager.AppSettings["ChromeOutputFileAc"]);
-            if (!(Utilities.TestFile(@"X:\Sample\Chrome-CookiesAccept.xlsx", ConfigurationManager.AppSettings["ChromeOutputFileAc"])))
+            String result = Utilities.TestFile(@"http://v000080043:9993/sites/sp_team_nbg/CookieCheckerResults/Sample/Chrome-CookiesAccept.xlsx", ConfigurationManager.AppSettings["ChromeOutputFileAc"]);
+            if (!(result.Equals("OK")))
             {
-                Utilities.SendEmail(path, "Chrome Cookies -> Accept");
+                Utilities.SendEmail(path, "Chrome Cookies -> Accept",result);
             }
         }
 
@@ -214,9 +215,10 @@ namespace CookieChecker
             oXL.Quit();
 
             String path = Utilities.UploadToTeamSite(ConfigurationManager.AppSettings["ChromeOutputFileRej"]);
-            if (!(Utilities.TestFile(@"X:\Sample\Chrome-CookiesRej.xlsx", ConfigurationManager.AppSettings["ChromeOutputFileRej"])))
+            String result = Utilities.TestFile(@"http://v000080043:9993/sites/sp_team_nbg/CookieCheckerResults/Sample/Chrome-CookiesRej.xlsx", ConfigurationManager.AppSettings["ChromeOutputFileRej"]);
+            if (!(result.Equals("OK")))
             {
-                Utilities.SendEmail(path, "Chrome Cookies -> Reject");
+                Utilities.SendEmail(path, "Chrome Cookies -> Reject",result);
             }
         }
 
@@ -266,9 +268,10 @@ namespace CookieChecker
             oWB.Close();
             oXL.Quit();
             String path = Utilities.UploadToTeamSite(ConfigurationManager.AppSettings["ChromeOutputFileDef"]);
-            if (!(Utilities.TestFile(@"X:\Sample\Chrome-CookiesDef.xlsx", ConfigurationManager.AppSettings["ChromeOutputFileDef"])))
+            String result = Utilities.TestFile(@"http://v000080043:9993/sites/sp_team_nbg/CookieCheckerResults/Sample/Chrome-CookiesDef.xlsx", ConfigurationManager.AppSettings["ChromeOutputFileDef"]);
+            if (!(result.Equals("OK")))
             {
-                Utilities.SendEmail(path,"Chrome Cookies -> Default");
+                Utilities.SendEmail(path,"Chrome Cookies -> Default",result);
             }
         }
 

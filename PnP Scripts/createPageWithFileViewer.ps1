@@ -25,9 +25,11 @@ $Url = "https://bousiou.sharepoint.com/sites/communicationTest"
 $connection = Connect-PnPOnline -Url $Url -Credentials $Credentials
 
 $documents = Get-PnPListItem -List "FilePages" -Query "<View><Query><OrderBy><FieldRef Name='FileLeafRef' Ascending='True' /></OrderBy></Query></View>" #gia na ta pairnei alfavitika
-$i=2
-foreach($document in $documents)
+#$i=2
+for($i=441;$i -le $documents.Length;$i++)
 {
+    $document = $documents[$i]
+
     $uniqueId = $document.FieldValues["GUID"]
     $url = Get-PnPProperty -ClientObject $document.File -Property ServerRelativeUrl
     $name = Get-PnPProperty -ClientObject $document.File -Property Name
@@ -89,5 +91,5 @@ foreach($document in $documents)
     $retval = Set-PnPListItem -List "SitePages" -Identity $id -Values @{"ArticleDate"=$finalDate; "Category"=$category}
     
     Set-PnPClientSidePage -Identity $pageName -Publish
-    $i++
+    #$i++
 }
