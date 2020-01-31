@@ -26,7 +26,7 @@ $connection = Connect-PnPOnline -Url $Url -Credentials $Credentials
 
 $documents = Get-PnPListItem -List "FilePages" -Query "<View><Query><OrderBy><FieldRef Name='FileLeafRef' Ascending='True' /></OrderBy></Query></View>" #gia na ta pairnei alfavitika
 #$i=2
-for($i=441;$i -le $documents.Length;$i++)
+for($i=460;$i -le $documents.Length;$i++)
 {
     $document = $documents[$i]
 
