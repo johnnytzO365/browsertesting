@@ -11,6 +11,18 @@ $pwd = "p@ssw0rd"
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
 Connect-PnPOnline -Url $Url -Credentials $Credentials
 
+$items =Get-PnPListItem -List “BANKS”
+foreach($item in $items){
+    Set-PnPListItem -List "BANKS" -Identity $item -Values @{
+     "bankChange"="NO"
+    }
+}
+$items =Get-PnPListItem -List “BRANCHES”
+foreach($item in $items){
+    Set-PnPListItem -List "BRANCHES" -Identity $item -Values @{
+     "branchChange"="NO"
+    }
+}
 #start of brances===============================================================================
 #take branches from csv
 $Branches = import-csv -Delimiter ";" -Path $branchesCSV -Encoding UTF8
@@ -26,6 +38,7 @@ foreach ($Branch in $Branches){
     {
         $changed_item= "0"+$changed_item;
     }
+
     $checks= Get-PnPListItem -List "BRANCHES" -Query "<View><Query><Where><Eq><FieldRef Name='branchHebic' /><Value Type='Text'>$changed_item</Value></Eq></Where></Query></View>"
     
     #take the values from csv
@@ -115,6 +128,9 @@ foreach ($Branch in $Branches){
     }
     #we check if something has changed
     else{
+         Set-PnPListItem -List "BRANCHES" -Identity $checks -Values @{
+            "branchChange"="YES"
+         }
         if($checks.FieldValues['branchName'] -ne $name){
             Set-PnPListItem -List "BRANCHES" -Identity $checks -Values @{
                 "branchName"= $name;
@@ -152,7 +168,15 @@ foreach ($Branch in $Branches){
         }
     }
 }
+$items =Get-PnPListItem -List “BRANCHES”
+$neverChanges=Get-PnPListItem -List "BRANCHES" -Query "<View><Query><Where><Eq><FieldRef Name='branchChange' /><Value Type='Text'>'NO'</Value></Eq></Where></Query></View>"
+foreach($neverChange in $neverChanges)
+{
+    $id= Get-PnPProperty -ClientObject $neverChange -Property Id
+    Remove-PnPListItem -List "BRANCHES" -Identity $id -Force
+}
 #end of branches=================================================================================
+
 #start of banks==================================================================================
 #take banks from csv
 $Banks = import-csv -Delimiter ";" -Path $banksCSV -Encoding UTF8
@@ -234,6 +258,9 @@ foreach ($Bank in $Banks){
         }    
     }
     else{
+         Set-PnPListItem -List "BANKS" -Identity $checks -Values @{
+            "bankChange"="YES"
+            }
          if($checks.FieldValues['bankName'] -ne $name){
             Set-PnPListItem -List "BANKS" -Identity $checks -Values @{
                 "bankName"= $name;
@@ -267,4 +294,12 @@ foreach ($Bank in $Banks){
 
        }
     }
+
+$neverChanges=Get-PnPListItem -List "BANKS" -Query "<View><Query><Where><Eq><FieldRef Name='bankChange' /><Value Type='Text'>'NO'</Value></Eq></Where></Query></View>"
+foreach($neverChange in $neverChanges)
+{
+    $id= Get-PnPProperty -ClientObject $neverChange -Property Id
+    Remove-PnPListItem -List "BANKS" -Identity $id -Force
+}
+
 
