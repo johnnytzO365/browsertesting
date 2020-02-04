@@ -1,6 +1,8 @@
 ﻿Import-Module SharePointPnPPowerShellOnline
+Import-Module 'C:\Users\e82331\Desktop\Git\browsertesting\PnP Scripts\WriteLogModule.psm1'
 
 $inputPath = "C:\Users\e82331\Desktop\filePages.xlsx"
+$LogPath = "C:\Users\e82331\Desktop\LogSecondRun.log"
 
 $Excel = New-Object -ComObject Excel.Application
 $workbook = $Excel.Workbooks.Open($inputPath)
@@ -21,75 +23,85 @@ $pwd = "Y?Ugjxgar"
 [SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
 $Url = "https://bousiou.sharepoint.com/sites/communicationTest"
-
 $connection = Connect-PnPOnline -Url $Url -Credentials $Credentials
 
-$documents = Get-PnPListItem -List "FilePages" -Query "<View><Query><OrderBy><FieldRef Name='FileLeafRef' Ascending='True' /></OrderBy></Query></View>" #gia na ta pairnei alfavitika
-#$i=2
-for($i=460;$i -le $documents.Length;$i++)
+for($i=992;$i -le 1680;$i++)
 {
-    $document = $documents[$i]
-
-    $uniqueId = $document.FieldValues["GUID"]
-    $url = Get-PnPProperty -ClientObject $document.File -Property ServerRelativeUrl
-    $name = Get-PnPProperty -ClientObject $document.File -Property Name
-
-    $json = '{"controlType":3,"id":"9d788a64-f678-4a51-8db5-7e3a7fd7f2d3","position":{"zoneIndex":1,"sectionIndex":1,"controlIndex":1,"layoutIndex":1},"webPartId":"b7dd04e1-19ce-4b24-9132-b60a1c2b910d","webPartData":{"id":"b7dd04e1-19ce-4b24-9132-b60a1c2b910d","instanceId":"9d788a64-f678-4a51-8db5-7e3a7fd7f2d3","title":"File viewer","description":"Display a document or other file on your page. You can show a file from most applications including Word, Excel, PowerPoint, Visio, PDF, 3D, and others","serverProcessedContent":{"htmlStrings":{},"searchablePlainTexts":{"title":""},"imageSources":{},"links":{"serverRelativeUrl":"'+$url+'","wopiurl":"https://bousiou.sharepoint.com/sites/communicationTest/_layouts/15/Doc.aspx?sourcedoc=%7B'+$uniqueId+'%7D&file='+$name+'&action=embedview&mobileredirect=true"}},"dataVersion":"1.4","properties":{"annotation":"","authorName":"","chartitem":"","endrange":"","excelSettingsType":"","file":"","listId":"","modifiedAt":"","photoUrl":"","rangeitem":"","siteId":"","startPage":1,"startrange":"","tableitem":"","uniqueId":"","wdallowinteractivity":true,"wdhidegridlines":true,"wdhideheaders":true,"webId":"","webAbsoluteUrl":""}},"emphasis":{},"reservedHeight":445,"reservedWidth":744}'
-    
-    $title = $workSheet.Cells($i,1).Text
-    $pageName = $title.Substring(0,4)
-    $pageTitle = $title.Substring(7,$title.Length-7)
-    $category = $workSheet.Cells($i,2).Text
-    $date = $workSheet.Cells($i,3).Text
-    $finalDate = $date.Substring(0,$date.Length-6)
-
-    $page = Add-PnPClientSidePage -Name $pageName -Publish -PromoteAs NewsArticle
-
-    if($category -eq "Λειτουργία Ομίλου")
+    try
     {
-        Set-PnPClientSidePage -Identity $page -ThumbnailUrl $leitourgia
-        $page.SetCustomPageHeader($leitourgia)
-    }
-    elseif($category -eq "Κληρώσεις/Διαγωνισμοί")
-    {
-        Set-PnPClientSidePage -Identity $page -ThumbnailUrl $kliroseis
-        $page.SetCustomPageHeader($kliroseis)
-    }
-    elseif($category -eq "Άλλα θέματα")
-    {
-        Set-PnPClientSidePage -Identity $page -ThumbnailUrl $alla
-        $page.SetCustomPageHeader($alla)
-    }
-    elseif($category -eq "Πρώτοι Εμείς")
-    {
-        Set-PnPClientSidePage -Identity $page -ThumbnailUrl $protoi
-        $page.SetCustomPageHeader($protoi)
-    }
-    elseif($category -eq "Ανθρώπινο Δυναμικό")
-    {
-        Set-PnPClientSidePage -Identity $page -ThumbnailUrl $anthropino
-        $page.SetCustomPageHeader($anthropino)
-    }
-    elseif($category -eq "ΕΚΕ")
-    {
-        Set-PnPClientSidePage -Identity $page -ThumbnailUrl $EKE
-        $page.SetCustomPageHeader($EKE)
-    }
-    elseif($category -eq "Προϊόντα και Υπηρεσίες")
-    {
-        Set-PnPClientSidePage -Identity $page -ThumbnailUrl $proionta
-        $page.SetCustomPageHeader($proionta)
-    }
-    $page.Save()
+        $name = $workSheet.Cells($i,4).Text
+        $finalName=$name.Replace("%20"," ")
+        $title = $workSheet.Cells($i,1).Text
+        $pageName = $title.Substring(0,4)
+        $pageTitle = $title.Substring(7,$title.Length-7)
+        $category = $workSheet.Cells($i,2).Text
+        $date = $workSheet.Cells($i,3).Text
+        $finalDate = $date.Substring(0,$date.Length-6)
 
-    $fileViewer = Add-PnPClientSideWebPart -Page $pageName -DefaultWebPartType DocumentEmbed
-    Set-PnPClientSideWebPart -Page $pageName -Identity $fileViewer.InstanceId -PropertiesJson $json
-    Set-PnPClientSidePage -Identity $pageName -Title $pageTitle
+        $query = "<View><Query><Where><Eq><FieldRef Name='FileLeafRef' /><Value Type='File'>"+$finalName+"</Value></Eq></Where></Query></View>"
+        $document = Get-PnPListItem -List "FilePages" -Query $query
+        $uniqueId = $document.FieldValues["GUID"]
+        $url = Get-PnPProperty -ClientObject $document.File -Property ServerRelativeUrl
+        $name = Get-PnPProperty -ClientObject $document.File -Property Name
 
-    $id=Get-PnPProperty -ClientObject $page.PageListItem -Property Id
+        $json = '{"controlType":3,"id":"9d788a64-f678-4a51-8db5-7e3a7fd7f2d3","position":{"zoneIndex":1,"sectionIndex":1,"controlIndex":1,"layoutIndex":1},"webPartId":"b7dd04e1-19ce-4b24-9132-b60a1c2b910d","webPartData":{"id":"b7dd04e1-19ce-4b24-9132-b60a1c2b910d","instanceId":"9d788a64-f678-4a51-8db5-7e3a7fd7f2d3","title":"File viewer","description":"Display a document or other file on your page. You can show a file from most applications including Word, Excel, PowerPoint, Visio, PDF, 3D, and others","serverProcessedContent":{"htmlStrings":{},"searchablePlainTexts":{"title":""},"imageSources":{},"links":{"serverRelativeUrl":"'+$url+'","wopiurl":"https://bousiou.sharepoint.com/sites/communicationTest/_layouts/15/Doc.aspx?sourcedoc=%7B'+$uniqueId+'%7D&file='+$name+'&action=embedview&mobileredirect=true"}},"dataVersion":"1.4","properties":{"annotation":"","authorName":"","chartitem":"","endrange":"","excelSettingsType":"","file":"","listId":"","modifiedAt":"","photoUrl":"","rangeitem":"","siteId":"","startPage":1,"startrange":"","tableitem":"","uniqueId":"","wdallowinteractivity":true,"wdhidegridlines":true,"wdhideheaders":true,"webId":"","webAbsoluteUrl":""}},"emphasis":{},"reservedHeight":445,"reservedWidth":744}'
 
-    $retval = Set-PnPListItem -List "SitePages" -Identity $id -Values @{"ArticleDate"=$finalDate; "Category"=$category}
-    
-    Set-PnPClientSidePage -Identity $pageName -Publish
-    #$i++
+        $page = Add-PnPClientSidePage -Name $pageName -Publish -PromoteAs NewsArticle
+
+        if($category -eq "Λειτουργία Ομίλου")
+        {
+            Set-PnPClientSidePage -Identity $page -ThumbnailUrl $leitourgia
+            $page.SetCustomPageHeader($leitourgia)
+        }
+        elseif($category -eq "Κληρώσεις/Διαγωνισμοί")
+        {
+            Set-PnPClientSidePage -Identity $page -ThumbnailUrl $kliroseis
+            $page.SetCustomPageHeader($kliroseis)
+        }
+        elseif($category -eq "Άλλα θέματα")
+        {
+            Set-PnPClientSidePage -Identity $page -ThumbnailUrl $alla
+            $page.SetCustomPageHeader($alla)
+        }
+        elseif($category -eq "Πρώτοι Εμείς")
+        {
+            Set-PnPClientSidePage -Identity $page -ThumbnailUrl $protoi
+            $page.SetCustomPageHeader($protoi)
+        }
+        elseif($category -eq "Ανθρώπινο Δυναμικό")
+        {
+            Set-PnPClientSidePage -Identity $page -ThumbnailUrl $anthropino
+            $page.SetCustomPageHeader($anthropino)
+        }
+        elseif($category -eq "ΕΚΕ")
+        {
+            Set-PnPClientSidePage -Identity $page -ThumbnailUrl $EKE
+            $page.SetCustomPageHeader($EKE)
+        }
+        elseif($category -eq "Προϊόντα και Υπηρεσίες")
+        {
+            Set-PnPClientSidePage -Identity $page -ThumbnailUrl $proionta
+            $page.SetCustomPageHeader($proionta)
+        }
+        $page.Save()
+
+        $fileViewer = $null
+        $counter = 0
+        while(($fileViewer -eq $null) -and ($counter -lt 10))
+        {
+            $fileViewer = Add-PnPClientSideWebPart -Page $pageName -DefaultWebPartType DocumentEmbed
+            $counter++
+        }
+
+        Set-PnPClientSideWebPart -Page $pageName -Identity $fileViewer.InstanceId -PropertiesJson $json
+        Set-PnPClientSidePage -Identity $pageName -Title $pageTitle
+
+        $id=Get-PnPProperty -ClientObject $page.PageListItem -Property Id
+        $retval = Set-PnPListItem -List "SitePages" -Identity $id -Values @{"ArticleDate"=$finalDate; "Category"=$category}
+        Set-PnPClientSidePage -Identity $pageName -Publish
+    }
+    catch
+    {
+         Write-Log -Message "Error on page $pageName $pageTitle $_" -Path $LogPath -Level Error
+    }
 }
