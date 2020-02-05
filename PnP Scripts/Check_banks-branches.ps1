@@ -41,134 +41,135 @@ $items_Branch = Get-PnPListItem -List “BRANCHES” -Query "<View><Query><Order
 
 #-----------------------------------------------------------[Functions]------------------------------------------------------------
 
-function Take_Item_Index_Bank($Bank,$c,$bic,$name,$tel,$fax,$region,$website)
+function Take_Item_Index_Bank($bank_to_check,$csvitem1)
 {
-    if(!$Banks[$c].'SWIFT BIC' )
+    if(!$bank_to_check.'SWIFT BIC' )
     {
-        $bic = "-"
+        $csvitem1[0] = "-"
     }
     else
     {
-        $bic = $Banks[$c].'SWIFT BIC'
+        $csvitem1[0] = $bank_to_check.'SWIFT BIC'
     }
 	
-	if(!$Banks[$c].'ΕΠΙΣΗΜΗ ΟΝΟΜΑΣΙΑ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)' )
+	if(!$bank_to_check.'ΕΠΙΣΗΜΗ ΟΝΟΜΑΣΙΑ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)' )
     {
-        $name = "-"
+        $csvitem1[1] = "-"
     }
     else
     {
-        $name = $Banks[$c].'ΕΠΙΣΗΜΗ ΟΝΟΜΑΣΙΑ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)'
+        $csvitem1[1] = $bank_to_check.'ΕΠΙΣΗΜΗ ΟΝΟΜΑΣΙΑ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)'
     }
 	
-	if(!$Banks[$c].'ΤΗΛΕΦΩΝΙΚΟ ΚΕΝΤΡΟ' )
+	if(!$bank_to_check.'ΤΗΛΕΦΩΝΙΚΟ ΚΕΝΤΡΟ' )
     {
-        $tel = "-"
+        $csvitem1[2]= "-"
     }
     else
     {
-        $tel = $Banks[$c].'ΤΗΛΕΦΩΝΙΚΟ ΚΕΝΤΡΟ'
+        $csvitem1[2] = $bank_to_check.'ΤΗΛΕΦΩΝΙΚΟ ΚΕΝΤΡΟ'
     }
 	
-	if(!$Banks[$c].'ΚΕΝΤΡΙΚΟFAX' )
+	if(!$bank_to_check.'ΚΕΝΤΡΙΚΟFAX' )
     {
-        $fax = "-"
+        $csvitem1[3] = "-"
     }
     else
     {
-        $fax = $Banks[$c].'ΚΕΝΤΡΙΚΟFAX'
+        $csvitem1[3] = $bank_to_check.'ΚΕΝΤΡΙΚΟFAX'
     }
 	
-	if(!$Banks[$c].'ΔΙΕΥΘΥΝΣΗ ΕΔΡΑΣ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)' )
+	if(!$bank_to_check.'ΔΙΕΥΘΥΝΣΗ ΕΔΡΑΣ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)' )
     {
-        $region = "-"
+        $csvitem1[4] = "-"
     }
     else
     {
-        $region = $Banks[$c].'ΔΙΕΥΘΥΝΣΗ ΕΔΡΑΣ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)'
+        $csvitem1[4] = $bank_to_check.'ΔΙΕΥΘΥΝΣΗ ΕΔΡΑΣ ΤΗΣ ΤΡΑΠΕΖΑΣ (ΕΛΛΗΝΙΚΑ)'
     }
 	
-	if(!$Banks[$c].'ΗΛΕΚΤΡΟΝΙΚΗ ΔΙΕΥΘΥΝΣΗ-URL' )
+	if(!$bank_to_check.'ΗΛΕΚΤΡΟΝΙΚΗ ΔΙΕΥΘΥΝΣΗ-URL' )
     {
-        $website = "-"
+        $csvitem1[5] = "-"
     }
     else
     {
-        $website = $Banks[$c].'ΗΛΕΚΤΡΟΝΙΚΗ ΔΙΕΥΘΥΝΣΗ-URL'
+        $csvitem1[5]= $bank_to_check.'ΗΛΕΚΤΡΟΝΙΚΗ ΔΙΕΥΘΥΝΣΗ-URL'
     }
+    
 }
-function Take_Item_Index_Branch($Branch,$c,$name,$region,$address,$tel,$community,$municipality,$tk1,$tk2)
+function Take_Item_Index_Branch($branch_to_check,$csvitem2)
 {
-    if([int]$Branch[$c].'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ' -ge 100)
+    if([int]$branch_to_check.'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ' -ge 100)
     {
-        $tk1 = $Branch[$c].'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
+        $csvitem2[0] = $branch_to_check.'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
     }
     else
     {
-        $tk1 = "0"+$Branch[$c].'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
+        $csvitem2[0] = "0"+$branch_to_check.'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
     }
 
-    if([int]$Branch[$c].'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ' -ge 10)
+    if([int]$branch_to_check.'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ' -ge 10)
     {
-        $tk2 = $Branch[$c].'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
+        $csvitem2[1] = $branch_to_check.'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
     }
     else
     {
-        $tk2 = "0"+$Branch[$c].'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
+        $csvitem2[1] = "0"+$branch_to_check.'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
     }
 	
-	if(!$Branch[$c].'ΟΝΟΜΑΣΙΑ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)' )
+	if(!$branch_to_check.'ΟΝΟΜΑΣΙΑ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)' )
     {
-        $name = "-"
+        $csvitem2[2] = "-"
     }
     else
     {
-        $name = $Branch[$c].'ΟΝΟΜΑΣΙΑ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)'
+        $csvitem2[2] = $branch_to_check.'ΟΝΟΜΑΣΙΑ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)'
     }
 	
-	if(!$Branch[$c].'ΟΝΟΜΑΣΙΑ ΤΟΠΟΘΕΣΙΑΣ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)' )
+	if(!$branch_to_check.'ΟΝΟΜΑΣΙΑ ΤΟΠΟΘΕΣΙΑΣ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)' )
     {
-        $region = "-"
+        $csvitem2[3] = "-"
     }
     else
     {
-        $region = $Branch[$c].'ΟΝΟΜΑΣΙΑ ΤΟΠΟΘΕΣΙΑΣ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)'
+        $csvitem2[3] = $branch_to_check.'ΟΝΟΜΑΣΙΑ ΤΟΠΟΘΕΣΙΑΣ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)'
     }
 	
-	if(!$Branch[$c].'Διεύθυνση ΕΛΛΗΝΙΚΑ' )
+	if(!$branch_to_check.'Διεύθυνση ΕΛΛΗΝΙΚΑ' )
     {
-        $address = "-"
+        $csvitem2[4] = "-"
     }
     else
     {
-        $address = $Branch[$c].'Διεύθυνση ΕΛΛΗΝΙΚΑ'
+        $csvitem2[4] = $branch_to_check.'Διεύθυνση ΕΛΛΗΝΙΚΑ'
     }
 		
-	if(!$Branch[$c].'ΑΡΙΘΜΟΣ ΤΗΛΕΦΩΝΟΥ' )
+	if(!$branch_to_check.'ΑΡΙΘΜΟΣ ΤΗΛΕΦΩΝΟΥ' )
     {
-        $tel = "-"
+        $csvitem2[5] = "-"
     }
     else
     {
-        $tel = $Branch[$c].'ΑΡΙΘΜΟΣ ΤΗΛΕΦΩΝΟΥ'
+        $csvitem2[5]= $branch_to_check.'ΑΡΙΘΜΟΣ ΤΗΛΕΦΩΝΟΥ'
     }
 			
-	if(!$Branch[$c].'ΤΑΧΥΔΡΟΜΙΚΗ ΠΕΡΙΟΧΗ (ΕΛΛΗΝΙΚΑ)' )
+	if(!$branch_to_check.'ΤΑΧΥΔΡΟΜΙΚΗ ΠΕΡΙΟΧΗ (ΕΛΛΗΝΙΚΑ)' )
     {
-        $community = "-"
+        $csvitem2[6] = "-"
     }
     else
     {
-        $community = $Branch[$c].'ΤΑΧΥΔΡΟΜΙΚΗ ΠΕΡΙΟΧΗ (ΕΛΛΗΝΙΚΑ)'
+        $csvitem2[6] = $branch_to_check.'ΤΑΧΥΔΡΟΜΙΚΗ ΠΕΡΙΟΧΗ (ΕΛΛΗΝΙΚΑ)'
     }	
 	
-	if(!$Branch[$c].'ΔΗΜΟΣ/ ΚΟΙΝΟΤΗΤΑ' )
+	if(!$branch_to_check.'ΔΗΜΟΣ/ ΚΟΙΝΟΤΗΤΑ' )
     {
-        $municipality = "-"
+        $csvitem2[7] = "-"
     }
     else
     {
-        $municipality = $Branch[$c].'ΔΗΜΟΣ/ ΚΟΙΝΟΤΗΤΑ'
+        $csvitem2[7] = $branch_to_check.'ΔΗΜΟΣ/ ΚΟΙΝΟΤΗΤΑ'
     }
 }
 #-----------------------------------------------------------[Execution]------------------------------------------------------------
@@ -182,40 +183,42 @@ $stop_c=$Banks.Count
 while($c -lt $stop_c)
 {
     $csvitem = $Banks[$c].'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ'
+    $csvitem1=@("","","","","","")
     $sharepointItem = $items[$l].FieldValues['bankCode']
     if([int]$csvitem -eq [int]$sharepointItem)
     {
-        Take_Item_Index_Bank($Bank,$c,$bic,$name,$tel,$fax,$region,$website,$csvitem)
+        $bank_to_check=$Banks[$c]
+        Take_Item_Index_Bank $bank_to_check $csvitem1
         $id= Get-PnPProperty -ClientObject $items[$l] -Property Id
        
-        if($items[$l].FieldValues['bankName'] -ne $name){
+        if($items[$l].FieldValues['bankName'] -ne $csvitem1[1]){
            Set-PnPListItem -List "BANKS" -Identity $id -Values @{
-               "bankName"= $name;
+               "bankName"= $csvitem1[1]
             }
         }
-        if($items[$l].FieldValues['bankRegion'] -ne $region){
+        if($items[$l].FieldValues['bankRegion'] -ne $csvitem1[4]){
             Set-PnPListItem -List "BANKS" -Identity $id -Values @{
-                "bankRegion"= $region;
+                "bankRegion"= $csvitem1[4]
             }
         }
-        if($items[$l].FieldValues['bankBic'] -ne $bic){
+        if($items[$l].FieldValues['bankBic'] -ne $csvitem1[0]){
             Set-PnPListItem -List "BANKS" -Identity $id -Values @{
-                "branchAddress"= $address;
+                "bankBic"= $csvitem1[0]
             }
         }
-        if($items[$l].FieldValues['bankTel'] -ne $tel){
-            Set-PnPListItem -List "BANKS" -Identity $id -Values-Values @{
-                "bankTel"= $tel;
-            }
-        }
-        if($items[$l].FieldValues['bankFax'] -ne $fax){
+        if($items[$l].FieldValues['bankTel'] -ne $csvitem1[2]){
             Set-PnPListItem -List "BANKS" -Identity $id -Values @{
-                "bankFax"= $fax;
+                "bankTel"= $csvitem1[2]
             }
         }
-        if($items[$l].FieldValues['bankWebSite'] -ne $website){
+        if($items[$l].FieldValues['bankFax'] -ne $csvitem1[3]){
             Set-PnPListItem -List "BANKS" -Identity $id -Values @{
-                "bankWebSite"= $website;
+                "bankFax"= $csvitem1[3]
+            }
+        }
+        if($items[$l].FieldValues['bankWebSite'] -ne $csvitem1[5]){
+            Set-PnPListItem -List "BANKS" -Identity $id -Values @{
+                "bankWebSite"= $csvitem1[5]
             }
         }
         
@@ -230,15 +233,15 @@ while($c -lt $stop_c)
     }
     else
     {
-        Take_Item_Index_Bank($Bank,$c,$bic,$name,$tel,$fax,$region,$website)
+        Take_Item_Index_Bank $bank_to_check $csvitem1
         Add-PnPListItem -List "BANKS" -Values @{
             "bankCode"=$csvitem;
-            "bankBic"=$bic;                                                   
-            "bankName"= $name;                    
-            "bankTel"= $tel;
-            "bankFax"= $fax;
-            "bankRegion"= $region;
-            "bankWebSite"= $website;
+            "bankBic"=$cvitem1[0];                                                   
+            "bankName"= $cvitem1[1];                    
+            "bankTel"= $cvitem1[2];
+            "bankFax"= $cvitem1[3];
+            "bankRegion"= $cvitem1[4];
+            "bankWebSite"= $cvitem1[5];
             }
 
         $c=$c+1
@@ -266,16 +269,17 @@ if($l -eq $stop_l)
     for($i=$c; $i -lt $stop_c; $i++)
     {
         $code=$Banks[$i].'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ'
-        Take_Item_Index_Bank($Bank,$i,$bic,$name,$tel,$fax,$region,$website)
+        $bank_to_check=$Banks[$i]
+        Take_Item_Index_Bank $bank_to_check,$cvitem1
 
         Add-PnPListItem -List "BANKS" -Values @{
         "bankCode"=$code;
-        "bankBic"=$bic;                                                   
-        "bankName"= $name;                    
-        "bankTel"= $tel;
-        "bankFax"= $fax;
-        "bankRegion"= $region;
-        "bankWebSite"= $website;
+        "bankBic"=$cvitem1[0];                                                   
+        "bankName"= $cvitem1[1];                    
+        "bankTel"= $cvitem1[2];
+        "bankFax"= $cvitem1[3];
+        "bankRegion"= $cvitem1[4];
+        "bankWebSite"= $cvitem1[5];
         }    
     }
 }
@@ -292,9 +296,50 @@ $stop_c=$Branch.Count
 while($c -lt $stop_c){
     $csvitem = $Branch[$c].'ΚΩΔΙΚΟΣ HEBIC'
     $sharepointItem = $items_Branch[$l].FieldValues['branchHebic']
+    $csvitem2=@("","","","","","","","")
+    $id= Get-PnPProperty -ClientObject $items_Branch[$l] -Property Id
+
     #check the 2 hebics
     if([int]$csvitem -eq [int]$sharepointItem)
     {
+        $branch_to_check=$Branch[$c]
+        Take_Item_Index_Branch $branch_to_check $csvitem2
+        if($items_Branch[$l].FieldValues['branchName'] -ne $csvitem2[2] ){
+            Set-PnPListItem -List "BRANCHES" -Identity $id -Values @{
+                "branchName"= $csvitem2[2];
+            }
+        }
+        if($items_Branch[$l].FieldValues['branchRegion'] -ne $csvitem2[3]){
+            Set-PnPListItem -List "BRANCHES" -Identity $id -Values @{
+                "branchRegion"= $csvitem2[3];
+            }
+        }
+        if($items_Branch[$l].FieldValues['branchAddress'] -ne $csvitem2[4]){
+            Set-PnPListItem -List "BRANCHES" -Identity $id -Values @{
+                "branchAddress"= $csvitem2[4];
+            }
+        }
+        if($items_Branch[$l].FieldValues['branchTel'] -ne $csvitem2[5]){
+            Set-PnPListItem -List "BRANCHES" -Identity $id -Values @{
+                "branchTel"= $csvitem2[5];
+            }
+        }
+       if($items_Branch[$l].FieldValues['branchCommunity'] -ne $csvitem2[6]){
+            Set-PnPListItem -List "BRANCHES" -Identity $id -Values @{
+                "branchCommunity"= $csvitem2[6];
+            }
+        }
+       if($items_Branch[$l].FieldValues['branchMunicipality'] -ne $csvitem2[7]){
+            Set-PnPListItem -List "BRANCHES" -Identity $id -Values @{
+                "branchMunicipality"= $csvitem2[7];
+            }
+        }
+        $zip=$csvitem2[0]+$csvitem2[1]
+       if($items_Branch[$l].FieldValues['branchZipCode'] -ne $zip){
+            Set-PnPListItem -List "BRANCHES" -Identity $id -Values @{
+                "branchZipCode"= $zip;
+            }
+        }
         #if items is equals go to next
         $l= $l + 1
         $c= $c + 1
@@ -309,16 +354,17 @@ while($c -lt $stop_c){
     else
     {
         #else add the new item on sharepoint
-        Take_Item_Index_Branch($Branch,$c,$name,$region,$address,$tel,$community,$municipality,$tk1,$tk2)
+        $branch_to_check=$Branch[$c]
+        Take_Item_Index_Branch $branch_to_check $csvitem2
         Add-PnPListItem -List "BRANCHES" -Values @{
         "branchHebic"=$csvitem;                                                   
-        "branchName"= $name;                    
-        "branchRegion"=$region;
-        "branchAddress"= $address;
-        "branchTel"= $tel;
-        "branchCommunity"= $community;
-        "branchMunicipality"= $municipality;
-        "branchZipCode"= $tk1+$tk2;
+        "branchName"= $csvitem2[2];                    
+        "branchRegion"=$csvitem2[3];
+        "branchAddress"= $csvitem2[4];
+        "branchTel"= $csvitem2[5];
+        "branchCommunity"= $csvitem2[6];
+        "branchMunicipality"= $csvitem2[7];
+        "branchZipCode"= $csvitem2[2]+$csvitem2[1];
         }
         $c=$c+1 
     }
@@ -338,18 +384,19 @@ if($l -eq $stop_l){
     for($i=$c; $i -lt $stop_c; $i++)
     {
         $code=$Branch[$i].'ΚΩΔΙΚΟΣ HEBIC'
-        Take_Item_Index_Branch($Branch,$i,$name,$region,$address,$tel,$community,$municipality,$tk1,$tk2)
+        $branch_to_check=$Branch[$i]
+        Take_Item_Index_Branch $branch_to_check $csvitem2
         Add-PnPListItem -List "BRANCHES" -Values @{
         "branchHebic"=$code;                                                   
-        "branchName"= $name;                    
-        "branchRegion"=$region;
-        "branchAddress"= $address;
-        "branchTel"= $tel;
-        "branchCommunity"= $community;
-        "branchMunicipality"= $municipality;
-        "branchZipCode"= $tk1+$tk2;
+        "branchName"= $csvitem2[2];                    
+        "branchRegion"=$csvitem2[3];
+        "branchAddress"= $csvitem2[4];
+        "branchTel"= $csvitem2[5];
+        "branchCommunity"= $csvitem2[6];
+        "branchMunicipality"= $csvitem2[7];
+        "branchZipCode"= $csvitem2[2]+$csvitem2[1];
         }
-}
+    }
 }
 
 #end of branches
