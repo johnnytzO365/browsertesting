@@ -1,7 +1,7 @@
-﻿Column1;Column2
+Column1;Column2
 ows_bankCode;bankCode
 ows_bankName;bankName
-ows_bankRegion;bankRegiom
+ows_bankRegion;bankRegion
 ows_bankBic;bankBic
 ows_bankTel;bankTel
 ows_bankFax;bankFax
