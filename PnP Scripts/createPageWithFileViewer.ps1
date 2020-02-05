@@ -25,12 +25,13 @@ $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$S
 $Url = "https://bousiou.sharepoint.com/sites/communicationTest"
 $connection = Connect-PnPOnline -Url $Url -Credentials $Credentials
 
-for($i=992;$i -le 1680;$i++)
+for($i=1671;$i -le 1671;$i++)
 {
     try
     {
         $name = $workSheet.Cells($i,4).Text
         $finalName=$name.Replace("%20"," ")
+        $name=$finalName.Replace("%27","'")
         $title = $workSheet.Cells($i,1).Text
         $pageName = $title.Substring(0,4)
         $pageTitle = $title.Substring(7,$title.Length-7)
@@ -38,7 +39,7 @@ for($i=992;$i -le 1680;$i++)
         $date = $workSheet.Cells($i,3).Text
         $finalDate = $date.Substring(0,$date.Length-6)
 
-        $query = "<View><Query><Where><Eq><FieldRef Name='FileLeafRef' /><Value Type='File'>"+$finalName+"</Value></Eq></Where></Query></View>"
+        $query = "<View><Query><Where><Eq><FieldRef Name='FileLeafRef' /><Value Type='File'>"+$name+"</Value></Eq></Where></Query></View>"
         $document = Get-PnPListItem -List "FilePages" -Query $query
         $uniqueId = $document.FieldValues["GUID"]
         $url = Get-PnPProperty -ClientObject $document.File -Property ServerRelativeUrl
