@@ -1,2 +1,0 @@
-﻿$banksCSV = "C:\Users\TheocharisGIANNOPOUL\Documents\GitHub\browsertesting\PnP Scripts\BANKS.csv"
-Import-Csv $banksCSV | sort ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ -Descending | Export-Csv -Path c:\fso\testusers.csv -NoTypeInformation
