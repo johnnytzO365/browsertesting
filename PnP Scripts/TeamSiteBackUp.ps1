@@ -40,7 +40,7 @@ Remove-Item $targetPath -Recurse -ErrorAction Ignore
 
 #connect
 $UserName = "e82331"
-$PassWord = "p@ssw0rd"
+$PassWord = "Y?Ugjxgar"
 [SecureString]$SecurePassWord = ConvertTo-SecureString $PassWord -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePassWord)
 $connection = Connect-PnPOnline -Url $Url -Credentials $Credentials

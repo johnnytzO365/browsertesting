@@ -1,14 +1,15 @@
-﻿#initializations
-$templateUrl = "C:\Users\e82331\Desktop\TeamSiteTemplate4\TeamSiteTemplate.xml"
-$Url = "https://bousiou.sharepoint.com/sites/TeamSiteBackup"
+﻿Import-Module SharePointPnPPowerShellOnline
+
+#initializations
+$Url = "https://bousiou.sharepoint.com/sites/Transformation2"
+$targetPath = "C:\Users\e82331\Desktop\TransformationTemplate\"
 
 #connect
 $UserName = "sindy@bousiou.onmicrosoft.com"
-$pwd = "Y?Ugjxgar"
-[SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
-$Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
+$PassWord = "Y?Ugjxgar"
+[SecureString]$SecurePassWord = ConvertTo-SecureString $PassWord -AsPlainText -Force
+$Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePassWord)
 $connection = Connect-PnPOnline -Url $Url -Credentials $Credentials
-
-Write-Host "Applying Template with Document Libraries"
-
-Apply-PnPProvisioningTemplate -Path $templateUrl -Handlers Navigation, Lists, Pages, Files -ClearNavigation
+$templateUrl = "C:\Users\e82331\Desktop\TransformationTemplate\Template.xml"
+Set-PnPTraceLog -On -Level Debug 
+Apply-PnPProvisioningTemplate -Path $templateUrl -Handlers Navigation, Pages, PageContents,WebSettings -ClearNavigation
