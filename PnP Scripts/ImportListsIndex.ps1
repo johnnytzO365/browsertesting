@@ -1,12 +1,12 @@
 ﻿#initializations
-$Url = "http://v000080043:9993/sites/hebic/"
+$Url = "http://mynbgportal/sites/hebic/"
 $banksCSV = "C:\Users\e82331\Desktop\Git\browsertesting\PnP Scripts\BANKS.csv"
 $branchesCSV = "C:\Users\e82331\Desktop\Git\browsertesting\PnP Scripts\BRANCHES.csv"
 
 $ErrorActionPreference = "SilentlyContinue"
 
 #connect
-$UserName = "e82331"
+$UserName = "bank\e82331"
 $pwd = "p@ssw0rd"
 [SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)

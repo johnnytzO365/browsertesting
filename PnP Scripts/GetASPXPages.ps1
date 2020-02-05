@@ -1,7 +1,7 @@
 ﻿Import-Module SharePointPnPPowerShell2013
 
 $UserName = "bank\e82331"
-$pwd = "p@ssw0rd"
+$pwd = "Y?Ugjxgar"
 
 [SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
@@ -25,18 +25,22 @@ $ListItems = Get-PnPListItem -List "Pages"
 $i=2
 ForEach($Item in $ListItems)
 {
-    $title = Get-PnPProperty -ClientObject $Item.File -Property Title
-    $category = $Item.FieldValues["CategoryInternalCom"]
     $name = Get-PnPProperty -ClientObject $Item.File -Property Name
-    $date = $Item.FieldValues["ArticleStartDate"]
     if($name.EndsWith(".aspx"))
     {
-        $pageUrl = "http://mynbgportal:86/InternalCom/Pages/" + $name
-        $worksheet.Cells.Item($i,1)= $title
-        $worksheet.Cells.Item($i,2)= $pageUrl
-        $worksheet.Cells.Item($i,3)= $category
-        $worksheet.Cells.Item($i,4)= $date
-        $i++
+        if($Item.FieldValues.URL.Url -eq $null)
+        {
+            $title = Get-PnPProperty -ClientObject $Item.File -Property Title
+            $category = $Item.FieldValues["CategoryInternalCom"]
+            $date = $Item.FieldValues["ArticleStartDate"]
+
+            $pageUrl = "http://mynbgportal:86/InternalCom/Pages/" + $name
+            $worksheet.Cells.Item($i,1)= $title
+            $worksheet.Cells.Item($i,2)= $pageUrl
+            $worksheet.Cells.Item($i,3)= $category
+            $worksheet.Cells.Item($i,4)= $date
+            $i++
+        }
     }
 }
 
