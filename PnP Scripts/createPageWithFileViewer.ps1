@@ -25,7 +25,7 @@ $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$S
 $Url = "https://bousiou.sharepoint.com/sites/communicationTest"
 $connection = Connect-PnPOnline -Url $Url -Credentials $Credentials
 
-for($i=1671;$i -le 1671;$i++)
+for($i=2;$i -le $currentRowCount;$i++)
 {
     try
     {
