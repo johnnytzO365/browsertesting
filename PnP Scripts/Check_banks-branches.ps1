@@ -1,22 +1,14 @@
 ﻿<#
 .SYNOPSIS
-  <Overview of script>
+  This script makes updates on list BANKS and BRANCHES, for Hebic app
 .DESCRIPTION
-  <Brief description of script>
-.PARAMETER <Parameter_Name>
-    <Brief description of parameter input required. Repeat this attribute if required>
-.INPUTS
-  <Inputs if any, otherwise state None>
-.OUTPUTS
-  <Outputs if any, otherwise state None - example: Log file stored in C:\Windows\Temp\<name>.log>
+  From CSV Bank and Branch, check every row of CSV with the list, and if they have the same code checks for changes else delete from sharepoint or add this index
 .NOTES
   Version:        1.0
-  Author:         <Name>
-  Creation Date:  <Date>
-  Purpose/Change: Initial script development
+  Author:         Haris Giannopoulos
+  Creation Date:  4/02/2020
+  Purpose/Change: Hebic nbg app
   
-.EXAMPLE
-  <Example goes here. Repeat this attribute for more than one example>
 #>
 
 #---------------------------------------------------------[Initialisations]--------------------------------------------------------
