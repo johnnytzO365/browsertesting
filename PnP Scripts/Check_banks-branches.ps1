@@ -352,7 +352,7 @@ while($c -lt $stop_c){
         "branchTel"= $csvitem2[5];
         "branchCommunity"= $csvitem2[6];
         "branchMunicipality"= $csvitem2[7];
-        "branchZipCode"= $csvitem2[2]+$csvitem2[1];
+        "branchZipCode"= $csvitem2[0]+$csvitem2[1];
         }
         $c=$c+1 
     }
