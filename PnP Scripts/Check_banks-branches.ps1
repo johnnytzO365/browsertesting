@@ -177,12 +177,11 @@ while($c -lt $stop_c)
     $csvitem = $Banks[$c].'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ'
     $csvitem1=@("","","","","","")
     $sharepointItem = $items[$l].FieldValues['bankCode']
+	$bank_to_check=$Banks[$c]
+	$id= Get-PnPProperty -ClientObject $items[$l] -Property Id
     if([int]$csvitem -eq [int]$sharepointItem)
     {
-        $bank_to_check=$Banks[$c]
         Take_Item_Index_Bank $bank_to_check $csvitem1
-        $id= Get-PnPProperty -ClientObject $items[$l] -Property Id
-       
         if($items[$l].FieldValues['bankName'] -ne $csvitem1[1]){
            Set-PnPListItem -List "BANKS" -Identity $id -Values @{
                "bankName"= $csvitem1[1]
@@ -219,7 +218,6 @@ while($c -lt $stop_c)
         }
     elseif([int]$csvitem -gt [int]$sharepointItem)
     {
-        $id= Get-PnPProperty -ClientObject $items[$l] -Property Id
         Remove-PnPListItem -List "BANKS" -Identity $id -Force
         $l= $l + 1
     }
@@ -228,12 +226,12 @@ while($c -lt $stop_c)
         Take_Item_Index_Bank $bank_to_check $csvitem1
         Add-PnPListItem -List "BANKS" -Values @{
             "bankCode"=$csvitem;
-            "bankBic"=$cvitem1[0];                                                   
-            "bankName"= $cvitem1[1];                    
-            "bankTel"= $cvitem1[2];
-            "bankFax"= $cvitem1[3];
-            "bankRegion"= $cvitem1[4];
-            "bankWebSite"= $cvitem1[5];
+            "bankBic"=$cvsitem1[0];                                                   
+            "bankName"= $cvsitem1[1];                    
+            "bankTel"= $cvsitem1[2];
+            "bankFax"= $cvsitem1[3];
+            "bankRegion"= $cvsitem1[4];
+            "bankWebSite"= $cvsitem1[5];
             }
 
         $c=$c+1
@@ -262,16 +260,16 @@ if($l -eq $stop_l)
     {
         $code=$Banks[$i].'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ'
         $bank_to_check=$Banks[$i]
-        Take_Item_Index_Bank $bank_to_check,$cvitem1
+        Take_Item_Index_Bank $bank_to_check,$cvsitem1
 
         Add-PnPListItem -List "BANKS" -Values @{
         "bankCode"=$code;
-        "bankBic"=$cvitem1[0];                                                   
-        "bankName"= $cvitem1[1];                    
-        "bankTel"= $cvitem1[2];
-        "bankFax"= $cvitem1[3];
-        "bankRegion"= $cvitem1[4];
-        "bankWebSite"= $cvitem1[5];
+        "bankBic"=$cvsitem1[0];                                                   
+        "bankName"= $cvsitem1[1];                    
+        "bankTel"= $cvsitem1[2];
+        "bankFax"= $cvsitem1[3];
+        "bankRegion"= $cvsitem1[4];
+        "bankWebSite"= $cvsitem1[5];
         }    
     }
 }
@@ -290,11 +288,11 @@ while($c -lt $stop_c){
     $sharepointItem = $items_Branch[$l].FieldValues['branchHebic']
     $csvitem2=@("","","","","","","","")
     $id= Get-PnPProperty -ClientObject $items_Branch[$l] -Property Id
+    $branch_to_check=$Branch[$c]
 
     #check the 2 hebics
     if([int]$csvitem -eq [int]$sharepointItem)
     {
-        $branch_to_check=$Branch[$c]
         Take_Item_Index_Branch $branch_to_check $csvitem2
         if($items_Branch[$l].FieldValues['branchName'] -ne $csvitem2[2] ){
             Set-PnPListItem -List "BRANCHES" -Identity $id -Values @{
@@ -316,18 +314,18 @@ while($c -lt $stop_c){
                 "branchTel"= $csvitem2[5];
             }
         }
-       if($items_Branch[$l].FieldValues['branchCommunity'] -ne $csvitem2[6]){
+		if($items_Branch[$l].FieldValues['branchCommunity'] -ne $csvitem2[6]){
             Set-PnPListItem -List "BRANCHES" -Identity $id -Values @{
                 "branchCommunity"= $csvitem2[6];
             }
         }
-       if($items_Branch[$l].FieldValues['branchMunicipality'] -ne $csvitem2[7]){
+		if($items_Branch[$l].FieldValues['branchMunicipality'] -ne $csvitem2[7]){
             Set-PnPListItem -List "BRANCHES" -Identity $id -Values @{
                 "branchMunicipality"= $csvitem2[7];
             }
         }
         $zip=$csvitem2[0]+$csvitem2[1]
-       if($items_Branch[$l].FieldValues['branchZipCode'] -ne $zip){
+		if($items_Branch[$l].FieldValues['branchZipCode'] -ne $zip){
             Set-PnPListItem -List "BRANCHES" -Identity $id -Values @{
                 "branchZipCode"= $zip;
             }
@@ -339,14 +337,12 @@ while($c -lt $stop_c){
     elseif([int]$csvitem -gt [int]$sharepointItem)
     {
         #if hebic of csv is greater than sharepoint's we dont need sharepoint's item anymore
-        $id= Get-PnPProperty -ClientObject $items_Branch[$l] -Property Id
         Remove-PnPListItem -List "BRANCHES" -Identity $id -Force
         $l= $l + 1
     }
     else
     {
         #else add the new item on sharepoint
-        $branch_to_check=$Branch[$c]
         Take_Item_Index_Branch $branch_to_check $csvitem2
         Add-PnPListItem -List "BRANCHES" -Values @{
         "branchHebic"=$csvitem;                                                   
