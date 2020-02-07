@@ -226,12 +226,12 @@ while($c -lt $stop_c)
         Take_Item_Index_Bank $bank_to_check $csvitem1
         Add-PnPListItem -List "BANKS" -Values @{
             "bankCode"=$csvitem;
-            "bankBic"=$cvsitem1[0];                                                   
-            "bankName"= $cvsitem1[1];                    
-            "bankTel"= $cvsitem1[2];
-            "bankFax"= $cvsitem1[3];
-            "bankRegion"= $cvsitem1[4];
-            "bankWebSite"= $cvsitem1[5];
+            "bankBic"=$csvitem1[0];                                                   
+            "bankName"= $csvitem1[1];                    
+            "bankTel"= $csvitem1[2];
+            "bankFax"= $csvitem1[3];
+            "bankRegion"= $csvitem1[4];
+            "bankWebSite"= $csvitem1[5];
             }
 
         $c=$c+1
