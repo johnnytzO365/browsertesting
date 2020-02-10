@@ -21,8 +21,8 @@
 
 #---------------------------------------------------------[Initialisations]--------------------------------------------------------
 $Url = "http://swisspost.spdev.local/"
-$branchesCSV = "C:\Users\TheocharisGIANNOPOUL\Documents\GitHub\browsertesting\PnP Scripts\BRANCHES.csv"
-$banksCSV = "C:\Users\TheocharisGIANNOPOUL\Documents\GitHub\browsertesting\PnP Scripts\BANKS.csv"
+$branchesCSV = "C:\Users\spsetup\Documents\Visual Studio 2012\Projects\SeleniumTutorial\PnP Scripts\PnP Scripts\BRANCHES.csv"
+$banksCSV = "C:\Users\spsetup\Documents\Visual Studio 2012\Projects\SeleniumTutorial\PnP Scripts\BANKS.csv"
 
 #----------------------------------------------------------[Declarations]----------------------------------------------------------
 #connect
