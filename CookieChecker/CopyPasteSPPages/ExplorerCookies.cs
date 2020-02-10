@@ -17,7 +17,7 @@ namespace CookieChecker
     
     class ExplorerCookies
     {
-        IWebDriver driver = new InternetExplorerDriver(ConfigurationManager.AppSettings["DriverPath"]);
+        IWebDriver driver = new InternetExplorerDriver(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["DriverPath"]);
         WebDriverWait wait;
 
         [SetUp]
@@ -33,7 +33,7 @@ namespace CookieChecker
         {
             
             String line;
-           StreamReader infile = new StreamReader(ConfigurationManager.AppSettings["DomainsNames"]);
+           StreamReader infile = new StreamReader(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["DomainsNames"]);
 
             Application oXL;
             Workbook oWB;
@@ -55,7 +55,10 @@ namespace CookieChecker
                 {
                     wait.Until(ExpectedConditions.AlertIsPresent());
                     var alert = driver.SwitchTo().Alert();
-                    alert.SetAuthenticationCredentials("bank\\e82331", "p@ssw0rd");
+
+                    string username = "bank\\" + ConfigurationManager.AppSettings["username"];
+                    string password = ConfigurationManager.AppSettings["password"];
+                    alert.SetAuthenticationCredentials(username,password);
                     alert.Accept();
                 }
                 catch
@@ -127,12 +130,12 @@ namespace CookieChecker
             oXL.DisplayAlerts = false;
             oXL.EnableEvents = false;
             oXL.DisplayAlerts = false;
-            oWB.SaveAs(ConfigurationManager.AppSettings["IEOutputFileAc"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oWB.SaveAs(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["IEOutputFileAc"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
 
-            String path = Utilities.UploadToTeamSite(ConfigurationManager.AppSettings["IEOutputFileAc"]);
-            String result = Utilities.TestFile(@"http://v000080043:9993/sites/sp_team_nbg/CookieCheckerResults/Sample/IE-CookiesAccept.xlsx", ConfigurationManager.AppSettings["IEOutputFileAc"]);
+            String path = Utilities.UploadToTeamSite(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["IEOutputFileAc"]);
+            String result = Utilities.TestFile(ConfigurationManager.AppSettings["teamSiteUrl"]+"CookieCheckerResults/Sample/IE-CookiesAccept.xlsx", AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["IEOutputFileAc"]);
             if (!(result.Equals("OK")))
             {
                 Utilities.SendEmail(path, "Explorer Cookies -> Acccept",result);
@@ -143,9 +146,9 @@ namespace CookieChecker
         public void CookiesBarRejectAll()
         {
             String line;
-            StreamReader infile = new StreamReader(ConfigurationManager.AppSettings["DomainsNames"]);
+            StreamReader infile = new StreamReader(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["DomainsNames"]);
 
-            IWebDriver driver = new InternetExplorerDriver(ConfigurationManager.AppSettings["DriverPath"]);
+            //IWebDriver driver = new InternetExplorerDriver(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["DriverPath"]);
 
             Application oXL;
             Workbook oWB;
@@ -168,8 +171,9 @@ namespace CookieChecker
                 {
                     wait.Until(ExpectedConditions.AlertIsPresent());
                     var alert = driver.SwitchTo().Alert();
-                    alert.SetAuthenticationCredentials("bank\\e82337", "Bah7mut13!");
-                    alert.Accept();
+                    string username = "bank\\" + ConfigurationManager.AppSettings["username"];
+                    string password = ConfigurationManager.AppSettings["password"];
+                    alert.SetAuthenticationCredentials(username, password);
                 }
                 catch
                 {
@@ -234,12 +238,12 @@ namespace CookieChecker
             oXL.UserControl = false;
             oXL.DisplayAlerts = false;
             oXL.DisplayAlerts = false;
-            oWB.SaveAs(ConfigurationManager.AppSettings["IEOutputFileRej"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oWB.SaveAs(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["IEOutputFileRej"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
 
-            String path = Utilities.UploadToTeamSite(ConfigurationManager.AppSettings["IEOutputFileRej"]);
-            String result = Utilities.TestFile(@"http://v000080043:9993/sites/sp_team_nbg/CookieCheckerResults/Sample/IE-CookiesRej.xlsx", ConfigurationManager.AppSettings["IEOutputFileRej"]);
+            String path = Utilities.UploadToTeamSite(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["IEOutputFileRej"]);
+            String result = Utilities.TestFile(ConfigurationManager.AppSettings["teamSiteUrl"]+"IE-CookiesRej.xlsx", AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["IEOutputFileRej"]);
             if (!(result.Equals("OK")))
             {
                 Utilities.SendEmail(path, "Explorer Cookies -> Reject",result);
@@ -250,7 +254,7 @@ namespace CookieChecker
         public void CookiesBarDefault()
         {
             String line;
-            StreamReader infile = new StreamReader(ConfigurationManager.AppSettings["DomainsNames"]);
+            StreamReader infile = new StreamReader(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["DomainsNames"]);
 
             Application oXL;
             Workbook oWB;
@@ -272,8 +276,9 @@ namespace CookieChecker
                 {
                     wait.Until(ExpectedConditions.AlertIsPresent());
                     var alert = driver.SwitchTo().Alert();
-                    alert.SetAuthenticationCredentials("bank\\e82337", "Bah7mut13!");
-                    alert.Accept();
+                    string username = "bank\\" + ConfigurationManager.AppSettings["username"];
+                    string password = ConfigurationManager.AppSettings["password"];
+                    alert.SetAuthenticationCredentials(username, password);
                 }
                 catch
                 {
@@ -298,12 +303,12 @@ namespace CookieChecker
             oXL.UserControl = false;
             oXL.DisplayAlerts = false;
             oXL.DisplayAlerts = false;
-            oWB.SaveAs(ConfigurationManager.AppSettings["IEOutputFileDef"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oWB.SaveAs(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["IEOutputFileDef"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
 
-            String path = Utilities.UploadToTeamSite(ConfigurationManager.AppSettings["IEOutputFileDef"]);
-            String result = Utilities.TestFile(@"http://v000080043:9993/sites/sp_team_nbg/CookieCheckerResults/Sample/IE-CookiesDef.xlsx", ConfigurationManager.AppSettings["IEOutputFileDef"]);
+            String path = Utilities.UploadToTeamSite(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["IEOutputFileDef"]);
+            String result = Utilities.TestFile(ConfigurationManager.AppSettings["teamSiteUrl"]+"IE-CookiesDef.xlsx", AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["IEOutputFileDef"]);
             if (!(result.Equals("OK")))
             {
                 Utilities.SendEmail(path, "Explorer Cookies -> Default",result);

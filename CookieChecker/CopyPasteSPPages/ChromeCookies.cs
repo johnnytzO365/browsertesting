@@ -16,7 +16,7 @@ namespace CookieChecker
 {
     class ChromeCookies
     {
-        IWebDriver driver = new ChromeDriver(ConfigurationManager.AppSettings["DriverPath"]);
+        IWebDriver driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["DriverPath"]);
         WebDriverWait wait;
 
         [SetUp]
@@ -30,7 +30,7 @@ namespace CookieChecker
         public void CookiesBarAcceptAll()
         {
             String line;
-            StreamReader infile = new StreamReader(ConfigurationManager.AppSettings["DomainsNames"]);
+            StreamReader infile = new StreamReader(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["DomainsNames"]);
 
             Application oXL;
             Workbook oWB;
@@ -104,7 +104,6 @@ namespace CookieChecker
                 oSheet.Cells[counter, 2] = number;
                 foreach (Cookie cook in cooks)
                 {
-                    TestForNewCookies(cook);
                     oSheet.Cells[counter, c2] = cook.Name;
                     c2++;
                 }
@@ -117,11 +116,11 @@ namespace CookieChecker
             oXL.Visible = false;
             oXL.UserControl = false;
             oXL.DisplayAlerts = false;
-            oWB.SaveAs(ConfigurationManager.AppSettings["ChromeOutputFileAc"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oWB.SaveAs(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["ChromeOutputFileAc"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
-            String path = Utilities.UploadToTeamSite(ConfigurationManager.AppSettings["ChromeOutputFileAc"]);
-            String result = Utilities.TestFile(@"http://v000080043:9993/sites/sp_team_nbg/CookieCheckerResults/Sample/Chrome-CookiesAccept.xlsx", ConfigurationManager.AppSettings["ChromeOutputFileAc"]);
+            String path = Utilities.UploadToTeamSite(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["ChromeOutputFileAc"]);
+            String result = Utilities.TestFile(ConfigurationManager.AppSettings["teamSiteUrl"]+"CookieCheckerResults/Sample/Chrome-CookiesAccept.xlsx", AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["ChromeOutputFileAc"]);
             if (!(result.Equals("OK")))
             {
                 Utilities.SendEmail(path, "Chrome Cookies -> Accept",result);
@@ -132,7 +131,7 @@ namespace CookieChecker
         public void CookiesBarRejectAll()
         {
             String line;
-            StreamReader infile = new StreamReader(ConfigurationManager.AppSettings["DomainsNames"]);
+            StreamReader infile = new StreamReader(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["DomainsNames"]);
 
             Application oXL;
             Workbook oWB;
@@ -197,7 +196,6 @@ namespace CookieChecker
                 oSheet.Cells[counter, 2] = number;
                 foreach (Cookie cook in cooks)
                 {
-                    TestForNewCookies(cook);
                     oSheet.Cells[counter, c2] = cook.Name;
                     c2++;
                 }
@@ -210,12 +208,12 @@ namespace CookieChecker
             oXL.Visible = false;
             oXL.UserControl = false;
             oXL.DisplayAlerts = false;
-            oWB.SaveAs(ConfigurationManager.AppSettings["ChromeOutputFileRej"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oWB.SaveAs(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["ChromeOutputFileRej"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
 
-            String path = Utilities.UploadToTeamSite(ConfigurationManager.AppSettings["ChromeOutputFileRej"]);
-            String result = Utilities.TestFile(@"http://v000080043:9993/sites/sp_team_nbg/CookieCheckerResults/Sample/Chrome-CookiesRej.xlsx", ConfigurationManager.AppSettings["ChromeOutputFileRej"]);
+            String path = Utilities.UploadToTeamSite(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["ChromeOutputFileRej"]);
+            String result = Utilities.TestFile(ConfigurationManager.AppSettings["teamSiteUrl"]+"CookieCheckerResults/Sample/Chrome-CookiesRej.xlsx", AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["ChromeOutputFileRej"]);
             if (!(result.Equals("OK")))
             {
                 Utilities.SendEmail(path, "Chrome Cookies -> Reject",result);
@@ -226,7 +224,7 @@ namespace CookieChecker
         public void CookiesBarDefault()
         {
             String line;
-            StreamReader infile = new StreamReader(ConfigurationManager.AppSettings["DomainsNames"]);
+            StreamReader infile = new StreamReader(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["DomainsNames"]);
 
             Application oXL;
             Workbook oWB;
@@ -251,7 +249,6 @@ namespace CookieChecker
                 oSheet.Cells[counter, 2] = number;
                 foreach (Cookie cook in cooks)
                 {
-                    TestForNewCookies(cook);
                     oSheet.Cells[counter, c2] = cook.Name;
                     c2++;
                 }
@@ -264,11 +261,11 @@ namespace CookieChecker
             oXL.Visible = false;
             oXL.UserControl = false;
             oXL.DisplayAlerts = false;
-            oWB.SaveAs(ConfigurationManager.AppSettings["ChromeOutputFileDef"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            oWB.SaveAs(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["ChromeOutputFileDef"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
-            String path = Utilities.UploadToTeamSite(ConfigurationManager.AppSettings["ChromeOutputFileDef"]);
-            String result = Utilities.TestFile(@"http://v000080043:9993/sites/sp_team_nbg/CookieCheckerResults/Sample/Chrome-CookiesDef.xlsx", ConfigurationManager.AppSettings["ChromeOutputFileDef"]);
+            String path = Utilities.UploadToTeamSite(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["ChromeOutputFileDef"]);
+            String result = Utilities.TestFile(ConfigurationManager.AppSettings["teamSiteUrl"]+"CookieCheckerResults/Sample/Chrome-CookiesDef.xlsx", AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["ChromeOutputFileDef"]);
             if (!(result.Equals("OK")))
             {
                 Utilities.SendEmail(path,"Chrome Cookies -> Default",result);
@@ -279,15 +276,6 @@ namespace CookieChecker
         public void CloseBrowser()
         {
             driver.Quit();
-        }
-
-        public void TestForNewCookies(OpenQA.Selenium.Cookie cook)
-        {
-            if (cook.Name != "NBGPUBLICConsent" && cook.Name != "NBGpublicSite" && cook.Name != "WSS_FullScreenMode" && cook.Name != "_ga" && cook.Name != "_gat"
-                            && cook.Name != "_gid" && cook.Name != "Consent" && cook.Name != "NID")
-            {
-                Console.Write(cook.Name);
-            }
         }
     }
 }

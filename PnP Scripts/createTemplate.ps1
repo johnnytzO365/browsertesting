@@ -1,38 +1,4 @@
-﻿Import-Module SharePointPnPPowerShellOnline
-Set-PnPTraceLog -On -Level:Debug
-
-#initializations
-$Url = "https://bousiou.sharepoint.com/sites/SiteTemplate"
-$targetPath = "C:\Users\e82331\Desktop\Template\"
-
-#connect
-$UserName = "sindy@bousiou.onmicrosoft.com"
-$PassWord = "Y?Ugjxgar"
-[SecureString]$SecurePassWord = ConvertTo-SecureString $PassWord -AsPlainText -Force
-$Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePassWord)
-$connection = Connect-PnPOnline -Url $Url -Credentials $Credentials
-
-#create the template
-$templateUrl = "C:\Users\e82331\Desktop\Template\Template.xml"
-Get-PnPProvisioningTemplate -Out $templateUrl -Force -PersistBrandingFiles -IncludeAllClientSidePages -Handlers Navigation, PageContents, Pages, WebSettings, Lists, Files
-
-#get all document libraries
-$docLibs = Get-PNPList | Where-Object{$_.BaseTemplate -eq 101}
-
-#process each document library
-foreach($doc in $docLibs)
-{
-
-    $docSplits = $null
-    $docSplits = ($doc.DefaultViewUrl).Split("/")  #build the relative url to the document library
-    $docUrl = "/sites/Sitetemplate/" + $docSplits[3]
-    ProcessFolder $docUrl ($targetPath+$docSplits[3])
-
-    $tempfolders = Get-PnPProperty -ClientObject $doc.RootFolder -Property Folders
-    ProcessSubFolders $tempfolders ($targetPath+$docSplits[3])
-}
-
-function ProcessSubFolders($folders, $targetPath) {
+﻿function ProcessSubFolders($folders, $targetPath) {
     foreach ($folder in $folders) {
         $tempurls = Get-PnPProperty -ClientObject $folder -Property ServerRelativeUrl 
         #Avoid Forms folders
@@ -68,4 +34,40 @@ function ProcessFolder($docUrl,$targetPath)
         Get-PnPFile -ServerRelativeUrl $file.ServerRelativeUrl -Path $targetPath -FileName $file.Name -AsFile -Force
         Add-PnPFileToProvisioningTemplate -Path $templateUrl -Source ($targetPath + "\" + $file.Name) -Folder $finalUrl -FileLevel Published
     }
+}
+
+#---------------------------------------------------------------------------------------------------------------------------------------------#
+
+Import-Module SharePointPnPPowerShellOnline
+Set-PnPTraceLog -On -Level:Debug
+
+#initializations
+$Url = "https://groupnbg.sharepoint.com/sites/TranformationQA"
+$targetPath = "C:\Users\e82331\Desktop\TransformationTemplate\"
+
+#connect
+$UserName = "e82331@nbg.gr"
+$PassWord = "Y?Ugjxgar"
+[SecureString]$SecurePassWord = ConvertTo-SecureString $PassWord -AsPlainText -Force
+$Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePassWord)
+$connection = Connect-PnPOnline -Url $Url -Credentials $Credentials
+
+#create the template
+$templateUrl = "C:\Users\e82331\Desktop\TransformationTemplate\Template.xml"
+Get-PnPProvisioningTemplate -Out $templateUrl -Force -PersistBrandingFiles -IncludeAllClientSidePages -Handlers Navigation, PageContents, Pages, WebSettings, Lists, Files, Features
+
+#get all document libraries
+$docLibs = Get-PNPList | Where-Object{$_.BaseTemplate -eq 101}
+
+#process each document library
+foreach($doc in $docLibs)
+{
+
+    $docSplits = $null
+    $docSplits = ($doc.DefaultViewUrl).Split("/")  #build the relative url to the document library
+    $docUrl = "/sites/TranformationQA/" + $docSplits[3]
+    ProcessFolder $docUrl ($targetPath+$docSplits[3])
+
+    $tempfolders = Get-PnPProperty -ClientObject $doc.RootFolder -Property Folders
+    ProcessSubFolders $tempfolders ($targetPath+$docSplits[3])
 }
