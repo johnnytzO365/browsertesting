@@ -1,6 +1,5 @@
 ﻿Import-Module -Name SharePointPnPPowerShellOnline -DisableNameChecking
-$Url = "https://bousiou.sharepoint.com/sites/Transformation2"
-$targetPath = "C:\Users\e82331\Desktop\TransformationTemplate\"
+$Url = "https://bousiou.sharepoint.com/sites/TransformationQA5"
 
 #connect
 $UserName = "sindy@bousiou.onmicrosoft.com"

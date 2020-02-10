@@ -43,7 +43,7 @@ Set-PnPTraceLog -On -Level:Debug
 
 #initializations
 $Url = "https://groupnbg.sharepoint.com/sites/TranformationQA"
-$targetPath = "C:\Users\e82331\Desktop\TransformationTemplate\"
+#$targetPath = "C:\Users\e82331\Desktop\TransformationTemplate3\"
 
 #connect
 $UserName = "e82331@nbg.gr"
@@ -53,9 +53,12 @@ $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$S
 $connection = Connect-PnPOnline -Url $Url -Credentials $Credentials
 
 #create the template
-$templateUrl = "C:\Users\e82331\Desktop\TransformationTemplate\Template.xml"
-Get-PnPProvisioningTemplate -Out $templateUrl -Force -PersistBrandingFiles -IncludeAllClientSidePages -Handlers Navigation, PageContents, Pages, WebSettings, Lists, Files, Features
+$templateUrl = "C:\Users\e82331\Desktop\TransformationTemplate3\Template.xml"
+Get-PnPProvisioningTemplate -Out $templateUrl -Handlers Pages, PageContents, Lists, Navigation, WebSettings -ListsToExtract "Site Pages","testList" -IncludeAllClientSidePages -PersistBrandingFiles
+Add-PnPDataRowsToProvisioningTemplate -Path $templateUrl -List "testList"
+Add-PnPDataRowsToProvisioningTemplate -Path $templateUrl -List "Site Pages" -Fields "Category","IsNews"
 
+<#
 #get all document libraries
 $docLibs = Get-PNPList | Where-Object{$_.BaseTemplate -eq 101}
 
@@ -70,4 +73,4 @@ foreach($doc in $docLibs)
 
     $tempfolders = Get-PnPProperty -ClientObject $doc.RootFolder -Property Folders
     ProcessSubFolders $tempfolders ($targetPath+$docSplits[3])
-}
+}#>
