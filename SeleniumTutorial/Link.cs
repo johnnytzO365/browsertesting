@@ -24,11 +24,11 @@ namespace SeleniumTutorial
         [SetUp]
         public void StartBrowser()
         {
-            driver = new InternetExplorerDriver(ConfigurationManager.AppSettings["ChromeDriverPath"]);
+            driver = new ChromeDriver(ConfigurationManager.AppSettings["ChromeDriverPath"]);
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(40));
+
             driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]));
             Thread.Sleep(2000);
-
             driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderMain_ClaimsLogonSelector']")).Click();
             wait.Until(ExpectedConditions.ElementExists(By.XPath("//*[@id='ctl00_PlaceHolderMain_ClaimsLogonSelector']/option[2]")));
             driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderMain_ClaimsLogonSelector']/option[3]")).Click();
@@ -45,9 +45,9 @@ namespace SeleniumTutorial
             {
                 Console.WriteLine(e.Message);
             }
+
             Thread.Sleep(4000);
 
-            
         }
         [Test]
         public void CheckLinksOnGlobalNav()
