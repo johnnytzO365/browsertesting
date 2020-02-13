@@ -22,14 +22,14 @@ $worksheet.Cells.Item(1,2)= 'Category'
 $worksheet.Cells.Item(1,3) = 'Date'
 $worksheet.Cells.Item(1,4) = 'Name'
 
-$ListItems = Get-PnPListItem -List "Pages"
+$ListItems = Get-PnPListItem -List "Pages" -Query "<View><Query><Where><Gt><FieldRef Name='ArticleStartDate' /><Value IncludeTimeValue='TRUE' Type='DateTime'>2020-01-29T16:07:50Z</Value></Gt></Where></Query></View>"
 $i=2
 ForEach($Item in $ListItems)
 {
     $title = Get-PnPProperty -ClientObject $Item.File -Property Title
     $category = $Item.FieldValues["CategoryInternalCom"]
     $name = Get-PnPProperty -ClientObject $Item.File -Property Name
-    $date = $Item.FieldValues["ArticleStartDate"]
+    $date = $Item.FieldValues["ArticleStartDate"].AddDays(1)
     if(!($name.EndsWith(".aspx")))
     {
         $fileUrl = "/InternalCom/Pages/" + $name

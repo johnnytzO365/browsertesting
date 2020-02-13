@@ -2,23 +2,15 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.IE;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-using System.Threading;
-using System.Configuration;
-using System.IO;
-using OpenQA.Selenium.Chrome;
-using Microsoft.Office;
+using Microsoft.Office.Interop.Excel;
 
 namespace CopyPasteSPPages
 {
     class Test
     {
-        IWebDriver driver = new InternetExplorerDriver("C:\\Users\\e82331\\Desktop\\IEDriverServer");
+        IWebDriver driver = new InternetExplorerDriver("C:\\Users\\e82331\\Desktop\\Git\\browsertesting\\.nuget");
         WebDriverWait wait;
 
         [SetUp]
@@ -31,10 +23,10 @@ namespace CopyPasteSPPages
         [Test]
         public void CopyPaste()
         {
-            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
-            Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Users\e82331\Downloads\CommunicationPages.xlsx", ReadOnly: false);
-            Microsoft.Office.Interop.Excel._Worksheet oSheet = xlWorkbook.Sheets[1];
-            Microsoft.Office.Interop.Excel.Range xlRange = oSheet.UsedRange;
+            Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+            Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Users\e82331\Desktop\pageUrls1.xlsx", ReadOnly: false);
+            Worksheet oSheet = xlWorkbook.Sheets[1];
+            Range xlRange = oSheet.UsedRange;
 
             int rowCount = xlRange.Rows.Count;
             for(int i=2;i<=rowCount;i++)
@@ -45,24 +37,30 @@ namespace CopyPasteSPPages
                 {
                     wait.Until(ExpectedConditions.AlertIsPresent());
                     var alert = driver.SwitchTo().Alert();
-                    alert.SetAuthenticationCredentials("bank\\e82331", "p@ssw0rd");
+                    alert.SetAuthenticationCredentials("bank\\e82331", "Y?Ugjxgar");
                     alert.Accept();
                 }
                 catch
                 {
                 }
 
-                wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("article-content")));
-                IWebElement content = driver.FindElement(By.ClassName("article-content"));
-                String html = content.GetAttribute("outerHTML");
-                Console.WriteLine(html);
+                try
+                {
+                    wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("article-content")));
+                    IWebElement content = driver.FindElement(By.ClassName("article-content"));
+                    string html = content.GetAttribute("outerHTML");
+                    Console.WriteLine(html);
 
-                oSheet.Cells[i, 4] = html;
+                    oSheet.Cells[i, 5] = html;
+                }
+                catch
+                {
+                }
             }
 
             xlApp.Visible = false;
             xlApp.UserControl = false;
-            xlWorkbook.SaveAs(@"C:\Users\e82331\Desktop\CommunicationPages.xlsx", Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing,false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange,Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            xlWorkbook.SaveAs(@"C:\Users\e82331\Desktop\pageUrls.xlsx", XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing,false, false, XlSaveAsAccessMode.xlNoChange,Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             xlWorkbook.Close();
             xlApp.Quit();
         }
