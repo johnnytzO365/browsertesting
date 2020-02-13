@@ -28,7 +28,7 @@ namespace SeleniumTutorial
             driver = new ChromeDriver(ConfigurationManager.AppSettings["ChromeDriverPath"]);
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(40));
 
-            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]));
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["QAServerName"]));
             Thread.Sleep(2000);
         }
         [Test]
@@ -146,6 +146,123 @@ namespace SeleniumTutorial
 
         }
 
+        [Test]
+        public void CheckAccordions() {
+            //Header Accordion
+            IWebElement parentMenu = driver.FindElement(By.XPath("//span[@id='DeltaPlaceHolderMain']/div/div/div/div/div/ul/li/a"));
+            try
+            {
+                parentMenu.Click();
+                Thread.Sleep(2000);
+                parentMenu.Click();
+                Thread.Sleep(2000);
+                Console.WriteLine("Όμιλος");
+            }
+
+            catch
+            {
+                Console.WriteLine("Όμιλος πρόβλημα");
+            }
+
+            parentMenu = driver.FindElement(By.XPath("//span[@id='DeltaPlaceHolderMain']/div/div/div/div/div/ul/li[2]/a"));
+            try
+            {
+                parentMenu.Click();
+                Thread.Sleep(2000);
+                parentMenu.Click();
+                Thread.Sleep(2000);
+                Console.WriteLine("Εταιρική Διακυβέρνηση");
+            }
+            catch
+            {
+                Console.WriteLine("Εταιρική Διακυβέρνηση πρόβλημα");
+            }
+
+            parentMenu = driver.FindElement(By.XPath("//span[@id='DeltaPlaceHolderMain']/div/div/div/div/div/ul/li[3]/a"));
+            try
+            {
+                parentMenu.Click();
+                Thread.Sleep(2000);
+                parentMenu.Click();
+                Thread.Sleep(2000);
+                Console.WriteLine("Ενημέρωση Επενδυτών");
+            }
+            catch
+            {
+                Console.WriteLine("Ενημέρωση Επενδυτών πρόβλημα");
+            }
+
+            parentMenu = driver.FindElement(By.XPath("//span[@id='DeltaPlaceHolderMain']/div/div/div/div/div/ul/li[4]/a"));
+            try
+            {
+                parentMenu.Click();
+                Thread.Sleep(2000);
+                parentMenu.Click();
+                Thread.Sleep(2000);
+                Console.WriteLine("Γραφείο Τύπου");
+            }
+            catch
+            {
+                Console.WriteLine("Γραφείο Τύπου πρόβλημα");
+            }
+            
+            //Top Menu Accordion
+            parentMenu = driver.FindElement(By.XPath("//span[@id='DeltaPlaceHolderMain']/div/div/div/div[2]/div/ul/li/a"));
+            try
+            {
+                parentMenu.Click();
+                Thread.Sleep(2000);
+                parentMenu.Click();
+                Thread.Sleep(2000);
+                Console.WriteLine("Ιδιώτες");
+            }
+            catch
+            {
+                Console.WriteLine("Ιδιώτες πρόβλημα");
+            }
+            parentMenu = driver.FindElement(By.XPath("//span[@id='DeltaPlaceHolderMain']/div/div/div/div[2]/div/ul/li[2]/a"));
+            try
+            {
+                parentMenu.Click();
+                Thread.Sleep(2000);
+                parentMenu.Click();
+                Thread.Sleep(2000);
+                Console.WriteLine("Επαγγελματίες & ΜΜΕ");
+            }
+            catch
+            {
+                Console.WriteLine("Επαγγελματίες & ΜΜΕ πρόβλημα");
+            }
+
+            parentMenu = driver.FindElement(By.XPath("//span[@id='DeltaPlaceHolderMain']/div/div/div/div[2]/div/ul/li[3]/a"));
+            try
+            {
+                parentMenu.Click();
+                Thread.Sleep(2000);
+                parentMenu.Click();
+                Thread.Sleep(2000);
+                Console.WriteLine("Επιχειρήσεις & Financial Institutions");
+            }
+            catch
+            {
+                Console.WriteLine("Επιχειρήσεις & Financial Institutions πρόβλημα");
+            }
+
+            //DropDown Accordion
+            parentMenu = driver.FindElement(By.XPath("//div[@id='ctl00_SPWebPartManager1_g_abf8d9a9_0af0_446b_ab87_9958a44b5ff9']/div/div[3]/h3"));
+            try
+            {
+                parentMenu.Click();
+                Thread.Sleep(2000);
+                parentMenu.Click();
+                Thread.Sleep(2000);
+                Console.WriteLine("Χρήσιμοι Σύνδεσμοι");
+            }
+            catch
+            {
+                Console.WriteLine("Χρήσιμοι Σύνδεσμοι πρόβλημα");
+            }
+        }
         bool IsLinkWorking(string url)
         {
             try
