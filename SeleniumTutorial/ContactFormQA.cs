@@ -18,7 +18,7 @@ namespace SeleniumTutorial
         public void StartBrowser()
         {
             ChromeOptions options = new ChromeOptions();
-            options.AddArguments("headless");
+            options.AddArguments("enable-automation");
             driver = new ChromeDriver(ConfigurationManager.AppSettings["ChromeDriverPath"],options);
             driver.Manage().Window.Maximize();  //to use the desired width of window
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
@@ -100,8 +100,9 @@ namespace SeleniumTutorial
             }
             catch
             {
-                //Assert.Fail("Couldn't find submit button!");
+                Assert.Fail("Couldn't find submit button!");
             }
+            Thread.Sleep(3000);
             driver.Quit();
             driver = new ChromeDriver(ConfigurationManager.AppSettings["ChromeDriverPath"]);
             driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["authQAServerName"]) + "Lists/ContactForms/AllItems.aspx");  //go to contact list
