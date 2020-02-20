@@ -18,8 +18,8 @@ $banksCSV = "C:\Users\e82276\Downloads\BANKS.csv"
 
 #----------------------------------------------------------[Declarations]----------------------------------------------------------
 #connect
-$UserName = "e82276"
-$pwd = "n3wYearNewPwd"
+$UserName = ""
+$pwd = ""
 [SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
 Connect-PnPOnline -Url $Url -Credentials $Credentials
