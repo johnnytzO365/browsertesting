@@ -11,5 +11,5 @@ $connection = Connect-PnPOnline -Url $Url -Credentials $Credentials
 
 #create the template
 $templateUrl = "C:\Users\e82331\Desktop\communicationTemplate\Template.xml"
-Get-PnPProvisioningTemplate -Out $templateUrl -Handlers Pages, PageContents, Lists, Navigation, WebSettings,SiteSecurity -ListsToExtract "testList" -IncludeAllClientSidePages -PersistBrandingFiles
+Get-PnPProvisioningTemplate -Out $templateUrl -Handlers PageContents, Lists, Navigation, WebSettings,SiteSecurity -ListsToExtract "testList" -IncludeAllClientSidePages -PersistBrandingFiles
 Add-PnPDataRowsToProvisioningTemplate -Path $templateUrl -List "testList"

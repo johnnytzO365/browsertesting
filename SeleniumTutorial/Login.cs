@@ -27,12 +27,12 @@ namespace SeleniumTutorial
         {
             driver = new InternetExplorerDriver(ConfigurationManager.AppSettings["ChromeDriverPath"]);
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(40));
-            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]));
+            /*driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]));
             Thread.Sleep(2000);
 
             driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderMain_ClaimsLogonSelector']")).Click();
             wait.Until(ExpectedConditions.ElementExists(By.XPath("//*[@id='ctl00_PlaceHolderMain_ClaimsLogonSelector']/option[2]")));
-            driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderMain_ClaimsLogonSelector']/option[2]")).Click();
+            driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderMain_ClaimsLogonSelector']/option[2]")).Click();*/
         }
 
         [Test]
@@ -57,12 +57,16 @@ namespace SeleniumTutorial
         [Test]
         public void TestLOginQA()
         {
-            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]));
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["authQAServerName"]));
             Thread.Sleep(2000);
-
-            driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderMain_ClaimsLogonSelector']")).Click();
-            wait.Until(ExpectedConditions.ElementExists(By.XPath("//*[@id='ctl00_PlaceHolderMain_ClaimsLogonSelector']/option[2]")));
-            driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderMain_ClaimsLogonSelector']/option[3]")).Click();
+            try
+            {
+                wait.Until(ExpectedConditions.ElementExists(By.XPath("//*[@id='ctl00_PlaceHolderMain_ClaimsLogonSelector']")));
+                driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderMain_ClaimsLogonSelector']")).Click();
+                wait.Until(ExpectedConditions.ElementExists(By.XPath("//*[@id='ctl00_PlaceHolderMain_ClaimsLogonSelector']/option[2]")));
+                driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderMain_ClaimsLogonSelector']/option[3]")).Click();
+            }
+            catch { }
 
             //Thread.Sleep(10000);
             try

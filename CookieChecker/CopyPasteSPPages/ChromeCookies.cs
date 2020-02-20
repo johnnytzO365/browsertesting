@@ -10,18 +10,27 @@ using System.Configuration;
 using Microsoft.Office.Interop.Excel;
 using CopyPasteSPPages;
 using System.IO;
-using System.Collections.Specialized;
 
 namespace CookieChecker
 {
     class ChromeCookies
     {
-        IWebDriver driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["DriverPath"]);
+
+        IWebDriver driver;
         WebDriverWait wait;
 
         [SetUp]
         public void StartBrowser()
         {
+            ChromeOptions options = new ChromeOptions();
+            options.AddArguments("--headless");
+            //options.AddArguments("--disable-gpu");
+            //options.AddArguments("--no-sandbox");
+            //options.AddArguments("--allow-insecure-localhost");
+           // options.AddArguments("--remote-debugging-port=9222");
+           // options.AddAdditionalCapability("acceptInsecureCerts", true, true);
+            //System.setProperty("webdriver.chrome.silentOutput", "true");
+            driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory + ConfigurationManager.AppSettings["DriverPath"], options);
             driver.Manage().Window.Maximize();  //to use the desired width of window
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(4));
         }
@@ -29,7 +38,7 @@ namespace CookieChecker
         [Test]
         public void CookiesBarAcceptAll()
         {
-            String line;
+            string line;
             StreamReader infile = new StreamReader(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["DomainsNames"]);
 
             Application oXL;
@@ -223,7 +232,7 @@ namespace CookieChecker
         [Test]
         public void CookiesBarDefault()
         {
-            String line;
+            string line;
             StreamReader infile = new StreamReader(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["DomainsNames"]);
 
             Application oXL;
@@ -241,8 +250,18 @@ namespace CookieChecker
             while ((line = infile.ReadLine()) != null)
             {
                 int c2 = 3;
-                driver.Navigate().GoToUrl(line);
-
+                try
+                {
+                    driver.Navigate().GoToUrl(line);
+                }
+                catch
+                {
+                    oSheet.Cells[counter, 1] = line;
+                    oSheet.Cells[counter, 2] = "Page Problem";
+                    counter++;
+                    continue;
+                }
+                
                 int number = driver.Manage().Cookies.AllCookies.Count;
                 List<Cookie> cooks = driver.Manage().Cookies.AllCookies.ToList();
                 oSheet.Cells[counter, 1] = line;
@@ -264,7 +283,7 @@ namespace CookieChecker
             oWB.SaveAs(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["ChromeOutputFileDef"], Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             oWB.Close();
             oXL.Quit();
-            String path = Utilities.UploadToTeamSite(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["ChromeOutputFileDef"]);
+            string path = Utilities.UploadToTeamSite(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["ChromeOutputFileDef"]);
             String result = Utilities.TestFile(ConfigurationManager.AppSettings["teamSiteUrl"]+"CookieCheckerResults/Sample/Chrome-CookiesDef.xlsx", AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["ChromeOutputFileDef"]);
             if (!(result.Equals("OK")))
             {

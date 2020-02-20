@@ -17,12 +17,17 @@ namespace CookieChecker
     
     class ExplorerCookies
     {
-        IWebDriver driver = new InternetExplorerDriver(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["DriverPath"]);
+        IWebDriver driver;
         WebDriverWait wait;
 
         [SetUp]
         public void StartBrowser()
         {
+            InternetExplorerOptions options = new InternetExplorerOptions();
+            options.AddAdditionalCapability("headless",true);
+            
+            
+            driver = new InternetExplorerDriver(AppDomain.CurrentDomain.BaseDirectory + ConfigurationManager.AppSettings["DriverPath"]);
             driver.Manage().Window.Maximize();  //to use the desired width of window
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
         }
@@ -31,8 +36,8 @@ namespace CookieChecker
         [Test]
         public void CookiesBarAcceptAll()
         {
-            
-            String line;
+
+            string line;
            StreamReader infile = new StreamReader(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["DomainsNames"]);
 
             Application oXL;
@@ -145,7 +150,7 @@ namespace CookieChecker
         [Test]
         public void CookiesBarRejectAll()
         {
-            String line;
+            string line;
             StreamReader infile = new StreamReader(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["DomainsNames"]);
 
             //IWebDriver driver = new InternetExplorerDriver(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["DriverPath"]);
@@ -253,7 +258,7 @@ namespace CookieChecker
         [Test]
         public void CookiesBarDefault()
         {
-            String line;
+            string line;
             StreamReader infile = new StreamReader(AppDomain.CurrentDomain.BaseDirectory+ConfigurationManager.AppSettings["DomainsNames"]);
 
             Application oXL;
