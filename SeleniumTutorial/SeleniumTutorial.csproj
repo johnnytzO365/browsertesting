@@ -78,7 +78,7 @@
     <Compile Include="NewsPage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PublicSiteTest.cs" />
+    <Compile Include="StartpageSmokeTestsQA.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
