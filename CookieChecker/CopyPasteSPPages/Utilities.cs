@@ -41,7 +41,7 @@ namespace CopyPasteSPPages
                 var serverRelativeUrl = clientContext.Site.RootWeb.ServerRelativeUrl;
 
                 //Check and create folder
-                String name = DateTime.Now.ToString("yyyy.MM.dd");
+                string name = DateTime.Now.ToString("yyyy.MM.dd");
                 Microsoft.SharePoint.Client.List list = clientContext.Web.Lists.GetByTitle("CookieCheckerResults");
                 FolderCollection folders = list.RootFolder.Folders;
                 clientContext.Load(list);
@@ -57,7 +57,7 @@ namespace CopyPasteSPPages
                 }
 
                 //Add the file
-                String[] Splits = localPath.Split('\\');
+                string[] Splits = localPath.Split('\\');
                 using (FileStream fs = new FileStream(localPath, FileMode.Open))
                 {
                     Microsoft.SharePoint.Client.File.SaveBinaryDirect(clientContext, "/sites/sp_team_nbg/CookieCheckerResults/" + name + "/" + Splits[Splits.Length - 1], fs, true);
@@ -67,7 +67,7 @@ namespace CopyPasteSPPages
             }
         }
 
-        static public String TestFile(String path1, String path2)
+        static public string TestFile(string path1, string path2)
         {
             Application excel1 = new Application();
             Workbook wb1 = excel1.Workbooks.Open(path1);
@@ -98,13 +98,13 @@ namespace CopyPasteSPPages
                 return "Number of sites";
             }
 
-            String ret = "Lines ";
+            string ret = "Lines ";
             for (int i = 1; i <= row1; i++)
             {
                 for (int j = 1; j <= column1; j++)
                 {
-                    String str1 = "";
-                    String str2 = "";
+                    string str1 = "";
+                    string str2 = "";
                     if (sheet1.Cells[i, j].Value2 != null)
                     {
                         str1 = sheet1.Cells[i, j].Value2.ToString();
