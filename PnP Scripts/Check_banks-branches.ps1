@@ -12,23 +12,23 @@
 #>
 
 #---------------------------------------------------------[Initialisations]--------------------------------------------------------
-$Url = "http://swisspost.spdev.local/"
-$branchesCSV = "C:\Users\spsetup\Documents\Visual Studio 2012\Projects\SeleniumTutorial\PnP Scripts\PnP Scripts\BRANCHES.csv"
-$banksCSV = "C:\Users\spsetup\Documents\Visual Studio 2012\Projects\SeleniumTutorial\PnP Scripts\BANKS.csv"
+$Url = "http://v000080043:9993/sites/hebic"
+$branchesCSV = "C:\Users\e82276\Downloads\BRANCHES.csv"
+$banksCSV = "C:\Users\e82276\Downloads\BANKS.csv"
 
 #----------------------------------------------------------[Declarations]----------------------------------------------------------
 #connect
-$UserName = "spsetup"
-$pwd = "p@ssw0rd"
+$UserName = "e82276"
+$pwd = "n3wYearNewPwd"
 [SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
 Connect-PnPOnline -Url $Url -Credentials $Credentials
 
 #======================================================================================================================================================
 $items =Get-PnPListItem -List “BANKS” -Query "<View><Query><OrderBy><FieldRef Name='bankCode' Ascending='True' /></OrderBy></Query></View>"
-$Banks = import-csv -Delimiter ";" -Path $banksCSV -Encoding UTF8 | sort 'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ'
+$Banks = import-csv -Delimiter ";" -Path $banksCSV -Encoding Default | sort 'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ'
 #======================================================================================================================================================
-$Branch = Import-Csv -Delimiter ";" -Path $branchesCSV -Encoding UTF8 | sort 'ΚΩΔΙΚΟΣ HEBIC'
+$Branch = Import-Csv -Delimiter ";" -Path $branchesCSV -Encoding Default | sort 'ΚΩΔΙΚΟΣ HEBIC'
 $items_Branch = Get-PnPListItem -List “BRANCHES” -Query "<View><Query><OrderBy><FieldRef Name='branchHebic' Ascending='True' /></OrderBy></Query></View>"
 
 #-----------------------------------------------------------[Functions]------------------------------------------------------------
