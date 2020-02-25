@@ -1,35 +1,36 @@
 ﻿<#
 .SYNOPSIS
-  This script makes updates on list BANKS and BRANCHES, for Hebic app
+  <Overview of script>
 .DESCRIPTION
-  From CSV Bank and Branch, check every row of CSV with the list, and if they have the same code checks for changes else delete from sharepoint or add this index
+  <Brief description of script>
+.PARAMETER <Parameter_Name>
+    <Brief description of parameter input required. Repeat this attribute if required>
+.INPUTS
+  <Inputs if any, otherwise state None>
+.OUTPUTS
+  <Outputs if any, otherwise state None - example: Log file stored in C:\Windows\Temp\<name>.log>
 .NOTES
   Version:        1.0
-  Author:         Haris Giannopoulos
-  Creation Date:  4/02/2020
-  Purpose/Change: Hebic nbg app
+  Author:         <Name>
+  Creation Date:  <Date>
+  Purpose/Change: Initial script development
   
+.EXAMPLE
+  <Example goes here. Repeat this attribute for more than one example>
 #>
 
 #---------------------------------------------------------[Initialisations]--------------------------------------------------------
-$Url = "http://swisspost.spdev.local/"
-$branchesCSV = "C:\Users\spsetup\Documents\Visual Studio 2012\Projects\SeleniumTutorial\PnP Scripts\PnP Scripts\BRANCHES.csv"
-$banksCSV = "C:\Users\spsetup\Documents\Visual Studio 2012\Projects\SeleniumTutorial\PnP Scripts\BANKS.csv"
+$Url = "http://mynbgportal/sites/hebic/"
+$branchesCSV = "C:\Users\e82331\Desktop\branches. 31 12 19.csv"
+$banksCSV = "C:\Users\e82331\Desktop\banks. 31 12 19.csv"
 
 #----------------------------------------------------------[Declarations]----------------------------------------------------------
 #connect
-$UserName = "spsetup"
-$pwd = "p@ssw0rd"
+$UserName = "e82331"
+$pwd = "Y?Ugjxgar"
 [SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
-Connect-PnPOnline -Url $Url -Credentials $Credentials
 
-#======================================================================================================================================================
-$items =Get-PnPListItem -List “BANKS” -Query "<View><Query><OrderBy><FieldRef Name='bankCode' Ascending='True' /></OrderBy></Query></View>"
-$Banks = import-csv -Delimiter ";" -Path $banksCSV -Encoding UTF8 | sort 'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ'
-#======================================================================================================================================================
-$Branch = Import-Csv -Delimiter ";" -Path $branchesCSV -Encoding UTF8 | sort 'ΚΩΔΙΚΟΣ HEBIC'
-$items_Branch = Get-PnPListItem -List “BRANCHES” -Query "<View><Query><OrderBy><FieldRef Name='branchHebic' Ascending='True' /></OrderBy></Query></View>"
 
 #-----------------------------------------------------------[Functions]------------------------------------------------------------
 
@@ -92,23 +93,9 @@ function Take_Item_Index_Bank($bank_to_check,$csvitem1)
 }
 function Take_Item_Index_Branch($branch_to_check,$csvitem2)
 {
-    if([int]$branch_to_check.'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ' -ge 100)
-    {
-        $csvitem2[0] = $branch_to_check.'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
-    }
-    else
-    {
-        $csvitem2[0] = "0"+$branch_to_check.'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
-    }
 
-    if([int]$branch_to_check.'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ' -ge 10)
-    {
-        $csvitem2[1] = $branch_to_check.'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
-    }
-    else
-    {
-        $csvitem2[1] = "0"+$branch_to_check.'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
-    }
+    $csvitem2[0] = $branch_to_check.'ΓΡΑΦΕΙΟ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
+    $csvitem2[1] = $branch_to_check.'ΔΙΑΔΡΟΜΗ ΤΑΧΥΔΡΟΜΙΚΟΥ ΚΩΔΙΚΑ';
 	
 	if(!$branch_to_check.'ΟΝΟΜΑΣΙΑ ΚΑΤΑΣΤΗΜΑΤΟΣ (ΕΛΛΗΝΙΚΑ)' )
     {
@@ -165,23 +152,33 @@ function Take_Item_Index_Branch($branch_to_check,$csvitem2)
     }
 }
 #-----------------------------------------------------------[Execution]------------------------------------------------------------
+Connect-PnPOnline -Url $Url -Credentials $Credentials
+
+#======================================================================================================================================================
+$items = Get-PnPListItem -List “BANKS” -Query "<View><Query><OrderBy><FieldRef Name='bankCode' Ascending='True' /></OrderBy></Query></View>"
+$Banks = import-csv -Delimiter ";" -Path $banksCSV -Encoding Default | sort 'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ'
+#======================================================================================================================================================
+$Branch = Import-Csv -Delimiter ";" -Path $branchesCSV -Encoding Default | sort 'ΚΩΔΙΚΟΣ HEBIC'
+$items_Branch = Get-PnPListItem -List “BRANCHES” -Query "<View><Query><OrderBy><FieldRef Name='branchHebic' Ascending='True' /></OrderBy></Query></View>"
 
 #start to import on banks
 $l=0
 $c=0
-$stop_l=$items.Count
 $stop_c=$Banks.Count
+$stop_l=$items.Count
 
 while($c -lt $stop_c)
 {
     $csvitem = $Banks[$c].'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ'
     $csvitem1=@("","","","","","")
     $sharepointItem = $items[$l].FieldValues['bankCode']
-	$bank_to_check=$Banks[$c]
-	$id= Get-PnPProperty -ClientObject $items[$l] -Property Id
+    $bank_to_check=$Banks[$c]
     if([int]$csvitem -eq [int]$sharepointItem)
     {
+        
         Take_Item_Index_Bank $bank_to_check $csvitem1
+        $id= Get-PnPProperty -ClientObject $items[$l] -Property Id
+       
         if($items[$l].FieldValues['bankName'] -ne $csvitem1[1]){
            Set-PnPListItem -List "BANKS" -Identity $id -Values @{
                "bankName"= $csvitem1[1]
@@ -218,6 +215,7 @@ while($c -lt $stop_c)
         }
     elseif([int]$csvitem -gt [int]$sharepointItem)
     {
+        $id= Get-PnPProperty -ClientObject $items[$l] -Property Id
         Remove-PnPListItem -List "BANKS" -Identity $id -Force
         $l= $l + 1
     }
@@ -260,16 +258,16 @@ if($l -eq $stop_l)
     {
         $code=$Banks[$i].'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ'
         $bank_to_check=$Banks[$i]
-        Take_Item_Index_Bank $bank_to_check,$cvsitem1
+        Take_Item_Index_Bank $bank_to_check,$cvitem1
 
         Add-PnPListItem -List "BANKS" -Values @{
         "bankCode"=$code;
-        "bankBic"=$cvsitem1[0];                                                   
-        "bankName"= $cvsitem1[1];                    
-        "bankTel"= $cvsitem1[2];
-        "bankFax"= $cvsitem1[3];
-        "bankRegion"= $cvsitem1[4];
-        "bankWebSite"= $cvsitem1[5];
+        "bankBic"=$csvitem1[0];                                                   
+        "bankName"= $csvitem1[1];                    
+        "bankTel"= $csvitem1[2];
+        "bankFax"= $csvitem1[3];
+        "bankRegion"= $csvitem1[4];
+        "bankWebSite"= $csvitem1[5];
         }    
     }
 }
@@ -288,11 +286,11 @@ while($c -lt $stop_c){
     $sharepointItem = $items_Branch[$l].FieldValues['branchHebic']
     $csvitem2=@("","","","","","","","")
     $id= Get-PnPProperty -ClientObject $items_Branch[$l] -Property Id
-    $branch_to_check=$Branch[$c]
 
     #check the 2 hebics
     if([int]$csvitem -eq [int]$sharepointItem)
     {
+        $branch_to_check=$Branch[$c]
         Take_Item_Index_Branch $branch_to_check $csvitem2
         if($items_Branch[$l].FieldValues['branchName'] -ne $csvitem2[2] ){
             Set-PnPListItem -List "BRANCHES" -Identity $id -Values @{
@@ -314,18 +312,18 @@ while($c -lt $stop_c){
                 "branchTel"= $csvitem2[5];
             }
         }
-		if($items_Branch[$l].FieldValues['branchCommunity'] -ne $csvitem2[6]){
+       if($items_Branch[$l].FieldValues['branchCommunity'] -ne $csvitem2[6]){
             Set-PnPListItem -List "BRANCHES" -Identity $id -Values @{
                 "branchCommunity"= $csvitem2[6];
             }
         }
-		if($items_Branch[$l].FieldValues['branchMunicipality'] -ne $csvitem2[7]){
+       if($items_Branch[$l].FieldValues['branchMunicipality'] -ne $csvitem2[7]){
             Set-PnPListItem -List "BRANCHES" -Identity $id -Values @{
                 "branchMunicipality"= $csvitem2[7];
             }
         }
         $zip=$csvitem2[0]+$csvitem2[1]
-		if($items_Branch[$l].FieldValues['branchZipCode'] -ne $zip){
+       if($items_Branch[$l].FieldValues['branchZipCode'] -ne $zip){
             Set-PnPListItem -List "BRANCHES" -Identity $id -Values @{
                 "branchZipCode"= $zip;
             }
@@ -337,12 +335,14 @@ while($c -lt $stop_c){
     elseif([int]$csvitem -gt [int]$sharepointItem)
     {
         #if hebic of csv is greater than sharepoint's we dont need sharepoint's item anymore
+        $id= Get-PnPProperty -ClientObject $items_Branch[$l] -Property Id
         Remove-PnPListItem -List "BRANCHES" -Identity $id -Force
         $l= $l + 1
     }
     else
     {
         #else add the new item on sharepoint
+        $branch_to_check=$Branch[$c]
         Take_Item_Index_Branch $branch_to_check $csvitem2
         Add-PnPListItem -List "BRANCHES" -Values @{
         "branchHebic"=$csvitem;                                                   
@@ -382,7 +382,7 @@ if($l -eq $stop_l){
         "branchTel"= $csvitem2[5];
         "branchCommunity"= $csvitem2[6];
         "branchMunicipality"= $csvitem2[7];
-        "branchZipCode"= $csvitem2[2]+$csvitem2[1];
+        "branchZipCode"= $csvitem2[0]+$csvitem2[1];
         }
     }
 }

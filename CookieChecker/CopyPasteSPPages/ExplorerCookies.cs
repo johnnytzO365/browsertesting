@@ -24,7 +24,7 @@ namespace CookieChecker
         public void StartBrowser()
         {
             InternetExplorerOptions options = new InternetExplorerOptions();
-            options.AddAdditionalCapability("headless",true);
+            //options.AddAdditionalCapability("headless",true);
             
             
             driver = new InternetExplorerDriver(AppDomain.CurrentDomain.BaseDirectory + ConfigurationManager.AppSettings["DriverPath"]);

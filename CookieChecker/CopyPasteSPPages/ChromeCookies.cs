@@ -30,7 +30,7 @@ namespace CookieChecker
            // options.AddArguments("--remote-debugging-port=9222");
            // options.AddAdditionalCapability("acceptInsecureCerts", true, true);
             //System.setProperty("webdriver.chrome.silentOutput", "true");
-            driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory + ConfigurationManager.AppSettings["DriverPath"], options);
+            driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory + ConfigurationManager.AppSettings["DriverPath"]);
             driver.Manage().Window.Maximize();  //to use the desired width of window
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(4));
         }
