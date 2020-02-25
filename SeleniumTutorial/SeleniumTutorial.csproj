@@ -78,8 +78,12 @@
     <Compile Include="NewsPage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+<<<<<<< HEAD
     <Compile Include="PublicSiteTest.cs" />
     <Compile Include="TestRecaptcha.cs" />
+=======
+    <Compile Include="StartpageSmokeTestsQA.cs" />
+>>>>>>> d4184ce8ad46fed0681c04de3207e46436d49bb1
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

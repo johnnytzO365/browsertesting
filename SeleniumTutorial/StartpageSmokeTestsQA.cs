@@ -17,7 +17,7 @@ using OpenQA.Selenium.IE;
 
 namespace SeleniumTutorial
 {
-    class PublicSiteTest
+    class StartpageSmokeTestsQA
     {
 
         IWebDriver driver;
@@ -256,6 +256,19 @@ namespace SeleniumTutorial
                 Thread.Sleep(2000);
                 parentMenu.Click();
                 Thread.Sleep(2000);
+                Console.WriteLine("Πληροφορίες Εργαλεία");
+            }
+            catch
+            {
+                Console.WriteLine("Πληροφορίες Εργαλεία πρόβλημα");
+            }
+            parentMenu = driver.FindElement(By.XPath("//*[@id='ctl00_SPWebPartManager1_g_abf8d9a9_0af0_446b_ab87_9958a44b5ff9']/div/div[4]/h3"));
+            try
+            {
+                parentMenu.Click();
+                Thread.Sleep(2000);
+                parentMenu.Click();
+                Thread.Sleep(2000);
                 Console.WriteLine("Χρήσιμοι Σύνδεσμοι");
             }
             catch
@@ -267,6 +280,7 @@ namespace SeleniumTutorial
         {
             try
             {
+                url.TrimStart('/');
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
                 request.UseDefaultCredentials = true;
                 request.AllowAutoRedirect = true;
