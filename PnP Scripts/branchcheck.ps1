@@ -1,12 +1,12 @@
 ﻿#initializations
-$Url = "http://swisspost.spdev.local/"
-$branchesCSV = "C:\Users\TheocharisGIANNOPOUL\Documents\GitHub\browsertesting\PnP Scripts\BRANCHES.csv"
-$banksCSV = "C:\Users\TheocharisGIANNOPOUL\Documents\GitHub\browsertesting\PnP Scripts\BANKS.csv"
+$Url = "http://mynbgportal/sites/hebic/"
+$branchesCSV = "C:\Users\e82331\Desktop\branches. 31 12 19.csv"
+$banksCSV = "C:\Users\e82331\Documents\banks. 31 12 19.csv"
 $ErrorActionPreference = "SilentlyContinue"
 
 #connect
-$UserName = "spsetup"
-$pwd = "p@ssw0rd"
+$UserName = "bank\e82331"
+$pwd = "Y?Ugjxgar"
 [SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
 Connect-PnPOnline -Url $Url -Credentials $Credentials

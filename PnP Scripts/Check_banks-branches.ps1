@@ -18,39 +18,29 @@
 .EXAMPLE
   <Example goes here. Repeat this attribute for more than one example>
 #>
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory)]
+    [string]$Url,
+        
+    [Parameter(Mandatory)]
+    [string]$branchesCSV,
 
+    [Parameter(Mandatory)]
+    [string]$banksCSV
+)
 #---------------------------------------------------------[Initialisations]--------------------------------------------------------
-<<<<<<< HEAD
-$Url = "http://mynbgportal/sites/hebic/"
-$branchesCSV = "C:\Users\e82331\Desktop\branches. 31 12 19.csv"
-$banksCSV = "C:\Users\e82331\Desktop\banks. 31 12 19.csv"
+#$Url = "http://mynbgportal/sites/hebic/"
+#$branchesCSV = "C:\Users\e82276\Desktop\branches. 31 12 19.csv"
+#$banksCSV = "C:\Users\e82276\Desktop\banks. 31 12 19.csv"
 
 #----------------------------------------------------------[Declarations]----------------------------------------------------------
 #connect
-$UserName = "e82331"
-$pwd = "Y?Ugjxgar"
-=======
-$Url = "http://v000080043:9993/sites/hebic"
-$branchesCSV = "C:\Users\e82276\Downloads\BRANCHES.csv"
-$banksCSV = "C:\Users\e82276\Downloads\BANKS.csv"
+#$UserName = "e82331"
+#$pwd = "Y?Ugjxgar"
+#[SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
+#$Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
 
-#----------------------------------------------------------[Declarations]----------------------------------------------------------
-#connect
-$UserName = ""
-$pwd = ""
->>>>>>> d4184ce8ad46fed0681c04de3207e46436d49bb1
-[SecureString]$SecurePwd = ConvertTo-SecureString $pwd -AsPlainText -Force
-$Credentials = New-Object System.Management.Automation.PSCredential($UserName,$SecurePwd)
-
-<<<<<<< HEAD
-=======
-#======================================================================================================================================================
-$items =Get-PnPListItem -List “BANKS” -Query "<View><Query><OrderBy><FieldRef Name='bankCode' Ascending='True' /></OrderBy></Query></View>"
-$Banks = import-csv -Delimiter ";" -Path $banksCSV -Encoding Default | sort 'ΑΡΙΘΜΗΤΙΚΟΣ ΚΩΔΙΚΟΣ ΤΗΣ ΤΡΑΠΕΖΑΣ'
-#======================================================================================================================================================
-$Branch = Import-Csv -Delimiter ";" -Path $branchesCSV -Encoding Default | sort 'ΚΩΔΙΚΟΣ HEBIC'
-$items_Branch = Get-PnPListItem -List “BRANCHES” -Query "<View><Query><OrderBy><FieldRef Name='branchHebic' Ascending='True' /></OrderBy></Query></View>"
->>>>>>> d4184ce8ad46fed0681c04de3207e46436d49bb1
 
 #-----------------------------------------------------------[Functions]------------------------------------------------------------
 
@@ -375,6 +365,10 @@ while($c -lt $stop_c){
         "branchZipCode"= $csvitem2[0]+$csvitem2[1];
         }
         $c=$c+1 
+    }
+    if($l -eq $stop_l)
+    {
+        break
     }
 }
 

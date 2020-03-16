@@ -1,23 +1,23 @@
 ﻿[System.Reflection.Assembly]::UnsafeLoadfrom($defaultDLLPath)      
-$defaultDLLPath= "C:\Users\e82331\Downloads\microsoft.sharepointonline.csom.16.1.19515.12000\lib\net45\Microsoft.SharePoint.Client.Runtime.dll"       
+$defaultDLLPath= "C:\Users\TheocharisGIANNOPOUL\Downloads\microsoft.sharepointonline.csom.16.1.19515.12000\lib\net45\Microsoft.SharePoint.Client.Runtime.dll"       
 [System.Reflection.Assembly]::UnsafeLoadfrom($defaultDLLPath)        
-$defaultDLLPath= "C:\Users\e82331\Downloads\microsoft.sharepointonline.csom.16.1.19515.12000\lib\net45\Microsoft.Online.SharePoint.Client.Tenant.dll"       
+$defaultDLLPath= "C:\Users\TheocharisGIANNOPOUL\Downloads\microsoft.sharepointonline.csom.16.1.19515.12000\lib\net45\Microsoft.Online.SharePoint.Client.Tenant.dll"       
 [System.Reflection.Assembly]::UnsafeLoadfrom($defaultDLLPath)        
 #$defaultDLLPath= "C:\Users\e82276\Downloads\microsoft.sharepointonline.csom.16.1.19515.12000\lib\net45\Client.Search.dll"       
-$defaultDLLPath= "C:\Users\e82331\Downloads\microsoft.sharepointonline.csom.16.1.19515.12000\lib\net45\Microsoft.SharePoint.Client.Search.dll"       
+$defaultDLLPath= "C:\Users\TheocharisGIANNOPOUL\Downloads\microsoft.sharepointonline.csom.16.1.19515.12000\lib\net45\Microsoft.SharePoint.Client.Search.dll"       
 [System.Reflection.Assembly]::UnsafeLoadfrom($defaultDLLPath)      
-$defaultDLLPath= "C:\Users\e82331\Downloads\microsoft.sharepointonline.csom.16.1.19515.12000\lib\net45\Microsoft.SharePoint.Client.dll"
+$defaultDLLPath= "C:\Users\TheocharisGIANNOPOUL\Downloads\microsoft.sharepointonline.csom.16.1.19515.12000\lib\net45\Microsoft.SharePoint.Client.dll"
 
 $NewsPageFileName = "Repost"
-[string]$username = "sindy@bousiou.onmicrosoft.com"
+[string]$username = "haris@gianniopoulos.onmicrosoft.com"
 
 #[string]$PwdTXTPath = "C:\SECUREDPWD\ExportedPWD-$($username).txt"
 
-$secureStringPwd = ConvertTo-SecureString -string "Y?Ugjxgar" -AsPlainText -Force
+$secureStringPwd = ConvertTo-SecureString -string "Smaster12!" -AsPlainText -Force
 
 #$cred = New-Object System.Management.Automation.PSCredential -ArgumentList $username, $secureStringPwd
 
-$Myctx = New-Object Microsoft.SharePoint.Client.ClientContext("https://bousiou.sharepoint.com/sites/communicationTest")
+$Myctx = New-Object Microsoft.SharePoint.Client.ClientContext("https://gianniopoulos.sharepoint.com/sites/TestFiltering")
 
  
 
@@ -41,7 +41,7 @@ $Myctx.ExecuteQuery()
 
  
 
-$NewPageitem = $MyPagelist.RootFolder.Files.AddTemplateFile("/sites/communicationTest/SitePages/" + $NewsPageFileName + ".aspx", [Microsoft.SharePoint.Client.TemplateFileType]::ClientSidePage).ListItemAllFields
+$NewPageitem = $MyPagelist.RootFolder.Files.AddTemplateFile("/sites/TestFiltering/SitePages/" + $NewsPageFileName + ".aspx", [Microsoft.SharePoint.Client.TemplateFileType]::ClientSidePage).ListItemAllFields
 
                      # Make this page a "modern" page
 
@@ -67,7 +67,7 @@ $NewPageitem = $MyPagelist.RootFolder.Files.AddTemplateFile("/sites/communicatio
 
  
 
-                     $NewPageitem["_OriginalSourceUrl"] =  "https://bousiou.sharepoint.com/:b:/s/communicationTest/EbWuImmDL5pMihRMXy5LegcBdNXxC6enECQ1PBqxwNXwhw?e=AC7KHP"
+                     $NewPageitem["_OriginalSourceUrl"] =  "https://gianniopoulos.sharepoint.com/:w:/s/TestFiltering/EZqYVwj-1clFmZJsnaIwQUYBeG5d7Qac9jg2VtOJYBo7bw?e=FpesGX"
 
                      #$NewPageitem["Editor"] = $MyEditoruserAccount.Id
 
