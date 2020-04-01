@@ -34,8 +34,32 @@ namespace Hebic_update
             var siteUrl = ConfigurationManager.AppSettings["siteUrl"];
             using (ClientContext clientContext = new ClientContext(siteUrl))
             {
-                string username = ConfigurationManager.AppSettings["UserName"];
-                string password = ConfigurationManager.AppSettings["PassWord"];
+                Console.WriteLine("Enter username:");
+                string username = Console.ReadLine();
+                Console.WriteLine("Enter password:");
+                string password = "";
+                //mask the password with * in console
+                do
+                {
+                    ConsoleKeyInfo key = Console.ReadKey(true);
+                    if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
+                    {
+                        password += key.KeyChar;
+                        Console.Write("*");
+                    }
+                    else
+                    {
+                        if (key.Key == ConsoleKey.Backspace && password.Length > 0)
+                        {
+                            password = password.Substring(0, (password.Length - 1));
+                            Console.Write("\b \b");
+                        }
+                        else if (key.Key == ConsoleKey.Enter)
+                        {
+                            break;
+                        }
+                    }
+                } while (true);
                 try
                 {
                     NetworkCredential _myCredentials = new NetworkCredential(username, password);
@@ -48,6 +72,7 @@ namespace Hebic_update
                 {
                     Console.WriteLine("Couldn't connect to {0} with your credentials!", siteUrl);
                     _log_.Error("Couldn't connect to {0} with your credentials!: {1}", siteUrl,ex);
+                    Environment.Exit(-1);
                 }
 
                 try
