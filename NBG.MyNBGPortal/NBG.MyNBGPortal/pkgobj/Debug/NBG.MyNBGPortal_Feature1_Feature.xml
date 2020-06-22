@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Feature xmlns="http://schemas.microsoft.com/sharepoint/" Id="02e0490f-3a20-448b-a289-6a503848ec3f" Scope="Web" Title="NBG.MyNBGPortal Feature1">
+  <ElementManifests>
+    <ElementManifest Location="Email_Alerting\Elements.xml" />
+  </ElementManifests>
+</Feature>
