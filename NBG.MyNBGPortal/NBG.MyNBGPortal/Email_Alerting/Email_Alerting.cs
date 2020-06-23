@@ -35,9 +35,9 @@ namespace NBG.MyNBGPortal.Email_Alerting
                         var body = body1[i - 1].Split(new[] { "#" }, StringSplitOptions.None);
                         currentItem["E_x002d_mail_x0020_Body"] = email + body[1] + "<br>";
                     }
-                    
+                    base.EventFiringEnabled = false;
                     currentItem.Update();
-
+                    base.EventFiringEnabled = true;
                 }
                 catch (Exception ex)
                 {
