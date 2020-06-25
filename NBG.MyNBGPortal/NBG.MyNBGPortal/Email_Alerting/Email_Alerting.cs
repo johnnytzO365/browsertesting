@@ -5,6 +5,7 @@ using Microsoft.SharePoint.Utilities;
 using Microsoft.SharePoint.Workflow;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Text;
 
 namespace NBG.MyNBGPortal.Email_Alerting
 {
@@ -23,7 +24,6 @@ namespace NBG.MyNBGPortal.Email_Alerting
             {
                 try
                 {
-                    
                     SPListItem currentItem = properties.ListItem;
                     string EmailBody = currentItem["Anakoinoseis"].ToString();
                     var body1 = EmailBody.Split(new[] {";"}, StringSplitOptions.None);
@@ -44,6 +44,7 @@ namespace NBG.MyNBGPortal.Email_Alerting
                     throw ex;
                 }
 
+                WriteLogFile(web, "Start sending emails");
                 SPList groups = web.GetList("/greek/test/Lists/Expand Groups");
                 SPListItemCollection items = groups.GetItems();
                 foreach (SPListItem item in items)
@@ -61,22 +62,26 @@ namespace NBG.MyNBGPortal.Email_Alerting
                     System.Text.StringBuilder strMessage = new System.Text.StringBuilder();
                     strMessage.Append(properties.ListItem["E-mail Body"].ToString());
                     SPUtility.SendEmail(web, headers, strMessage.ToString());
-                    /*
-                    string filePath = "http://vm-sp2013/greek/test/Shared%20Documents/log.txt";
-                    using (Stream file = System.IO.File.OpenWrite(filePath))
-                    {
-                        string message = "Email sent to " + name;
-                        byte[] buffer = Encoding.ASCII.GetBytes(message);
-                        //Encoding.GetBytes(message, 0, message.Length, buffer, 0); 
-                        file.Write(buffer, 0, message.Length);
-                    }*/
-                }
-            
-            }
 
-            
+                    string message = "Email sent to " + name;
+                    WriteLogFile(web, message);
+                }
+                WriteLogFile(web, "End sending emails");
+            }
         }
 
-
+        public static void WriteLogFile(SPWeb web, string message)
+        {
+            string sLibrary = "Έγγραφα";
+            string sFilename = "log.txt";
+            web.AllowUnsafeUpdates = true;
+            SPDocumentLibrary documentLibrary = (SPDocumentLibrary)web.Lists[sLibrary];
+            string log = documentLibrary.RootFolder.Url + @"/" + sFilename;
+            SPFile spf = web.GetFile(log);
+            ASCIIEncoding enc = new ASCIIEncoding();
+            byte[] contents = spf.OpenBinary();
+            string newContents = enc.GetString(contents) + Environment.NewLine + message;
+            spf.SaveBinary(enc.GetBytes(newContents));
+        }
     }
 }
