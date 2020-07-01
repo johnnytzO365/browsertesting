@@ -79,9 +79,23 @@ namespace NBG.MyNBGPortal.Email_Alerting
             string log = documentLibrary.RootFolder.Url + @"/" + sFilename;
             SPFile spf = web.GetFile(log);
             ASCIIEncoding enc = new ASCIIEncoding();
-            byte[] contents = spf.OpenBinary();
-            string newContents = enc.GetString(contents) + Environment.NewLine + message;
-            spf.SaveBinary(enc.GetBytes(newContents));
+            string dt = DateTime.Now.ToString("yyyy-MM-dd hh:mm");
+            message = dt + " " + message;
+            if (!spf.Exists)
+            {
+                SPFolder myLibrary = web.Folders["Shared Documents"];
+                Boolean replaceExistingFiles = true;
+                String fileName = System.IO.Path.GetFileName("log.txt");
+                byte[] buffer = enc.GetBytes(message);
+                SPFile spfile = myLibrary.Files.Add(fileName, buffer, replaceExistingFiles);
+                myLibrary.Update();
+            }
+            else
+            {
+                byte[] contents = spf.OpenBinary();
+                string newContents = enc.GetString(contents) + Environment.NewLine + message;
+                spf.SaveBinary(enc.GetBytes(newContents));
+            }
         }
     }
 }
