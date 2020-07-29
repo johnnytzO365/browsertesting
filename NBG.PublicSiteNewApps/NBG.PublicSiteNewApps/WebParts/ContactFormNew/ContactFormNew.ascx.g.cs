@@ -58,8 +58,6 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
         
         protected global::System.Web.UI.WebControls.RegularExpressionValidator telRegularExpressionValidator;
         
-        protected global::System.Web.UI.WebControls.CustomValidator TelCustomValidator;
-        
         protected global::System.Web.UI.WebControls.TextBox txtEMail;
         
         protected global::System.Web.UI.WebControls.RegularExpressionValidator mailRegularExpressionValidator;
@@ -73,20 +71,6 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator interestedInRequiredFieldValidator;
         
         protected global::System.Web.UI.WebControls.TextBox txtBody;
-        
-        protected global::System.Web.UI.WebControls.CheckBox cbContactByPhone;
-        
-        protected global::System.Web.UI.WebControls.Label Label1;
-        
-        protected global::System.Web.UI.WebControls.CheckBox cbContactByEmail;
-        
-        protected global::System.Web.UI.WebControls.Label Label2;
-        
-        protected global::System.Web.UI.WebControls.TextBox txtContactEmail;
-        
-        protected global::System.Web.UI.WebControls.CustomValidator EmailCustomValidator;
-        
-        protected global::System.Web.UI.WebControls.CustomValidator ContactCustomValidator;
         
         protected global::System.Web.UI.WebControls.Literal LegalPDFLiteral;
         
@@ -226,24 +210,6 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
         }
         
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
-        private global::System.Web.UI.WebControls.CustomValidator @__BuildControlTelCustomValidator() {
-            global::System.Web.UI.WebControls.CustomValidator @__ctrl;
-            @__ctrl = new global::System.Web.UI.WebControls.CustomValidator();
-            this.TelCustomValidator = @__ctrl;
-            @__ctrl.ApplyStyleSheetSkin(this.Page);
-            @__ctrl.ID = "TelCustomValidator";
-            @__ctrl.ErrorMessage = "";
-            @__ctrl.ClientValidationFunction = "Phone_Validate";
-            @__ctrl.CssClass = "errormsg";
-            @__ctrl.ForeColor = global::System.Drawing.Color.Empty;
-            @__ctrl.Display = global::System.Web.UI.WebControls.ValidatorDisplay.Dynamic;
-            @__ctrl.ValidateEmptyText = true;
-            @__ctrl.ServerValidate -= new System.Web.UI.WebControls.ServerValidateEventHandler(this.Phone_ServerValidate);
-            @__ctrl.ServerValidate += new System.Web.UI.WebControls.ServerValidateEventHandler(this.Phone_ServerValidate);
-            return @__ctrl;
-        }
-        
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
         private global::System.Web.UI.WebControls.TextBox @__BuildControltxtEMail() {
             global::System.Web.UI.WebControls.TextBox @__ctrl;
             @__ctrl = new global::System.Web.UI.WebControls.TextBox();
@@ -337,117 +303,6 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
         }
         
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
-        private global::System.Web.UI.WebControls.CheckBox @__BuildControlcbContactByPhone() {
-            global::System.Web.UI.WebControls.CheckBox @__ctrl;
-            @__ctrl = new global::System.Web.UI.WebControls.CheckBox();
-            this.cbContactByPhone = @__ctrl;
-            @__ctrl.ApplyStyleSheetSkin(this.Page);
-            @__ctrl.ID = "cbContactByPhone";
-            @__ctrl.CssClass = "form-checkbox-custom";
-            return @__ctrl;
-        }
-        
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
-        private global::System.Web.UI.WebControls.Label @__BuildControlLabel1() {
-            global::System.Web.UI.WebControls.Label @__ctrl;
-            @__ctrl = new global::System.Web.UI.WebControls.Label();
-            this.Label1 = @__ctrl;
-            @__ctrl.ApplyStyleSheetSkin(this.Page);
-            @__ctrl.ID = "Label1";
-            @__ctrl.CssClass = "form-radiocheck";
-            @__ctrl.AssociatedControlID = "cbContactByPhone";
-            @__ctrl.SetRenderMethodDelegate(new System.Web.UI.RenderMethod(this.@__RenderLabel1));
-            return @__ctrl;
-        }
-        
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
-        private void @__RenderLabel1(System.Web.UI.HtmlTextWriter @__w, System.Web.UI.Control parameterContainer) {
-                                                                                                                             @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("WPContactFormContactByPhoneLabel"));
-
-            @__w.Write("<span class=\"hours\">");
-                                                                                                                                                                                                                                @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("WPContactFormContactByPhoneHoursLabel"));
-
-            @__w.Write("</span>");
-        }
-        
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
-        private global::System.Web.UI.WebControls.CheckBox @__BuildControlcbContactByEmail() {
-            global::System.Web.UI.WebControls.CheckBox @__ctrl;
-            @__ctrl = new global::System.Web.UI.WebControls.CheckBox();
-            this.cbContactByEmail = @__ctrl;
-            @__ctrl.ApplyStyleSheetSkin(this.Page);
-            @__ctrl.ID = "cbContactByEmail";
-            @__ctrl.CssClass = "form-checkbox-custom";
-            return @__ctrl;
-        }
-        
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
-        private global::System.Web.UI.WebControls.Label @__BuildControlLabel2() {
-            global::System.Web.UI.WebControls.Label @__ctrl;
-            @__ctrl = new global::System.Web.UI.WebControls.Label();
-            this.Label2 = @__ctrl;
-            @__ctrl.ApplyStyleSheetSkin(this.Page);
-            @__ctrl.ID = "Label2";
-            @__ctrl.CssClass = "form-radiocheck form-inline";
-            @__ctrl.AssociatedControlID = "cbContactByEmail";
-            @__ctrl.SetRenderMethodDelegate(new System.Web.UI.RenderMethod(this.@__RenderLabel2));
-            return @__ctrl;
-        }
-        
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
-        private void @__RenderLabel2(System.Web.UI.HtmlTextWriter @__w, System.Web.UI.Control parameterContainer) {
-                                                                                                                                         @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("WPContactFormContactByEmailLabel"));
-
-        }
-        
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
-        private global::System.Web.UI.WebControls.TextBox @__BuildControltxtContactEmail() {
-            global::System.Web.UI.WebControls.TextBox @__ctrl;
-            @__ctrl = new global::System.Web.UI.WebControls.TextBox();
-            this.txtContactEmail = @__ctrl;
-            @__ctrl.ApplyStyleSheetSkin(this.Page);
-            @__ctrl.ID = "txtContactEmail";
-            @__ctrl.CssClass = "form-text form-inline";
-            return @__ctrl;
-        }
-        
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
-        private global::System.Web.UI.WebControls.CustomValidator @__BuildControlEmailCustomValidator() {
-            global::System.Web.UI.WebControls.CustomValidator @__ctrl;
-            @__ctrl = new global::System.Web.UI.WebControls.CustomValidator();
-            this.EmailCustomValidator = @__ctrl;
-            @__ctrl.ApplyStyleSheetSkin(this.Page);
-            @__ctrl.ID = "EmailCustomValidator";
-            @__ctrl.ErrorMessage = "";
-            @__ctrl.ClientValidationFunction = "Email_Validate";
-            @__ctrl.CssClass = "errormsg";
-            @__ctrl.ForeColor = global::System.Drawing.Color.Empty;
-            @__ctrl.Display = global::System.Web.UI.WebControls.ValidatorDisplay.Dynamic;
-            @__ctrl.ServerValidate -= new System.Web.UI.WebControls.ServerValidateEventHandler(this.Email_ServerValidate);
-            @__ctrl.ServerValidate += new System.Web.UI.WebControls.ServerValidateEventHandler(this.Email_ServerValidate);
-            return @__ctrl;
-        }
-        
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
-        private global::System.Web.UI.WebControls.CustomValidator @__BuildControlContactCustomValidator() {
-            global::System.Web.UI.WebControls.CustomValidator @__ctrl;
-            @__ctrl = new global::System.Web.UI.WebControls.CustomValidator();
-            this.ContactCustomValidator = @__ctrl;
-            @__ctrl.ApplyStyleSheetSkin(this.Page);
-            @__ctrl.ID = "ContactCustomValidator";
-            @__ctrl.ErrorMessage = "";
-            @__ctrl.ClientValidationFunction = "Contact_by_Validate";
-            @__ctrl.CssClass = "errormsg choosecontact";
-            @__ctrl.ForeColor = global::System.Drawing.Color.Empty;
-            @__ctrl.ValidateEmptyText = true;
-            @__ctrl.ControlToValidate = "";
-            @__ctrl.Display = global::System.Web.UI.WebControls.ValidatorDisplay.Dynamic;
-            @__ctrl.ServerValidate -= new System.Web.UI.WebControls.ServerValidateEventHandler(this.Contact_by_ServerValidate);
-            @__ctrl.ServerValidate += new System.Web.UI.WebControls.ServerValidateEventHandler(this.Contact_by_ServerValidate);
-            return @__ctrl;
-        }
-        
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
         private global::System.Web.UI.WebControls.Literal @__BuildControlLegalPDFLiteral() {
             global::System.Web.UI.WebControls.Literal @__ctrl;
             @__ctrl = new global::System.Web.UI.WebControls.Literal();
@@ -463,21 +318,10 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
             this.btnReset = @__ctrl;
             @__ctrl.ApplyStyleSheetSkin(this.Page);
             @__ctrl.ID = "btnReset";
+            @__ctrl.Text = "Καθαρισμός";
             @__ctrl.CssClass = "form-reset";
             @__ctrl.CausesValidation = false;
-            @__ctrl.DataBinding += new System.EventHandler(this.@__DataBindingbtnReset);
-            @__ctrl.Click -= new System.EventHandler(this.btnReset_Click);
-            @__ctrl.Click += new System.EventHandler(this.btnReset_Click);
             return @__ctrl;
-        }
-        
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public void @__DataBindingbtnReset(object sender, System.EventArgs e) {
-            System.Web.UI.WebControls.Button dataBindingExpressionBuilderTarget;
-            System.Web.UI.Control Container;
-            dataBindingExpressionBuilderTarget = ((System.Web.UI.WebControls.Button)(sender));
-            Container = ((System.Web.UI.Control)(dataBindingExpressionBuilderTarget.BindingContainer));
-            dataBindingExpressionBuilderTarget.Text = global::System.Convert.ToString( ResetBtnLabel , global::System.Globalization.CultureInfo.CurrentCulture);
         }
         
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -487,20 +331,9 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
             this.btnSubmit = @__ctrl;
             @__ctrl.ApplyStyleSheetSkin(this.Page);
             @__ctrl.ID = "btnSubmit";
+            @__ctrl.Text = "Αποστολή";
             @__ctrl.CssClass = "form-submit";
-            @__ctrl.DataBinding += new System.EventHandler(this.@__DataBindingbtnSubmit);
-            @__ctrl.Click -= new System.EventHandler(this.btnSubmit_Click);
-            @__ctrl.Click += new System.EventHandler(this.btnSubmit_Click);
             return @__ctrl;
-        }
-        
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public void @__DataBindingbtnSubmit(object sender, System.EventArgs e) {
-            System.Web.UI.WebControls.Button dataBindingExpressionBuilderTarget;
-            System.Web.UI.Control Container;
-            dataBindingExpressionBuilderTarget = ((System.Web.UI.WebControls.Button)(sender));
-            Container = ((System.Web.UI.Control)(dataBindingExpressionBuilderTarget.BindingContainer));
-            dataBindingExpressionBuilderTarget.Text = global::System.Convert.ToString( SubmitBtnLabel , global::System.Globalization.CultureInfo.CurrentCulture);
         }
         
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -511,152 +344,88 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
             @__ctrl.ApplyStyleSheetSkin(this.Page);
             @__ctrl.ID = "FormPanel";
             @__ctrl.DefaultButton = "btnSubmit";
+            System.Web.UI.IParserAccessor @__parser = ((System.Web.UI.IParserAccessor)(@__ctrl));
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl(@"
+    <div class=""node contact"">
+        <div class=""field body""><p>Για οποιαδήποτε πληροφορία ή ερώτημα σχετικά με τα προϊόντα και τις υπηρεσίες μας, συμπληρώστε με ελληνικούς ή λατινικούς χαρακτήρες τα πεδία της παρακάτω φόρμας και θα επικοινωνήσουμε μαζί σας το συντομότερο δυνατόν.</p></div>
+        <div class=""field form"">
+            <div class=""row clearfix"">
+                <div class=""col"">
+                    <div class=""form-item clearfix"">
+                        <label>Ονοματεπώνυμο - Επωνυμία*:</label>
+                        "));
             global::System.Web.UI.WebControls.TextBox @__ctrl1;
             @__ctrl1 = this.@__BuildControltxtFullName();
-            System.Web.UI.IParserAccessor @__parser = ((System.Web.UI.IParserAccessor)(@__ctrl));
             @__parser.AddParsedSubObject(@__ctrl1);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\n                        <div>"));
             global::System.Web.UI.WebControls.RequiredFieldValidator @__ctrl2;
             @__ctrl2 = this.@__BuildControlFullNameRequiredFieldValidator();
             @__parser.AddParsedSubObject(@__ctrl2);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl(@"</div>
+                    </div>
+                </div>
+            </div>
+            <div class=""row clearfix"">
+                <div class=""col"">
+                    <div class=""form-item clearfix"">
+                        <label>Οδός:</label>
+                        "));
             global::System.Web.UI.WebControls.TextBox @__ctrl3;
             @__ctrl3 = this.@__BuildControltxtStreet();
             @__parser.AddParsedSubObject(@__ctrl3);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\n                    </div>\n                </div>\n                <div class=\"co" +
+                        "l\">\n                    <div class=\"form-item clearfix\">\n                       " +
+                        " <label>Αριθμός:</label>\n                        "));
             global::System.Web.UI.WebControls.TextBox @__ctrl4;
             @__ctrl4 = this.@__BuildControltxtStreetNo();
             @__parser.AddParsedSubObject(@__ctrl4);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl(@"
+                    </div>
+                </div>
+            </div>
+            <div class=""row clearfix"">
+                <div class=""col"">
+                    <div class=""form-item clearfix"">
+                        <label>Πόλη - Περιοχή:</label>
+                        "));
             global::System.Web.UI.WebControls.TextBox @__ctrl5;
             @__ctrl5 = this.@__BuildControltxtCity();
             @__parser.AddParsedSubObject(@__ctrl5);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\n                    </div>\n                </div>\n                <div class=\"co" +
+                        "l\">\n                    <div class=\"form-item clearfix\">\n                       " +
+                        " <label>ΤΚ:</label>\n                        "));
             global::System.Web.UI.WebControls.TextBox @__ctrl6;
             @__ctrl6 = this.@__BuildControltxtZipCode();
             @__parser.AddParsedSubObject(@__ctrl6);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl(@"
+                    </div>
+                </div>
+            </div>
+            <div class=""row clearfix"">
+                <div class=""col"">
+                    <div class=""form-item clearfix"">
+                        <label>Τηλ. επικοινωνίας:</label>
+                        <div>
+                            "));
             global::System.Web.UI.WebControls.TextBox @__ctrl7;
             @__ctrl7 = this.@__BuildControltxtPhone();
             @__parser.AddParsedSubObject(@__ctrl7);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\n                            <div>"));
             global::System.Web.UI.WebControls.RegularExpressionValidator @__ctrl8;
             @__ctrl8 = this.@__BuildControltelRegularExpressionValidator();
             @__parser.AddParsedSubObject(@__ctrl8);
-            global::System.Web.UI.WebControls.CustomValidator @__ctrl9;
-            @__ctrl9 = this.@__BuildControlTelCustomValidator();
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("</div>\n                        </div>\n                    </div>\n                " +
+                        "</div>\n                <div class=\"col\">\n                    <div class=\"form-it" +
+                        "em clearfix\">\n                        <label>Email*:</label>\n                   " +
+                        "     "));
+            global::System.Web.UI.WebControls.TextBox @__ctrl9;
+            @__ctrl9 = this.@__BuildControltxtEMail();
             @__parser.AddParsedSubObject(@__ctrl9);
-            global::System.Web.UI.WebControls.TextBox @__ctrl10;
-            @__ctrl10 = this.@__BuildControltxtEMail();
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\n                        <div>\n                            "));
+            global::System.Web.UI.WebControls.RegularExpressionValidator @__ctrl10;
+            @__ctrl10 = this.@__BuildControlmailRegularExpressionValidator();
             @__parser.AddParsedSubObject(@__ctrl10);
-            global::System.Web.UI.WebControls.RegularExpressionValidator @__ctrl11;
-            @__ctrl11 = this.@__BuildControlmailRegularExpressionValidator();
-            @__parser.AddParsedSubObject(@__ctrl11);
-            global::System.Web.UI.WebControls.RadioButtonList @__ctrl12;
-            @__ctrl12 = this.@__BuildControlrbPartener();
-            @__parser.AddParsedSubObject(@__ctrl12);
-            global::System.Web.UI.WebControls.RequiredFieldValidator @__ctrl13;
-            @__ctrl13 = this.@__BuildControlPartenerRequiredFieldValidator();
-            @__parser.AddParsedSubObject(@__ctrl13);
-            global::System.Web.UI.WebControls.DropDownList @__ctrl14;
-            @__ctrl14 = this.@__BuildControlddlInterestedIn();
-            @__parser.AddParsedSubObject(@__ctrl14);
-            global::System.Web.UI.WebControls.RequiredFieldValidator @__ctrl15;
-            @__ctrl15 = this.@__BuildControlinterestedInRequiredFieldValidator();
-            @__parser.AddParsedSubObject(@__ctrl15);
-            global::System.Web.UI.WebControls.TextBox @__ctrl16;
-            @__ctrl16 = this.@__BuildControltxtBody();
-            @__parser.AddParsedSubObject(@__ctrl16);
-            global::System.Web.UI.WebControls.CheckBox @__ctrl17;
-            @__ctrl17 = this.@__BuildControlcbContactByPhone();
-            @__parser.AddParsedSubObject(@__ctrl17);
-            global::System.Web.UI.WebControls.Label @__ctrl18;
-            @__ctrl18 = this.@__BuildControlLabel1();
-            @__parser.AddParsedSubObject(@__ctrl18);
-            global::System.Web.UI.WebControls.CheckBox @__ctrl19;
-            @__ctrl19 = this.@__BuildControlcbContactByEmail();
-            @__parser.AddParsedSubObject(@__ctrl19);
-            global::System.Web.UI.WebControls.Label @__ctrl20;
-            @__ctrl20 = this.@__BuildControlLabel2();
-            @__parser.AddParsedSubObject(@__ctrl20);
-            global::System.Web.UI.WebControls.TextBox @__ctrl21;
-            @__ctrl21 = this.@__BuildControltxtContactEmail();
-            @__parser.AddParsedSubObject(@__ctrl21);
-            global::System.Web.UI.WebControls.CustomValidator @__ctrl22;
-            @__ctrl22 = this.@__BuildControlEmailCustomValidator();
-            @__parser.AddParsedSubObject(@__ctrl22);
-            global::System.Web.UI.WebControls.CustomValidator @__ctrl23;
-            @__ctrl23 = this.@__BuildControlContactCustomValidator();
-            @__parser.AddParsedSubObject(@__ctrl23);
-            global::System.Web.UI.WebControls.Literal @__ctrl24;
-            @__ctrl24 = this.@__BuildControlLegalPDFLiteral();
-            @__parser.AddParsedSubObject(@__ctrl24);
-            global::System.Web.UI.WebControls.Button @__ctrl25;
-            @__ctrl25 = this.@__BuildControlbtnReset();
-            @__parser.AddParsedSubObject(@__ctrl25);
-            global::System.Web.UI.WebControls.Button @__ctrl26;
-            @__ctrl26 = this.@__BuildControlbtnSubmit();
-            @__parser.AddParsedSubObject(@__ctrl26);
-            @__ctrl.SetRenderMethodDelegate(new System.Web.UI.RenderMethod(this.@__RenderFormPanel));
-            return @__ctrl;
-        }
-        
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
-        private void @__RenderFormPanel(System.Web.UI.HtmlTextWriter @__w, System.Web.UI.Control parameterContainer) {
-            @__w.Write("\n    <div class=\"node contact\">\n        <div class=\"field body\"><p>");
-                           @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("contactinfo"));
-
-            @__w.Write("</p></div>\n        <div class=\"field form\">\n            <div class=\"row clearfix\"" +
-                    ">\n                <div class=\"col\">\n                    <div class=\"form-item cl" +
-                    "earfix\">\n                        <label>");
-                       @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("WPContactFormFullNameLabel"));
-
-            @__w.Write("</label>\n                        ");
-            parameterContainer.Controls[0].RenderControl(@__w);
-            @__w.Write("\n                        <div>");
-            parameterContainer.Controls[1].RenderControl(@__w);
-            @__w.Write("</div>\n                    </div>\n                </div>\n            </div>\n     " +
-                    "       <div class=\"row clearfix\">\n                <div class=\"col\">\n            " +
-                    "        <div class=\"form-item clearfix\">\n                        <label>");
-                       @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("WPContactFormStreetLabel"));
-
-            @__w.Write("</label>\n                        ");
-            parameterContainer.Controls[2].RenderControl(@__w);
-            @__w.Write("\n                    </div>\n                </div>\n                <div class=\"co" +
-                    "l\">\n                    <div class=\"form-item clearfix\">\n                       " +
-                    " <label>");
-                       @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("WPContactFormStreetNoLabel"));
-
-            @__w.Write("</label>\n                        ");
-            parameterContainer.Controls[3].RenderControl(@__w);
-            @__w.Write("\n                    </div>\n                </div>\n            </div>\n           " +
-                    " <div class=\"row clearfix\">\n                <div class=\"col\">\n                  " +
-                    "  <div class=\"form-item clearfix\">\n                        <label>");
-                       @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("WPContactFormCityLabel"));
-
-            @__w.Write("</label>\n                        ");
-            parameterContainer.Controls[4].RenderControl(@__w);
-            @__w.Write("\n                    </div>\n                </div>\n                <div class=\"co" +
-                    "l\">\n                    <div class=\"form-item clearfix\">\n                       " +
-                    " <label>");
-                       @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("WPContactFormZipCodeLabel"));
-
-            @__w.Write("</label>\n                        ");
-            parameterContainer.Controls[5].RenderControl(@__w);
-            @__w.Write("\n                    </div>\n                </div>\n            </div>\n           " +
-                    " <div class=\"row clearfix\">\n                <div class=\"col\">\n                  " +
-                    "  <div class=\"form-item clearfix\">\n                        <label>");
-                       @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("WPContactFormPhone"));
-
-            @__w.Write("</label>\n                        <div>\n                            ");
-            parameterContainer.Controls[6].RenderControl(@__w);
-            @__w.Write("\n                            <div>");
-            parameterContainer.Controls[7].RenderControl(@__w);
-            @__w.Write("</div>\n                            <div>");
-            parameterContainer.Controls[8].RenderControl(@__w);
-            @__w.Write("</div>\n                        </div>\n                    </div>\n                " +
-                    "</div>\n                <div class=\"col\">\n                    <div class=\"form-it" +
-                    "em clearfix\">\n                        <label>");
-                       @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("WPContactFormEMailLabel"));
-
-            @__w.Write("</label>\n                        ");
-            parameterContainer.Controls[9].RenderControl(@__w);
-            @__w.Write("\n                        <div>\n                            ");
-            parameterContainer.Controls[10].RenderControl(@__w);
-            @__w.Write(@"
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl(@"
                         </div>
                     </div>
                 </div>
@@ -664,64 +433,50 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
             <div class=""row clearfix"">
                 <div class=""col"">
                     <div class=""form-item clearfix"">
-                        <label>");
-                       @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("WPContactFormPartenerLabel"));
-
-            @__w.Write("</label>\n                        ");
-            parameterContainer.Controls[11].RenderControl(@__w);
-            @__w.Write("\n                        ");
-            parameterContainer.Controls[12].RenderControl(@__w);
-            @__w.Write("\n                    </div>\n                </div>\n            </div>\n           " +
-                    " <div class=\"row clearfix\">\n                <div class=\"col\">\n                  " +
-                    "  <div class=\"form-item clearfix\">\n                        <label>");
-                       @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("WPContactFormInterestedInLabel"));
-
-            @__w.Write("</label>\n                        ");
-            parameterContainer.Controls[13].RenderControl(@__w);
-            @__w.Write("\n                        <div>");
-            parameterContainer.Controls[14].RenderControl(@__w);
-            @__w.Write("</div>\n                    </div>\n                </div>\n            </div> \n    " +
-                    "        <div class=\"row clearfix\">\n                <div class=\"col full\">\n      " +
-                    "              <div class=\"form-item clearfix\">\n                        <label>");
-                       @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("WPContactFormBodyLabel"));
-
-            @__w.Write("</label>\n                        ");
-            parameterContainer.Controls[15].RenderControl(@__w);
-            @__w.Write("\n                        <span class=\"info\"><span class=\"remaining\">");
-                                                           @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("WPContactFormBodyConstraintLabel"));
-
-            @__w.Write(@": <em class=""lettercount""></em></span>
+                        <label>Συνεργάζομαι με την Εθνική Τράπεζα*:</label>
+                        "));
+            global::System.Web.UI.WebControls.RadioButtonList @__ctrl11;
+            @__ctrl11 = this.@__BuildControlrbPartener();
+            @__parser.AddParsedSubObject(@__ctrl11);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\n                        "));
+            global::System.Web.UI.WebControls.RequiredFieldValidator @__ctrl12;
+            @__ctrl12 = this.@__BuildControlPartenerRequiredFieldValidator();
+            @__parser.AddParsedSubObject(@__ctrl12);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl(@"
+                    </div>
+                </div>
+            </div>
+            <div class=""row clearfix"">
+                <div class=""col"">
+                    <div class=""form-item clearfix"">
+                        <label>Ενδιαφέρομαι για*:</label>
+                        "));
+            global::System.Web.UI.WebControls.DropDownList @__ctrl13;
+            @__ctrl13 = this.@__BuildControlddlInterestedIn();
+            @__parser.AddParsedSubObject(@__ctrl13);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\n                        <div>"));
+            global::System.Web.UI.WebControls.RequiredFieldValidator @__ctrl14;
+            @__ctrl14 = this.@__BuildControlinterestedInRequiredFieldValidator();
+            @__parser.AddParsedSubObject(@__ctrl14);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl(@"</div>
+                    </div>
+                </div>
+            </div> 
+            <div class=""row clearfix"">
+                <div class=""col full"">
+                    <div class=""form-item clearfix"">
+                        <label>Περιγραφή θέματος*:</label>
+                        "));
+            global::System.Web.UI.WebControls.TextBox @__ctrl15;
+            @__ctrl15 = this.@__BuildControltxtBody();
+            @__parser.AddParsedSubObject(@__ctrl15);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl(@"
+                        <span class=""info""><span class=""remaining"">Υπολοιπόμενοι χαρακτήρες: <em class=""lettercount""></em></span>
                     </div>
                 </div>
             </div>
                         
-            <div class=""row clearfix"">
-                <div class=""col full"">
-                    <div class=""form-item clearfix"">
-                        <label>");
-                       @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("WPContactFormContactByPromptLabel"));
-
-            @__w.Write("</label>\n                        <div class=\"ckeckitem\">\n                        " +
-                    "    ");
-            parameterContainer.Controls[16].RenderControl(@__w);
-            @__w.Write("\n                            ");
-            parameterContainer.Controls[17].RenderControl(@__w);
-            @__w.Write("\n                        </div>\n                        <div class=\"ckeckitem\">\n " +
-                    "                           ");
-            parameterContainer.Controls[18].RenderControl(@__w);
-            @__w.Write("\n                            ");
-            parameterContainer.Controls[19].RenderControl(@__w);
-            @__w.Write("\n                            ");
-            parameterContainer.Controls[20].RenderControl(@__w);
-            @__w.Write("\n                            <div class=\"mailvldtr\">\n                            " +
-                    "    ");
-            parameterContainer.Controls[21].RenderControl(@__w);
-            @__w.Write("\n                            </div>\n                        </div>\n              " +
-                    "      </div>\n                    ");
-            parameterContainer.Controls[22].RenderControl(@__w);
-            @__w.Write(@"
-                </div>
-            </div>
+           
 
             
             <div class=""row clearfix"">
@@ -737,12 +492,13 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
             <div class=""row clearfix"">
                 <div class=""col full"">
                     <div class=""form-item"">
-                        <label>");
-                       @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("WPContactFormRequiredFieldsLabel"));
-
-            @__w.Write("</label>\n                        <p class=\"light\">\n                            ");
-            parameterContainer.Controls[23].RenderControl(@__w);
-            @__w.Write(@"
+                        <label>*Υποχρεωτικά πεδία</label>
+                        <p class=""light"">
+                            "));
+            global::System.Web.UI.WebControls.Literal @__ctrl16;
+            @__ctrl16 = this.@__BuildControlLegalPDFLiteral();
+            @__parser.AddParsedSubObject(@__ctrl16);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl(@"
                         </p>
                     </div>
                 </div>
@@ -751,11 +507,15 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
             <div class=""row clearfix"">
                 <div class=""col full"">
                     <div class=""form-actions"">
-                        ");
-            parameterContainer.Controls[24].RenderControl(@__w);
-            @__w.Write("\n                        ");
-            parameterContainer.Controls[25].RenderControl(@__w);
-            @__w.Write(@"
+                        "));
+            global::System.Web.UI.WebControls.Button @__ctrl17;
+            @__ctrl17 = this.@__BuildControlbtnReset();
+            @__parser.AddParsedSubObject(@__ctrl17);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\n                        "));
+            global::System.Web.UI.WebControls.Button @__ctrl18;
+            @__ctrl18 = this.@__BuildControlbtnSubmit();
+            @__parser.AddParsedSubObject(@__ctrl18);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl(@"
                     </div>
                 </div>
             </div>    
@@ -771,100 +531,23 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
 	</table>
 
 
-");
+"));
+            return @__ctrl;
         }
         
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
         private void @__BuildControlTree(global::NBG.PublicSiteNewApps.WebParts.ContactFormNew.ContactFormNew @__ctrl) {
+            System.Web.UI.IParserAccessor @__parser = ((System.Web.UI.IParserAccessor)(@__ctrl));
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\r\n\n\n<div id=\"h1_full_width\">\n    <h1 class=\"with_padding\">Φόρμα Επικοινωνίας</h1>" +
+                        "\n</div>\n\n"));
             global::System.Web.UI.WebControls.Panel @__ctrl1;
             @__ctrl1 = this.@__BuildControlSubmitResultPanel();
-            System.Web.UI.IParserAccessor @__parser = ((System.Web.UI.IParserAccessor)(@__ctrl));
             @__parser.AddParsedSubObject(@__ctrl1);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\n"));
             global::System.Web.UI.WebControls.Panel @__ctrl2;
             @__ctrl2 = this.@__BuildControlFormPanel();
             @__parser.AddParsedSubObject(@__ctrl2);
-            @__ctrl.SetRenderMethodDelegate(new System.Web.UI.RenderMethod(this.@__Render__control1));
-        }
-        
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
-        private void @__Render__control1(System.Web.UI.HtmlTextWriter @__w, System.Web.UI.Control parameterContainer) {
-            @__w.Write(@"
-
-<script type=""text/javascript"">
-    if (!String.prototype.trim) {
-        String.prototype.trim = function () {
-            return this.replace(/^\s+|\s+$/g, '');
-        };
-    }
-    function Contact_by_Validate(source, arguments) {
-        var cb1 = document.getElementById('");
-                                   @__w.Write( cbContactByPhone.ClientID );
-
-            @__w.Write("\');\n        var cb2 = document.getElementById(\'");
-                                   @__w.Write( cbContactByEmail.ClientID );
-
-            @__w.Write(@"');
-        if ((cb1.checked == true) || (cb2.checked == true)) arguments.IsValid = true;
-        else {
-            arguments.IsValid = false;
-        }
-    }
-    function Phone_Validate(source, arguments) {
-        console.log('phone validate call');
-        var cb1 = document.getElementById('");
-                                   @__w.Write( cbContactByPhone.ClientID );
-
-            @__w.Write("\');\n        var phone = document.getElementById(\'");
-                                     @__w.Write( txtPhone.ClientID );
-
-            @__w.Write("\');\n        var otherval = document.getElementById(\'");
-                                        @__w.Write( telRegularExpressionValidator.ClientID );
-
-            @__w.Write(@"');
-
-        if ((cb1.checked == true) && (phone.value.trim().length == 0)) arguments.IsValid = false;
-        else {
-            arguments.IsValid = true;
-        }
-    }
-    function Email_Validate(source, arguments) {
-        var cb2 = document.getElementById('");
-                                   @__w.Write( cbContactByEmail.ClientID );
-
-            @__w.Write("\');\n        var mail = document.getElementById(\'");
-                                    @__w.Write( txtContactEmail.ClientID );
-
-            @__w.Write(@"');
-        if ((cb2.checked == true) && (mail.value.length == 0)) arguments.IsValid = false;
-        else {
-            arguments.IsValid = true;
-        }
-    }
-
-    function Count(text) {
-        //asp.net textarea maxlength doesnt work; do it by hand
-        var maxlength = 1000; //set your value here (or add a parm and pass it in)
-        var object = document.getElementById(text.id)  //get your object
-        if (object.value.length > maxlength) {
-            object.focus(); //set focus to prevent jumping
-            object.value = text.value.substring(0, maxlength); //truncate the value
-            object.scrollTop = object.scrollHeight; //scroll to the end to prevent jumping
-            return false;
-        }
-        return true;
-    }
-
-</script>
-
-<div id=""h1_full_width"">
-    <h1 class=""with_padding"">");
-                     @__w.Write( NBG.PublicSite.Core.Utils.GetLocString("ContactFormTitle") );
-
-            @__w.Write("</h1>\n</div>\n\n");
-            parameterContainer.Controls[0].RenderControl(@__w);
-            @__w.Write("\n");
-            parameterContainer.Controls[1].RenderControl(@__w);
-            @__w.Write("\n\r\n");
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\n\r\n"));
         }
         
         private void InitializeControl() {
