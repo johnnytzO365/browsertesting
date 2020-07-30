@@ -62,7 +62,11 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
         
         protected global::System.Web.UI.WebControls.RegularExpressionValidator mailRegularExpressionValidator;
         
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator EmailFieldValidator;
+        
         protected global::System.Web.UI.WebControls.RadioButtonList rbPartener;
+        
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator PartenerRequiredFieldValidator;
         
         protected global::System.Web.UI.WebControls.DropDownList ddlInterestedIn;
         
@@ -235,6 +239,20 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
         }
         
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
+        private global::System.Web.UI.WebControls.RequiredFieldValidator @__BuildControlEmailFieldValidator() {
+            global::System.Web.UI.WebControls.RequiredFieldValidator @__ctrl;
+            @__ctrl = new global::System.Web.UI.WebControls.RequiredFieldValidator();
+            this.EmailFieldValidator = @__ctrl;
+            @__ctrl.ApplyStyleSheetSkin(this.Page);
+            @__ctrl.ID = "EmailFieldValidator";
+            @__ctrl.ControlToValidate = "txtEMail";
+            @__ctrl.ErrorMessage = "";
+            @__ctrl.CssClass = "errormsg";
+            @__ctrl.Display = global::System.Web.UI.WebControls.ValidatorDisplay.Dynamic;
+            return @__ctrl;
+        }
+        
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
         private global::System.Web.UI.WebControls.RadioButtonList @__BuildControlrbPartener() {
             global::System.Web.UI.WebControls.RadioButtonList @__ctrl;
             @__ctrl = new global::System.Web.UI.WebControls.RadioButtonList();
@@ -243,6 +261,20 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
             @__ctrl.ID = "rbPartener";
             @__ctrl.CssClass = "form-radio-dynamic";
             @__ctrl.RepeatDirection = global::System.Web.UI.WebControls.RepeatDirection.Horizontal;
+            return @__ctrl;
+        }
+        
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
+        private global::System.Web.UI.WebControls.RequiredFieldValidator @__BuildControlPartenerRequiredFieldValidator() {
+            global::System.Web.UI.WebControls.RequiredFieldValidator @__ctrl;
+            @__ctrl = new global::System.Web.UI.WebControls.RequiredFieldValidator();
+            this.PartenerRequiredFieldValidator = @__ctrl;
+            @__ctrl.ApplyStyleSheetSkin(this.Page);
+            @__ctrl.ID = "PartenerRequiredFieldValidator";
+            @__ctrl.ControlToValidate = "rbPartener";
+            @__ctrl.ErrorMessage = "mandatoryfield";
+            @__ctrl.CssClass = "errormsg";
+            @__ctrl.Display = global::System.Web.UI.WebControls.ValidatorDisplay.Dynamic;
             return @__ctrl;
         }
         
@@ -413,7 +445,11 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
             global::System.Web.UI.WebControls.RegularExpressionValidator @__ctrl10;
             @__ctrl10 = this.@__BuildControlmailRegularExpressionValidator();
             @__parser.AddParsedSubObject(@__ctrl10);
-            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl(@"
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\n                            <div>"));
+            global::System.Web.UI.WebControls.RequiredFieldValidator @__ctrl11;
+            @__ctrl11 = this.@__BuildControlEmailFieldValidator();
+            @__parser.AddParsedSubObject(@__ctrl11);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl(@"</div>
                         </div>
                     </div>
                 </div>
@@ -423,9 +459,13 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
                     <div class=""form-item clearfix"">
                         <label>Συνεργάζομαι με την Εθνική Τράπεζα*:</label>
                         "));
-            global::System.Web.UI.WebControls.RadioButtonList @__ctrl11;
-            @__ctrl11 = this.@__BuildControlrbPartener();
-            @__parser.AddParsedSubObject(@__ctrl11);
+            global::System.Web.UI.WebControls.RadioButtonList @__ctrl12;
+            @__ctrl12 = this.@__BuildControlrbPartener();
+            @__parser.AddParsedSubObject(@__ctrl12);
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\n                        "));
+            global::System.Web.UI.WebControls.RequiredFieldValidator @__ctrl13;
+            @__ctrl13 = this.@__BuildControlPartenerRequiredFieldValidator();
+            @__parser.AddParsedSubObject(@__ctrl13);
             @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl(@"
                     </div>
                 </div>
@@ -435,13 +475,13 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
                     <div class=""form-item clearfix"">
                         <label>Ενδιαφέρομαι για*:</label>
                         "));
-            global::System.Web.UI.WebControls.DropDownList @__ctrl12;
-            @__ctrl12 = this.@__BuildControlddlInterestedIn();
-            @__parser.AddParsedSubObject(@__ctrl12);
+            global::System.Web.UI.WebControls.DropDownList @__ctrl14;
+            @__ctrl14 = this.@__BuildControlddlInterestedIn();
+            @__parser.AddParsedSubObject(@__ctrl14);
             @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\n                        <div>"));
-            global::System.Web.UI.WebControls.RequiredFieldValidator @__ctrl13;
-            @__ctrl13 = this.@__BuildControlinterestedInRequiredFieldValidator();
-            @__parser.AddParsedSubObject(@__ctrl13);
+            global::System.Web.UI.WebControls.RequiredFieldValidator @__ctrl15;
+            @__ctrl15 = this.@__BuildControlinterestedInRequiredFieldValidator();
+            @__parser.AddParsedSubObject(@__ctrl15);
             @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl(@"</div>
                     </div>
                 </div>
@@ -451,9 +491,9 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
                     <div class=""form-item clearfix"">
                         <label>Περιγραφή θέματος*:</label>
                         "));
-            global::System.Web.UI.WebControls.TextBox @__ctrl14;
-            @__ctrl14 = this.@__BuildControltxtBody();
-            @__parser.AddParsedSubObject(@__ctrl14);
+            global::System.Web.UI.WebControls.TextBox @__ctrl16;
+            @__ctrl16 = this.@__BuildControltxtBody();
+            @__parser.AddParsedSubObject(@__ctrl16);
             @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl(@"
                         <span class=""info""><span class=""remaining"">Υπολοιπόμενοι χαρακτήρες: <em class=""lettercount""></em></span>
                     </div>
@@ -479,9 +519,9 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
                         <label>*Υποχρεωτικά πεδία</label>
                         <p class=""light"">
                             "));
-            global::System.Web.UI.WebControls.Literal @__ctrl15;
-            @__ctrl15 = this.@__BuildControlLegalPDFLiteral();
-            @__parser.AddParsedSubObject(@__ctrl15);
+            global::System.Web.UI.WebControls.Literal @__ctrl17;
+            @__ctrl17 = this.@__BuildControlLegalPDFLiteral();
+            @__parser.AddParsedSubObject(@__ctrl17);
             @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl(@"
                         </p>
                     </div>
@@ -492,13 +532,13 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
                 <div class=""col full"">
                     <div class=""form-actions"">
                         "));
-            global::System.Web.UI.WebControls.Button @__ctrl16;
-            @__ctrl16 = this.@__BuildControlbtnReset();
-            @__parser.AddParsedSubObject(@__ctrl16);
+            global::System.Web.UI.WebControls.Button @__ctrl18;
+            @__ctrl18 = this.@__BuildControlbtnReset();
+            @__parser.AddParsedSubObject(@__ctrl18);
             @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\n                        "));
-            global::System.Web.UI.WebControls.Button @__ctrl17;
-            @__ctrl17 = this.@__BuildControlbtnSubmit();
-            @__parser.AddParsedSubObject(@__ctrl17);
+            global::System.Web.UI.WebControls.Button @__ctrl19;
+            @__ctrl19 = this.@__BuildControlbtnSubmit();
+            @__parser.AddParsedSubObject(@__ctrl19);
             @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl(@"
                     </div>
                 </div>

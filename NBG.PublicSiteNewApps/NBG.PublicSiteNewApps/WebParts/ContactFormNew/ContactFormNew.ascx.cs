@@ -37,10 +37,6 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
             InitializeControl();
         }
 
-        protected void Page_Load(object sender, EventArgs e)
-        {
-        }
-
         protected void btnReset_Click(object sender, EventArgs e)
         {
             InitControls();
@@ -52,6 +48,42 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
             {
                 AddNewContact();
             }
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+            /*if (SPContext.Current.FormContext.FormMode != Microsoft.SharePoint.WebControls.SPControlMode.Display)
+            {
+                FullNameRequiredFieldValidator.Visible = false;
+                //PartenerRequiredFieldValidator.Visible = false;
+                interestedInRequiredFieldValidator.Visible = false;
+                //recaptchaid.Visible = false;
+                //ContactCustomValidator.Visible = false;
+                //EmailCustomValidator.Visible = false;
+                //TelCustomValidator.Visible = false;
+
+            }*/
+
+            if (!Page.IsPostBack)
+            {
+                InitControls();
+                DataBind();
+
+                FullNameRequiredFieldValidator.ErrorMessage = "mandatory field";
+                mailRegularExpressionValidator.ErrorMessage = "emailValidation";
+                PartenerRequiredFieldValidator.ErrorMessage = "mandatory field";
+                interestedInRequiredFieldValidator.ErrorMessage = "mandatory field";
+                telRegularExpressionValidator.ErrorMessage = "wrong number";
+                //TelCustomValidator.ErrorMessage = Core.Utils.GetLocString("mandatorytelno");
+                EmailFieldValidator.ErrorMessage ="mandatory field";
+                //ContactCustomValidator.ErrorMessage = Core.Utils.GetLocString("WPmandatorycontact");
+            }
+            else
+            {
+            }
+
+
         }
 
 
@@ -85,8 +117,8 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                         //if (cbContactByPhone.Checked) val.Add(Core.Utils.GetLocString("FLDContactByPhone"));
                         //item[NBG.PublicSite.Core.Fields.ContactBy_Id] = val.ToString();
 
-                        item[ContactBankCooperation_Id] = rbPartener.SelectedValue;//rbPartenerYes.Checked;
-                        //item[ContactInterestedFor_Id] = ddlInterestedIn.SelectedItem.Value;
+                        item[ContactBankCooperation_Id] = rbPartener.SelectedValue; //rbPartenerYes.Checked;
+                        item[ContactInterestedFor_Id] = ddlInterestedIn.SelectedItem.Value;
                         item[ContactSubject_Id] = this.Context.Server.HtmlEncode(txtBody.Text);
 
                         item.Update();//storing
@@ -160,6 +192,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
             ddlInterestedIn.Items.Add(new ListItem("Επιλέξτε", "-1"));
             ddlInterestedIn.Items.Add(new ListItem("Καταθέσεις", "Καταθέσεις"));
             ddlInterestedIn.Items.Add(new ListItem("Κάρτες", "Κάρτες"));
+            ddlInterestedIn.Items.Add(new ListItem("Διαγωνισμός Καινοτομίας & Τεχνολογίας", "Διαγωνισμός Καινοτομίας & Τεχνολογίας"));
             /*ddlInterestedIn.Items.Add(new ListItem(Core.Utils.GetLocString("DropHouseLoans"), Core.Utils.GetLocString("DropHouseLoans")));
             ddlInterestedIn.Items.Add(new ListItem(Core.Utils.GetLocString("DropConsumerLoans"), Core.Utils.GetLocString("DropConsumerLoans")));
             ddlInterestedIn.Items.Add(new ListItem(Core.Utils.GetLocString("DropCaringPrograms"), Core.Utils.GetLocString("DropCaringPrograms")));

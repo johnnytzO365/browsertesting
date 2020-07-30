@@ -72,6 +72,7 @@
                         <asp:TextBox ID="txtEMail" runat="server" CssClass="form-text" />
                         <div>
                             <asp:RegularExpressionValidator ID="mailRegularExpressionValidator" runat="server" ErrorMessage="emailvalidation" ControlToValidate="txtEMail" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" CssClass="errormsg" SetFocusOnError="true" Display="Dynamic"></asp:RegularExpressionValidator>
+                            <div><asp:RequiredFieldValidator ID="EmailFieldValidator" ControlToValidate="txtEMail" ErrorMessage="" CssClass="errormsg" runat="server" Display="Dynamic" /></div>
                         </div>
                     </div>
                 </div>
@@ -81,6 +82,7 @@
                     <div class="form-item clearfix">
                         <label>Συνεργάζομαι με την Εθνική Τράπεζα*:</label>
                         <asp:RadioButtonList ID="rbPartener" runat="server" CssClass="form-radio-dynamic" RepeatDirection="Horizontal" />
+                        <asp:RequiredFieldValidator ID="PartenerRequiredFieldValidator" runat="server" ControlToValidate="rbPartener" ErrorMessage="mandatoryfield" CssClass="errormsg" Display="Dynamic" />
                     </div>
                 </div>
             </div>
