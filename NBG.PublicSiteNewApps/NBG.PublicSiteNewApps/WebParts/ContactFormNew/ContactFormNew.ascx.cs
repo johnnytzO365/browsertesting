@@ -24,12 +24,12 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
         public static Guid ContactInterestedFor_Id = new Guid("{0EDCB11A-D7FA-4EC9-A6D9-0F7D6C466FEE}");
         public static Guid ContactSubject_Id = new Guid("{86C5A8CA-1F28-4EAA-9BA5-8C5DE247E3C7}");
 
-        public string PartenerYesLabel = "Ναι";
-        public string PartenerNoLabel = "Όχι";
-        /*public string SubmitBtnLabel { get { return Core.Utils.GetLocString("WPGlobalSend"); } }
+        public string PartenerYesLabel { get { return Core.Utils.GetLocString("WPContactFormPartenerYesLabel"); } }
+        public string PartenerNoLabel { get { return Core.Utils.GetLocString("WPContactFormPartenerNoLabel"); } }
+        public string SubmitBtnLabel { get { return Core.Utils.GetLocString("WPGlobalSend"); } }
         public string ResetBtnLabel { get { return Core.Utils.GetLocString("WPContactFormResetBtnLabel"); } }
-        public string ContactByPhoneLabel { get { return Core.Utils.GetLocString("WPContactFormContactByPhoneLabel"); } }
-        public string ContactByEmailLabel { get { return Core.Utils.GetLocString("WPContactFormContactByEmailLabel"); } }*/
+        //public string ContactByPhoneLabel { get { return Core.Utils.GetLocString("WPContactFormContactByPhoneLabel"); } }
+        //public string ContactByEmailLabel { get { return Core.Utils.GetLocString("WPContactFormContactByEmailLabel"); } }
 
         protected override void OnInit(EventArgs e)
         {
@@ -123,7 +123,11 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
 
                         item.Update();//storing
                         SubmitResultPanel.Visible = true;
-                        StatusLabel.Text = "<div class=\"sub_success\">Αγαπητέ κύριε / κυρία<br><br>Θα θέλαμε να επιβεβαιώσουμε την παραλαβή του μηνύματος σας και να σας ενημερώσουμε οτι θα επικοινωνήσουμε μαζί σας το συντομότερο δυνατόν.<br><br>Σας ευχαριστούμε,<br><br>Εθνική Τράπεζα<br>Κέντρο Εξυπηρέτησης Πελατείας<br></div>";
+                        StatusLabel.Text = "<div class=\"sub_success\">" + Core.Utils.GetLocString("loanformsubmissionsalut") + "<br /><br />" + Core.Utils.GetLocString("loanformsubmissionbody");
+                        StatusLabel.Text += "<br /><br />" + Core.Utils.GetLocString("FormThankYou") + "<br /><br />";
+                        StatusLabel.Text += Core.Utils.GetLocString("Menunbgbank") + "<br />";
+                        StatusLabel.Text += Core.Utils.GetLocString("FormSignature") + "<br />";
+                        StatusLabel.Text += "</div>";
                         FormPanel.Visible = false;
 
                         //send email
@@ -183,29 +187,28 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
             rbPartener.Items.Add(new ListItem(PartenerYesLabel, "1"));
             rbPartener.Items.Add(new ListItem(PartenerNoLabel, "0"));
             rbPartener.ClearSelection();
-
-
-            //rbPartenerNo.Checked = false;
-            //rbPartenerYes.Checked = false;
-            ddlInterestedIn.Items.Clear();
-            //ddlInterestedIn.Items.AddRange(GetInterestedItems());
-            ddlInterestedIn.Items.Add(new ListItem("Επιλέξτε", "-1"));
-            ddlInterestedIn.Items.Add(new ListItem("Καταθέσεις", "Καταθέσεις"));
-            ddlInterestedIn.Items.Add(new ListItem("Κάρτες", "Κάρτες"));
-            ddlInterestedIn.Items.Add(new ListItem("Διαγωνισμός Καινοτομίας & Τεχνολογίας", "Διαγωνισμός Καινοτομίας & Τεχνολογίας"));
-            /*ddlInterestedIn.Items.Add(new ListItem(Core.Utils.GetLocString("DropHouseLoans"), Core.Utils.GetLocString("DropHouseLoans")));
-            ddlInterestedIn.Items.Add(new ListItem(Core.Utils.GetLocString("DropConsumerLoans"), Core.Utils.GetLocString("DropConsumerLoans")));
-            ddlInterestedIn.Items.Add(new ListItem(Core.Utils.GetLocString("DropCaringPrograms"), Core.Utils.GetLocString("DropCaringPrograms")));
-            ddlInterestedIn.Items.Add(new ListItem(Core.Utils.GetLocString("DropSignibank"), Core.Utils.GetLocString("DropSignibank")));
-            ddlInterestedIn.Items.Add(new ListItem(Core.Utils.GetLocString("DropShareTransactions"), Core.Utils.GetLocString("DropShareTransactions")));
-            ddlInterestedIn.Items.Add(new ListItem(Core.Utils.GetLocString("DropSmallBusiness"), Core.Utils.GetLocString("DropSmallBusiness")));*/
+            
+            uint language = SPContext.Current.Web.Language;
+            if (language.Equals(1032))
+            {
+                ddlInterestedIn.Items.Clear();
+                ddlInterestedIn.Items.Add(new ListItem("Επιλέξτε", "-1"));
+                ddlInterestedIn.Items.Add(new ListItem("Καταθέσεις", "Καταθέσεις"));
+                ddlInterestedIn.Items.Add(new ListItem("Κάρτες", "Κάρτες"));
+                ddlInterestedIn.Items.Add(new ListItem("Διαγωνισμός Καινοτομίας & Τεχνολογίας", "Διαγωνισμός Καινοτομίας & Τεχνολογίας"));
+            }
+            else
+            {
+                ddlInterestedIn.Items.Clear();
+                ddlInterestedIn.Items.Add(new ListItem("Choose", "-1"));
+                ddlInterestedIn.Items.Add(new ListItem("Deposits", "Deposits"));
+                ddlInterestedIn.Items.Add(new ListItem("Cards", "Cards"));
+                ddlInterestedIn.Items.Add(new ListItem("Innovation and Technology Competition", "Innovation and Technology Competition"));
+            }
             ddlInterestedIn.ClearSelection();
             ddlInterestedIn.SelectedIndex = 0;
             txtBody.Text = null;
-            //txtCaptcha.Text = null;
-            //recaptcha.
             txtCity.Text = null;
-            //txtContactEmail.Text = null;
             txtEMail.Text = null;
             txtFullName.Text = null;
             txtPhone.Text = null;

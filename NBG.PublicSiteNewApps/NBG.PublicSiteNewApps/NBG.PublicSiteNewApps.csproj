@@ -54,6 +54,7 @@
     <Reference Include="Microsoft.SharePoint.Client.ServerRuntime" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebParts\ContactFormNew\ContactFormNew.ascx.cs">
       <DependentUpon>ContactFormNew.ascx</DependentUpon>

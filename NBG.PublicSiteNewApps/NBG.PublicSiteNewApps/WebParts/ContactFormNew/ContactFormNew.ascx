@@ -9,7 +9,7 @@
 
 
 <div id="h1_full_width">
-    <h1 class="with_padding">Φόρμα Επικοινωνίας</h1>
+    <h1 class="with_padding"><%= NBG.PublicSiteNewApps.Core.Utils.GetLocString("ContactFormTitle") %></h1>
 </div>
 
 <asp:Panel ID="SubmitResultPanel" runat="server" Visible="False">
@@ -17,12 +17,12 @@
 </asp:Panel>
 <asp:Panel ID="FormPanel" runat="server" DefaultButton="btnSubmit">
     <div class="node contact">
-        <div class="field body"><p>Για οποιαδήποτε πληροφορία ή ερώτημα σχετικά με τα προϊόντα και τις υπηρεσίες μας, συμπληρώστε με ελληνικούς ή λατινικούς χαρακτήρες τα πεδία της παρακάτω φόρμας και θα επικοινωνήσουμε μαζί σας το συντομότερο δυνατόν.</p></div>
+        <div class="field body"><p></p></div>
         <div class="field form">
             <div class="row clearfix">
                 <div class="col">
                     <div class="form-item clearfix">
-                        <label>Ονοματεπώνυμο - Επωνυμία*:</label>
+                        <label><%=NBG.PublicSite.Core.Utils.GetLocString("contactinfo")%></label>
                         <asp:TextBox ID="txtFullName" runat="server" CssClass="form-text" />
                         <div><asp:RequiredFieldValidator ID="FullNameRequiredFieldValidator" ControlToValidate="txtFullName" ErrorMessage="" CssClass="errormsg" runat="server" Display="Dynamic" /></div>
                     </div>
@@ -31,13 +31,13 @@
             <div class="row clearfix">
                 <div class="col">
                     <div class="form-item clearfix">
-                        <label>Οδός:</label>
+                        <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormStreetLabel")%></label>
                         <asp:TextBox ID="txtStreet" runat="server" CssClass="form-text" />
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-item clearfix">
-                        <label>Αριθμός:</label>
+                        <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormStreetNoLabel")%></label>
                         <asp:TextBox ID="txtStreetNo" runat="server" CssClass="form-text" />
                     </div>
                 </div>
@@ -45,13 +45,13 @@
             <div class="row clearfix">
                 <div class="col">
                     <div class="form-item clearfix">
-                        <label>Πόλη - Περιοχή:</label>
+                        <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormCityLabel")%></label>
                         <asp:TextBox ID="txtCity" runat="server" CssClass="form-text" />
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-item clearfix">
-                        <label>ΤΚ:</label>
+                        <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormZipCodeLabel")%></label>
                         <asp:TextBox ID="txtZipCode" runat="server" CssClass="form-text" />
                     </div>
                 </div>
@@ -59,7 +59,7 @@
             <div class="row clearfix">
                 <div class="col">
                     <div class="form-item clearfix">
-                        <label>Τηλ. επικοινωνίας:</label>
+                        <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormPhone")%></label>
                         <div>
                             <asp:TextBox ID="txtPhone" runat="server" CssClass="form-text" />
                             <div><asp:RegularExpressionValidator ID="telRegularExpressionValidator" runat="server" ErrorMessage="" ValidationExpression="^\d+$" ControlToValidate="txtPhone" CssClass="errormsg" ValidateEmptyText="true" Display="Dynamic"></asp:RegularExpressionValidator></div>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="col">
                     <div class="form-item clearfix">
-                        <label>Email*:</label>
+                        <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormEMailLabel")%></label>
                         <asp:TextBox ID="txtEMail" runat="server" CssClass="form-text" />
                         <div>
                             <asp:RegularExpressionValidator ID="mailRegularExpressionValidator" runat="server" ErrorMessage="emailvalidation" ControlToValidate="txtEMail" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" CssClass="errormsg" SetFocusOnError="true" Display="Dynamic"></asp:RegularExpressionValidator>
@@ -80,7 +80,7 @@
             <div class="row clearfix">
                 <div class="col">
                     <div class="form-item clearfix">
-                        <label>Συνεργάζομαι με την Εθνική Τράπεζα*:</label>
+                        <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormPartenerLabel")%></label>
                         <asp:RadioButtonList ID="rbPartener" runat="server" CssClass="form-radio-dynamic" RepeatDirection="Horizontal" />
                         <asp:RequiredFieldValidator ID="PartenerRequiredFieldValidator" runat="server" ControlToValidate="rbPartener" ErrorMessage="mandatoryfield" CssClass="errormsg" Display="Dynamic" />
                     </div>
@@ -89,7 +89,7 @@
             <div class="row clearfix">
                 <div class="col">
                     <div class="form-item clearfix">
-                        <label>Ενδιαφέρομαι για*:</label>
+                        <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormInterestedInLabel")%></label>
                         <asp:DropDownList ID="ddlInterestedIn" runat="server" CssClass="form-select" ></asp:DropDownList>
                         <div><asp:RequiredFieldValidator ID="interestedInRequiredFieldValidator" runat="server" ControlToValidate="ddlInterestedIn" ErrorMessage="mandatoryfield" CssClass="errormsg" Display="Dynamic" InitialValue="-1" /></div>
                     </div>
@@ -98,9 +98,9 @@
             <div class="row clearfix">
                 <div class="col full">
                     <div class="form-item clearfix">
-                        <label>Περιγραφή θέματος*:</label>
+                        <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormBodyLabel")%></label>
                         <asp:TextBox ID="txtBody" runat="server" CssClass="form-textarea" TextMode="MultiLine" onKeyUp="javascript:Count(this);" onChange="javascript:Count(this);" />
-                        <span class="info"><span class="remaining">Υπολοιπόμενοι χαρακτήρες: <em class="lettercount"></em></span>
+                        <span class="info"><span class="remaining"><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormBodyConstraintLabel")%>:<em class="lettercount"></em></span>
                     </div>
                 </div>
             </div>
@@ -121,7 +121,7 @@
             <div class="row clearfix">
                 <div class="col full">
                     <div class="form-item">
-                        <label>*Υποχρεωτικά πεδία</label>
+                        <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormRequiredFieldsLabel")%></label>
                         <p class="light">
                             <asp:Literal ID="LegalPDFLiteral" runat="server"></asp:Literal>
                         </p>
@@ -132,8 +132,8 @@
             <div class="row clearfix">
                 <div class="col full">
                     <div class="form-actions">
-                        <asp:Button ID="btnReset" runat="server" Text='Καθαρισμός' CssClass="form-reset" OnClick="btnReset_Click" CausesValidation="false" />
-                        <asp:Button ID="btnSubmit" runat="server" Text='Αποστολή' CssClass="form-submit" OnClick="btnSubmit_Click" />
+                        <asp:Button ID="btnReset" runat="server" Text='<%# ResetBtnLabel %>' CssClass="form-reset" OnClick="btnReset_Click" CausesValidation="false" />
+                        <asp:Button ID="btnSubmit" runat="server" Text='<%# SubmitBtnLabel %>' CssClass="form-submit" OnClick="btnSubmit_Click" />
                     </div>
                 </div>
             </div>    
