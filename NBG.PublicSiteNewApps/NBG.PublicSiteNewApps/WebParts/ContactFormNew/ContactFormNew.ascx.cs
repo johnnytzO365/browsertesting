@@ -64,7 +64,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                     web.AllowUnsafeUpdates = true;
                     try
                     {
-                        SPList lst = web.GetList("Contact Forms");
+                        SPList lst = web.GetList("/Lists/ContactForms");
                         SPListItemCollection items = GetEmptyItemsCollection(lst);
 
                         SPContentTypeId ctid = lst.ContentTypes.BestMatch(new SPContentTypeId("0x0100548398963F53464698001F990988DBA7"));
@@ -86,7 +86,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                         //item[NBG.PublicSite.Core.Fields.ContactBy_Id] = val.ToString();
 
                         item[ContactBankCooperation_Id] = rbPartener.SelectedValue;//rbPartenerYes.Checked;
-                        item[ContactInterestedFor_Id] = ddlInterestedIn.SelectedItem.Value;
+                        //item[ContactInterestedFor_Id] = ddlInterestedIn.SelectedItem.Value;
                         item[ContactSubject_Id] = this.Context.Server.HtmlEncode(txtBody.Text);
 
                         item.Update();//storing
