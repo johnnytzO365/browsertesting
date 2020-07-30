@@ -17,12 +17,12 @@
 </asp:Panel>
 <asp:Panel ID="FormPanel" runat="server" DefaultButton="btnSubmit">
     <div class="node contact">
-        <div class="field body"><p></p></div>
+        <div class="field body"><p><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("contactinfo")%></p></div>
         <div class="field form">
             <div class="row clearfix">
                 <div class="col">
                     <div class="form-item clearfix">
-                        <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("contactinfo")%></label>
+                        <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormFullNameLabel")%></label>
                         <asp:TextBox ID="txtFullName" runat="server" CssClass="form-text" />
                         <div><asp:RequiredFieldValidator ID="FullNameRequiredFieldValidator" ControlToValidate="txtFullName" ErrorMessage="" CssClass="errormsg" runat="server" Display="Dynamic" /></div>
                     </div>

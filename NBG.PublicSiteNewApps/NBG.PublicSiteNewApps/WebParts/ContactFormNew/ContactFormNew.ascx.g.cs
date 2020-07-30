@@ -446,15 +446,13 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
         
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
         private void @__RenderFormPanel(System.Web.UI.HtmlTextWriter @__w, System.Web.UI.Control parameterContainer) {
-            @__w.Write(@"
-    <div class=""node contact"">
-        <div class=""field body""><p></p></div>
-        <div class=""field form"">
-            <div class=""row clearfix"">
-                <div class=""col"">
-                    <div class=""form-item clearfix"">
-                        <label>");
-                       @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("contactinfo"));
+            @__w.Write("\n    <div class=\"node contact\">\n        <div class=\"field body\"><p>");
+                           @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("contactinfo"));
+
+            @__w.Write("</p></div>\n        <div class=\"field form\">\n            <div class=\"row clearfix\"" +
+                    ">\n                <div class=\"col\">\n                    <div class=\"form-item cl" +
+                    "earfix\">\n                        <label>");
+                       @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormFullNameLabel"));
 
             @__w.Write("</label>\n                        ");
             parameterContainer.Controls[0].RenderControl(@__w);
