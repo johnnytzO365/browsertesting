@@ -81,7 +81,6 @@
                     <div class="form-item clearfix">
                         <label>Συνεργάζομαι με την Εθνική Τράπεζα*:</label>
                         <asp:RadioButtonList ID="rbPartener" runat="server" CssClass="form-radio-dynamic" RepeatDirection="Horizontal" />
-                        <asp:RequiredFieldValidator ID="PartenerRequiredFieldValidator" runat="server" ControlToValidate="rbPartener" ErrorMessage="mandatoryfield" CssClass="errormsg" Display="Dynamic" />
                     </div>
                 </div>
             </div>
@@ -131,8 +130,8 @@
             <div class="row clearfix">
                 <div class="col full">
                     <div class="form-actions">
-                        <asp:Button ID="btnReset" runat="server" Text='Καθαρισμός' CssClass="form-reset" CausesValidation="false" />
-                        <asp:Button ID="btnSubmit" runat="server" Text='Αποστολή' CssClass="form-submit"  />
+                        <asp:Button ID="btnReset" runat="server" Text='Καθαρισμός' CssClass="form-reset" OnClick="btnReset_Click" CausesValidation="false" />
+                        <asp:Button ID="btnSubmit" runat="server" Text='Αποστολή' CssClass="form-submit" OnClick="btnSubmit_Click" />
                     </div>
                 </div>
             </div>    

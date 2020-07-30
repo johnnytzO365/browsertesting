@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Solution xmlns="http://schemas.microsoft.com/sharepoint/" SolutionId="14c3e5d9-2560-4a56-a200-863ee6c9dbbc" SharePointProductVersion="15.0">
+  <Assemblies>
+    <Assembly Location="NBG.PublicSiteNewApps.dll" DeploymentTarget="GlobalAssemblyCache">
+      <SafeControls>
+        <SafeControl Assembly="NBG.PublicSiteNewApps, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4dfb1c6281307489" Namespace="NBG.PublicSiteNewApps.WebParts.ContactFormNew" TypeName="*" />
+      </SafeControls>
+    </Assembly>
+  </Assemblies>
+  <FeatureManifests>
+    <FeatureManifest Location="NBG.PublicSiteNewApps_Feature1\Feature.xml" />
+  </FeatureManifests>
+</Solution>

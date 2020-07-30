@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Feature xmlns="http://schemas.microsoft.com/sharepoint/" Id="52d53504-6d6f-4adc-bbc0-16d805928dc8" Scope="Site" Title="NBG.PublicSiteNewApps Feature1">
+  <ElementManifests>
+    <ElementManifest Location="ContactFormNew\Elements.xml" />
+    <ElementFile Location="ContactFormNew\ContactFormNew.webpart" />
+  </ElementManifests>
+</Feature>
