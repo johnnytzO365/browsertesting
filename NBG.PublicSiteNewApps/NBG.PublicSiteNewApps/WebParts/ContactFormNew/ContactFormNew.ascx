@@ -22,7 +22,7 @@
             <div class="row clearfix">
                 <div class="col">
                     <div class="form-item clearfix">
-                        <label><%=NBG.PublicSite.Core.Utils.GetLocString("contactinfo")%></label>
+                        <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("contactinfo")%></label>
                         <asp:TextBox ID="txtFullName" runat="server" CssClass="form-text" />
                         <div><asp:RequiredFieldValidator ID="FullNameRequiredFieldValidator" ControlToValidate="txtFullName" ErrorMessage="" CssClass="errormsg" runat="server" Display="Dynamic" /></div>
                     </div>

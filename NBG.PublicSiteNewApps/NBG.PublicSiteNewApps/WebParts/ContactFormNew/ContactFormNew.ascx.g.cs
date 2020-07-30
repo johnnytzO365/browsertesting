@@ -454,7 +454,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
                 <div class=""col"">
                     <div class=""form-item clearfix"">
                         <label>");
-                       @__w.Write(NBG.PublicSite.Core.Utils.GetLocString("contactinfo"));
+                       @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("contactinfo"));
 
             @__w.Write("</label>\n                        ");
             parameterContainer.Controls[0].RenderControl(@__w);
