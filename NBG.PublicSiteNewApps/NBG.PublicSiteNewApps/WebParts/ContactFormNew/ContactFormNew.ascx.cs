@@ -53,14 +53,19 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            /*if (SPContext.Current.FormContext.FormMode != Microsoft.SharePoint.WebControls.SPControlMode.Display)
+            if (SPContext.Current.Web.Language == 1033)
+                LegalPDFLiteral.Text = string.Format(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormPersonalDataLegalLabel"), "/english/contact/Documents/Personal+Data+Protection.pdf");
+            else LegalPDFLiteral.Text = string.Format(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormPersonalDataLegalLabel"), "/greek/contact/Documents/Προστασία+Δεδομένων+Προσωπικού+Χαρακτήρα.pdf");
+
+            /*
+            if (SPContext.Current.FormContext.FormMode != Microsoft.SharePoint.WebControls.SPControlMode.Display)
             {
                 FullNameRequiredFieldValidator.Visible = false;
-                //PartenerRequiredFieldValidator.Visible = false;
+                PartenerRequiredFieldValidator.Visible = false;
                 interestedInRequiredFieldValidator.Visible = false;
                 //recaptchaid.Visible = false;
                 //ContactCustomValidator.Visible = false;
-                //EmailCustomValidator.Visible = false;
+                EmailFieldValidator.Visible = false;
                 //TelCustomValidator.Visible = false;
 
             }*/
