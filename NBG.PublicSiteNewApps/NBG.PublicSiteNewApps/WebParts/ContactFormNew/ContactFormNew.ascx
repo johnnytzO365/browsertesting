@@ -101,6 +101,7 @@
                         <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormBodyLabel")%></label>
                         <asp:TextBox ID="txtBody" runat="server" CssClass="form-textarea" TextMode="MultiLine" onKeyUp="javascript:Count(this);" onChange="javascript:Count(this);" />
                         <span class="info"><span class="remaining"><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormBodyConstraintLabel")%>:<em class="lettercount"></em></span>
+                        <div><asp:RequiredFieldValidator ID="formBodyRequiredFieldValidator" ControlToValidate="txtBody" ErrorMessage="" CssClass="errormsg" runat="server" Display="Dynamic" /></div>
                     </div>
                 </div>
             </div>

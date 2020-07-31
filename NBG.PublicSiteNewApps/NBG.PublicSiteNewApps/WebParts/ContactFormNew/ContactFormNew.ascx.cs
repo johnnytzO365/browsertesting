@@ -70,14 +70,13 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                 InitControls();
                 DataBind();
 
-                FullNameRequiredFieldValidator.ErrorMessage = "mandatory field";
-                mailRegularExpressionValidator.ErrorMessage = "emailValidation";
-                PartenerRequiredFieldValidator.ErrorMessage = "mandatory field";
-                interestedInRequiredFieldValidator.ErrorMessage = "mandatory field";
-                telRegularExpressionValidator.ErrorMessage = "wrong number";
-                //TelCustomValidator.ErrorMessage = Core.Utils.GetLocString("mandatorytelno");
-                EmailFieldValidator.ErrorMessage ="mandatory field";
-                //ContactCustomValidator.ErrorMessage = Core.Utils.GetLocString("WPmandatorycontact");
+                FullNameRequiredFieldValidator.ErrorMessage = Core.Utils.GetLocString("mandatoryfield");
+                formBodyRequiredFieldValidator.ErrorMessage = Core.Utils.GetLocString("mandatoryfield");
+                EmailFieldValidator.ErrorMessage = Core.Utils.GetLocString("mandatoryfield");
+                mailRegularExpressionValidator.ErrorMessage = Core.Utils.GetLocString("emailvalidation");
+                PartenerRequiredFieldValidator.ErrorMessage = Core.Utils.GetLocString("mandatoryfield");
+                interestedInRequiredFieldValidator.ErrorMessage = Core.Utils.GetLocString("mandatoryfield");
+                telRegularExpressionValidator.ErrorMessage = Core.Utils.GetLocString("wrongnumber");
             }
             else
             {
@@ -104,12 +103,10 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                         SPListItem item = items.Add();
                         item[SPBuiltInFieldId.ContentTypeId] = ctid;
                         item[SPBuiltInFieldId.Title] = this.Context.Server.HtmlEncode(txtFullName.Text);
-                        //item[SPBuiltInFieldId.WorkPhone] = txtPhone.Text;
                         item[SPBuiltInFieldId.WorkAddress] = string.Format("{0} {1}", this.Context.Server.HtmlEncode(txtStreet.Text), this.Context.Server.HtmlEncode(txtStreetNo.Text));
                         item[SPBuiltInFieldId.WorkCity] = this.Context.Server.HtmlEncode(txtCity.Text);
                         item[SPBuiltInFieldId.WorkZip] = this.Context.Server.HtmlEncode(txtZipCode.Text);
                         item[SPBuiltInFieldId.EMail] = this.Context.Server.HtmlEncode(txtEMail.Text);
-                        //item[SPBuiltInFieldId.Email2] = this.Context.Server.HtmlEncode(txtContactEmail.Text);
                         item[SPBuiltInFieldId.HomePhone] = this.Context.Server.HtmlEncode(txtPhone.Text);
 
                         //SPFieldMultiChoiceValue val = new SPFieldMultiChoiceValue();
@@ -189,22 +186,19 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
             rbPartener.ClearSelection();
             
             uint language = SPContext.Current.Web.Language;
+            ddlInterestedIn.Items.Clear();
             if (language.Equals(1032))
             {
-                ddlInterestedIn.Items.Clear();
                 ddlInterestedIn.Items.Add(new ListItem("Επιλέξτε", "-1"));
-                ddlInterestedIn.Items.Add(new ListItem("Καταθέσεις", "Καταθέσεις"));
-                ddlInterestedIn.Items.Add(new ListItem("Κάρτες", "Κάρτες"));
-                ddlInterestedIn.Items.Add(new ListItem("Διαγωνισμός Καινοτομίας & Τεχνολογίας", "Διαγωνισμός Καινοτομίας & Τεχνολογίας"));
             }
             else
             {
-                ddlInterestedIn.Items.Clear();
                 ddlInterestedIn.Items.Add(new ListItem("Choose", "-1"));
-                ddlInterestedIn.Items.Add(new ListItem("Deposits", "Deposits"));
-                ddlInterestedIn.Items.Add(new ListItem("Cards", "Cards"));
-                ddlInterestedIn.Items.Add(new ListItem("Innovation and Technology Competition", "Innovation and Technology Competition"));
             }
+            string value = Core.Utils.GetLocString("ContactInterestedInDropDown");
+            string[] choices = value.Split(';');
+            foreach(string choice in choices)
+                ddlInterestedIn.Items.Add(choice);
             ddlInterestedIn.ClearSelection();
             ddlInterestedIn.SelectedIndex = 0;
             txtBody.Text = null;

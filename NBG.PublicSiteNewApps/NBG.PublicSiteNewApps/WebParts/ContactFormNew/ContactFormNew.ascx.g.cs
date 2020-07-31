@@ -74,6 +74,8 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
         
         protected global::System.Web.UI.WebControls.TextBox txtBody;
         
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator formBodyRequiredFieldValidator;
+        
         protected global::System.Web.UI.WebControls.Literal LegalPDFLiteral;
         
         protected global::System.Web.UI.WebControls.Button btnReset;
@@ -319,6 +321,20 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
         }
         
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
+        private global::System.Web.UI.WebControls.RequiredFieldValidator @__BuildControlformBodyRequiredFieldValidator() {
+            global::System.Web.UI.WebControls.RequiredFieldValidator @__ctrl;
+            @__ctrl = new global::System.Web.UI.WebControls.RequiredFieldValidator();
+            this.formBodyRequiredFieldValidator = @__ctrl;
+            @__ctrl.ApplyStyleSheetSkin(this.Page);
+            @__ctrl.ID = "formBodyRequiredFieldValidator";
+            @__ctrl.ControlToValidate = "txtBody";
+            @__ctrl.ErrorMessage = "";
+            @__ctrl.CssClass = "errormsg";
+            @__ctrl.Display = global::System.Web.UI.WebControls.ValidatorDisplay.Dynamic;
+            return @__ctrl;
+        }
+        
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
         private global::System.Web.UI.WebControls.Literal @__BuildControlLegalPDFLiteral() {
             global::System.Web.UI.WebControls.Literal @__ctrl;
             @__ctrl = new global::System.Web.UI.WebControls.Literal();
@@ -431,15 +447,18 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
             global::System.Web.UI.WebControls.TextBox @__ctrl16;
             @__ctrl16 = this.@__BuildControltxtBody();
             @__parser.AddParsedSubObject(@__ctrl16);
-            global::System.Web.UI.WebControls.Literal @__ctrl17;
-            @__ctrl17 = this.@__BuildControlLegalPDFLiteral();
+            global::System.Web.UI.WebControls.RequiredFieldValidator @__ctrl17;
+            @__ctrl17 = this.@__BuildControlformBodyRequiredFieldValidator();
             @__parser.AddParsedSubObject(@__ctrl17);
-            global::System.Web.UI.WebControls.Button @__ctrl18;
-            @__ctrl18 = this.@__BuildControlbtnReset();
+            global::System.Web.UI.WebControls.Literal @__ctrl18;
+            @__ctrl18 = this.@__BuildControlLegalPDFLiteral();
             @__parser.AddParsedSubObject(@__ctrl18);
             global::System.Web.UI.WebControls.Button @__ctrl19;
-            @__ctrl19 = this.@__BuildControlbtnSubmit();
+            @__ctrl19 = this.@__BuildControlbtnReset();
             @__parser.AddParsedSubObject(@__ctrl19);
+            global::System.Web.UI.WebControls.Button @__ctrl20;
+            @__ctrl20 = this.@__BuildControlbtnSubmit();
+            @__parser.AddParsedSubObject(@__ctrl20);
             @__ctrl.SetRenderMethodDelegate(new System.Web.UI.RenderMethod(this.@__RenderFormPanel));
             return @__ctrl;
         }
@@ -540,7 +559,9 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
             @__w.Write("\n                        <span class=\"info\"><span class=\"remaining\">");
                                                            @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormBodyConstraintLabel"));
 
-            @__w.Write(@":<em class=""lettercount""></em></span>
+            @__w.Write(":<em class=\"lettercount\"></em></span>\n                        <div>");
+            parameterContainer.Controls[16].RenderControl(@__w);
+            @__w.Write(@"</div>
                     </div>
                 </div>
             </div>
@@ -565,7 +586,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
                        @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormRequiredFieldsLabel"));
 
             @__w.Write("</label>\n                        <p class=\"light\">\n                            ");
-            parameterContainer.Controls[16].RenderControl(@__w);
+            parameterContainer.Controls[17].RenderControl(@__w);
             @__w.Write(@"
                         </p>
                     </div>
@@ -576,9 +597,9 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
                 <div class=""col full"">
                     <div class=""form-actions"">
                         ");
-            parameterContainer.Controls[17].RenderControl(@__w);
-            @__w.Write("\n                        ");
             parameterContainer.Controls[18].RenderControl(@__w);
+            @__w.Write("\n                        ");
+            parameterContainer.Controls[19].RenderControl(@__w);
             @__w.Write(@"
                     </div>
                 </div>
