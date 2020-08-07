@@ -633,14 +633,14 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
         
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
         private void @__Render__control1(System.Web.UI.HtmlTextWriter @__w, System.Web.UI.Control parameterContainer) {
-            @__w.Write("\r\n\n\n<div id=\"h1_full_width\">\n    <h1 class=\"with_padding\">");
+            @__w.Write("\r\n\r\n<div id=\"h1_full_width\">\n    <h1 class=\"with_padding\">");
                      @__w.Write( NBG.PublicSiteNewApps.Core.Utils.GetLocString("ContactFormTitle") );
 
             @__w.Write("</h1>\n</div>\n\n");
             parameterContainer.Controls[0].RenderControl(@__w);
             @__w.Write("\n");
             parameterContainer.Controls[1].RenderControl(@__w);
-            @__w.Write("\n\r\n");
+            @__w.Write("\r\n");
         }
         
         private void InitializeControl() {

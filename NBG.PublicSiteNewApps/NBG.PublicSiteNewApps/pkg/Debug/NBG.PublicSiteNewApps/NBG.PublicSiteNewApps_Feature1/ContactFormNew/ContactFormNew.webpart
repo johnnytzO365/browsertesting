@@ -2,7 +2,7 @@
 <webParts>
   <webPart xmlns="http://schemas.microsoft.com/WebPart/v3">
     <metaData>
-      <type name="NBG.PublicSiteNewApps.WebParts.ContactFormNew.ContactFormNew, NBG.PublicSiteNewApps, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4dfb1c6281307489" />
+      <type name="NBG.PublicSiteNewApps.WebParts.ContactFormNew.ContactFormNew, NBG.PublicSiteNewApps, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c6d8ad058add9516" />
       <importErrorMessage>$Resources:core,ImportErrorMessage;</importErrorMessage>
     </metaData>
     <data>
