@@ -132,12 +132,12 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                     FormPanel.Visible = false;
 
                     //send email
-                    /*string emailAddresses = Core.Configuration.GetValue1(SPContext.Current.Site.RootWeb, Core.Configuration.ConfigurationKeys.FormContact, Core.Configuration.ConfigurationCategories.Data);
+                    string emailAddresses = Core.Configuration.GetValue1(SPContext.Current.Site.RootWeb, Core.Configuration.ConfigurationKeys.FormContact, Core.Configuration.ConfigurationCategories.Data);
                     string emailUser = item[SPBuiltInFieldId.EMail] as string;
                     if (string.IsNullOrEmpty(emailUser))
                         emailUser = item[SPBuiltInFieldId.Email2] as string;
-                    if (!string.IsNullOrEmpty(emailAddresses))
-                    {
+                    //if (!string.IsNullOrEmpty(emailAddresses))
+                    //{
                         // Expected format for emailAddresses: user1@test.com;user2@test2.com
 
                         string emailSubject = Core.Configuration.GetValue2(SPContext.Current.Site.RootWeb, Core.Configuration.ConfigurationKeys.FormContact, Core.Configuration.ConfigurationCategories.Data);
@@ -155,8 +155,11 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                         {
                             lm.Add(emailUser);
                         }
-                        Core.EMails.NotifyNewContactRegistration(web, item, emailSubject, lm, emailAddressesList, null, emailAddressFrom);
-                    }*/
+
+                        List<string> lm1 = new List<string>();
+                        lm1.Add("spsetup@spdev.local");
+                        Core.EMails.NotifyNewContactRegistration(web, item, emailSubject, lm1, emailAddressesList, null, emailAddressFrom);
+                    //}
                 }
                 catch (Exception ex)//uls
                 {
@@ -199,7 +202,19 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
             {
                 ddlInterestedIn.Items.Add(new ListItem("Choose", "-1"));
             }
-            string value = Core.Utils.GetLocString("ContactInterestedInDropDown");
+
+            SPList config = SPContext.Current.Web.GetList("/Lists/Configuration"); 
+            SPQuery query = new SPQuery();
+            if (SPContext.Current.Web.Language == 1033)
+            {
+                query.Query = "<Where><Eq><FieldRef Name=\"Title\" /><Value Type=\"Text\">ContactFormDropDownChoicesEn</Value></Eq></Where>";
+            }
+            else
+            {
+                query.Query = "<Where><Eq><FieldRef Name=\"Title\" /><Value Type=\"Text\">ContactFormDropDownChoicesEl</Value></Eq></Where>";
+            }
+            SPListItemCollection item = config.GetItems(query);
+            string value = item[0]["Config Value1"].ToString();
             string[] choices = value.Split(';');
             foreach (string choice in choices)
                 ddlInterestedIn.Items.Add(choice);
