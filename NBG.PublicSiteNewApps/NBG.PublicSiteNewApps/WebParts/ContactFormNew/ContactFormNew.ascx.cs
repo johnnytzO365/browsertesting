@@ -136,8 +136,8 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                     string emailUser = item[SPBuiltInFieldId.EMail] as string;
                     if (string.IsNullOrEmpty(emailUser))
                         emailUser = item[SPBuiltInFieldId.Email2] as string;
-                    //if (!string.IsNullOrEmpty(emailAddresses))
-                    //{
+                    if (!string.IsNullOrEmpty(emailAddresses))
+                    {
                         // Expected format for emailAddresses: user1@test.com;user2@test2.com
 
                         string emailSubject = Core.Configuration.GetValue2(SPContext.Current.Site.RootWeb, Core.Configuration.ConfigurationKeys.FormContact, Core.Configuration.ConfigurationCategories.Data);
@@ -159,7 +159,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                         List<string> lm1 = new List<string>();
                         lm1.Add("spsetup@spdev.local");
                         Core.EMails.NotifyNewContactRegistration(web, item, emailSubject, lm1, emailAddressesList, null, emailAddressFrom);
-                    //}
+                    }
                 }
                 catch (Exception ex)//uls
                 {
