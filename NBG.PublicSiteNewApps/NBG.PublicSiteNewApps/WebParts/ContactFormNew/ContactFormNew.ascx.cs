@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
+using NBG.PublicSiteNewApps.CommonLibrary.Log;
 
 namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
 {
@@ -163,7 +164,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                 }
                 catch (Exception ex)//uls
                 {
-                    //Logger.LogEvent(string.Format(Core.Configuration.ERROR_STRING_FORMAT, null, "ContactForm.AddNewContact", null, ex.ToString()), System.Diagnostics.EventLogEntryType.Error);
+                    Logger.LogEvent(string.Format(Core.Configuration.ERROR_STRING_FORMAT, null, "ContactForm.AddNewContact", null, ex.ToString()), System.Diagnostics.EventLogEntryType.Error);
                     SubmitResultPanel.Visible = true;
                     StatusLabel.Text = "σφαλμα αποστολής";
                     FormPanel.Visible = false;

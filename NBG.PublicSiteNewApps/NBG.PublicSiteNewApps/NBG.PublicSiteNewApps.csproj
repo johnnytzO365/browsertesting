@@ -55,6 +55,8 @@
     <Reference Include="Microsoft.SharePoint.Client.ServerRuntime" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonLibrary\Log\Logger.cs" />
+    <Compile Include="CommonLibrary\Log\LoggingService.cs" />
     <Compile Include="Core\Configuration.cs" />
     <Compile Include="Core\EMails.cs" />
     <Compile Include="Core\Fields.cs" />

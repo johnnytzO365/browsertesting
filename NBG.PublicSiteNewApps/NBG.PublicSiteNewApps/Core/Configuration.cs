@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBG.PublicSiteNewApps.CommonLibrary.Log;
 
 namespace NBG.PublicSiteNewApps.Core
 {
@@ -16,6 +17,8 @@ namespace NBG.PublicSiteNewApps.Core
         public static int CONFIG_CACHE_DURATION = 0;
         public static string APPLICATION_NAME_EMAILSUBJECT = "nbg.gr";
         public static string RESOURCES_NAME = "NBGSite.Resources";
+        public static string ERROR_STRING_FORMAT = "ItemId: {0}\nProcedure:{1}\nData:{2}\nError:\n{3}\n";
+        public static string APPLICATION_NAME = "NBG.PublicSite";
 
         public static string GetValue1(SPWeb spWeb, string key, string category)
         {
@@ -67,7 +70,7 @@ namespace NBG.PublicSiteNewApps.Core
             }
             catch (Exception ex)
             {
-                //Logger.LogEvent(string.Format("Configuration.GetValue: Category: {0} Key: {1} 1stValue: {2}\n{3}", category, key, isFirstValue.ToString(), ex.ToString()), System.Diagnostics.EventLogEntryType.Warning);
+                Logger.LogEvent(string.Format("Configuration.GetValue: Category: {0} Key: {1} 1stValue: {2}\n{3}", category, key, isFirstValue.ToString(), ex.ToString()), System.Diagnostics.EventLogEntryType.Warning);
             }
             return value;
         }

@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommonSP = NBG.PublicSiteNewApps;
+using NBG.PublicSiteNewApps.CommonLibrary.Log;
 
 namespace NBG.PublicSiteNewApps.Core
 {
     class EMails
     {
+        public static string LogEventSource = "EMails";
         public static string CSS_CLASS_TD_FOOTER = "csstdfooter";
         public static string CSS_CLASS_A = "cssa";
         public static string CSS_CLASS_TD_BODY = "cssbody";
@@ -58,7 +60,7 @@ namespace NBG.PublicSiteNewApps.Core
 
                         string body = BuildEMailBody(spWeb, spItem, null, fieldIds.ToArray(), null, Core.Utils.GetLocString(spWeb, "ContactFormTitle"), null, additionalRows, false, false, false);
 #if DEBUG
-                        //Logger.LogEvent(LogEventSource, string.Format(Configuration.ERROR_STRING_FORMAT, "New contact registration", spItem.ID, spItem[SPBuiltInFieldId.EMail], body), System.Diagnostics.EventLogEntryType.Information);
+                        Logger.LogEvent(LogEventSource, string.Format(Configuration.ERROR_STRING_FORMAT, "New contact registration", spItem.ID, spItem[SPBuiltInFieldId.EMail], body), System.Diagnostics.EventLogEntryType.Information);
 #endif
                         System.Net.Mail.MailAddress fromAddress = new System.Net.Mail.MailAddress(emailAddressFrom);
                         SendEmail(spWeb, recipients, null, recipientsBcc, subject, body, fromAddress);
@@ -67,7 +69,7 @@ namespace NBG.PublicSiteNewApps.Core
             }
             catch (Exception ex)
             {
-                //Logger.LogEvent(LogEventSource, string.Format(Configuration.ERROR_STRING_FORMAT, spItem.ID, "NotifyNewContactRegistration", "", ex.ToString()), System.Diagnostics.EventLogEntryType.Warning);
+                Logger.LogEvent(LogEventSource, string.Format(Configuration.ERROR_STRING_FORMAT, spItem.ID, "NotifyNewContactRegistration", "", ex.ToString()), System.Diagnostics.EventLogEntryType.Warning);
             }
         }
 
@@ -291,14 +293,14 @@ namespace NBG.PublicSiteNewApps.Core
                     }
                 }
 #if DEBUG
-                //if (emailAddresses != null)
-                    //Logger.LogEvent(CommonSP.Core.Configuration.APPLICATION_NAME, string.Format(CommonSP.Core.Configuration.ERROR_STRING_FORMAT, null, "EMails", "SendEmail addresses", string.Join(",", emailAddresses.ToArray())), System.Diagnostics.EventLogEntryType.Information);
-                //Logger.LogEvent(CommonSP.Core.Configuration.APPLICATION_NAME, string.Format(CommonSP.Core.Configuration.ERROR_STRING_FORMAT, null, "EMails", "SendEmail body", body), System.Diagnostics.EventLogEntryType.Information);
+                if (emailAddresses != null)
+                    Logger.LogEvent(CommonSP.Core.Configuration.APPLICATION_NAME, string.Format(CommonSP.Core.Configuration.ERROR_STRING_FORMAT, null, "EMails", "SendEmail addresses", string.Join(",", emailAddresses.ToArray())), System.Diagnostics.EventLogEntryType.Information);
+                Logger.LogEvent(CommonSP.Core.Configuration.APPLICATION_NAME, string.Format(CommonSP.Core.Configuration.ERROR_STRING_FORMAT, null, "EMails", "SendEmail body", body), System.Diagnostics.EventLogEntryType.Information);
 #endif
             }
             catch (Exception ex)
             {
-                //Logger.LogEvent(CommonSP.Core.Configuration.APPLICATION_NAME, string.Format(CommonSP.Core.Configuration.ERROR_STRING_FORMAT, null, "EMails", "SendEmail", ex.ToString()), System.Diagnostics.EventLogEntryType.Warning);
+                Logger.LogEvent(CommonSP.Core.Configuration.APPLICATION_NAME, string.Format(CommonSP.Core.Configuration.ERROR_STRING_FORMAT, null, "EMails", "SendEmail", ex.ToString()), System.Diagnostics.EventLogEntryType.Warning);
             }
         }
 
