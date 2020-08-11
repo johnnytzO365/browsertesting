@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,13 +16,13 @@ namespace SeleniumTutorial
         [SetUp]
         public void StartBrowser()
         {
-            driver = new ChromeDriver("C:\\Users\\spsetup\\Documents\\visual studio 2012\\Projects\\SeleniumTutorial\\.nuget\\selenium.chrome.webdriver.76.0.0\\driver");
+            driver = new ChromeDriver(ConfigurationManager.AppSettings["ChromeDriverPath"]);
         }
 
         [Test]        
         public void CheckNBGNavigationNodeCount()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]));
             List<IWebElement> test = driver.FindElements(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[1]/div/div[2]/div/ul/li")).ToList();            
             Assert.AreEqual(3, test.Count);
         }

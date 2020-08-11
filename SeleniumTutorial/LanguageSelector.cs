@@ -1,30 +1,57 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Remote;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using System.Net;
+using System.Threading;
+using System.Configuration;
+using SeleniumExtras.WaitHelpers;
+using OpenQA.Selenium.Support.UI;
+using System.Diagnostics;
+using System.ComponentModel;
+using OpenQA.Selenium.IE;
 
 namespace SeleniumTutorial
 {
     class LanguageSelector
     {
         IWebDriver driver;
+        WebDriverWait wait;
         [SetUp]
         public void StartBrowser()
         {
-            driver = new ChromeDriver("C:\\Users\\spsetup\\Documents\\visual studio 2012\\Projects\\SeleniumTutorial\\.nuget\\selenium.chrome.webdriver.76.0.0\\driver");
+            driver = new InternetExplorerDriver(ConfigurationManager.AppSettings["ChromeDriverPath"]);
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(40));
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]));
+            Thread.Sleep(2000);
+
+            driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderMain_ClaimsLogonSelector']")).Click();
+            wait.Until(ExpectedConditions.ElementExists(By.XPath("//*[@id='ctl00_PlaceHolderMain_ClaimsLogonSelector']/option[2]")));
+            driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderMain_ClaimsLogonSelector']/option[3]")).Click();
+            try
+            {
+                using (Process myProcess = new Process())
+                {
+                    myProcess.StartInfo.FileName = ConfigurationManager.AppSettings["ScriptPath"];
+                    myProcess.Start();
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            Thread.Sleep(4000);
         }
 
         [Test]
         public void CheckSelectorTextInEnglishRootSite()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "el");
             List<IWebElement> links = driver.FindElements(By.TagName("a")).ToList();
             IWebElement ls = driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderCustomHeader_PlaceHolderCustomHeaderTop_ctl00_ctl00_LangSwitchButton']"));
             string displayText = ls.Text;
@@ -34,7 +61,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckLanguageChangeFriendlyURLs()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/en");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "en");
             IWebElement ls = driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderCustomHeader_PlaceHolderCustomHeaderTop_ctl00_ctl00_LangSwitchButton']"));
             string displayText = ls.Text;
             Assert.AreEqual("EL", displayText);
@@ -49,7 +76,7 @@ namespace SeleniumTutorial
         [Test]
         public void CheckLanguageChangeNormalURLs()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/english/Pages/Default.aspx");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "english/Pages/Default.aspx");
             IWebElement ls = driver.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderCustomHeader_PlaceHolderCustomHeaderTop_ctl00_ctl00_LangSwitchButton']"));
             string displayText = ls.Text;
             Assert.AreEqual("EL", displayText);

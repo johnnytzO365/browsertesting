@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="5db818eb-c139-4555-83d0-92eae27d8476" solutionId="5db818eb-c139-4555-83d0-92eae27d8476" resetWebServer="false" sharePointProductVersion="15.0" name="NBG.MyNBGPortal" xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel">
+  <features>
+    <featureReference itemId="613851c2-a0d1-4a63-99f7-e2d3a93777c5" />
+  </features>
+</package>

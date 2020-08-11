@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Configuration;
 
 namespace SeleniumTutorial
 {
@@ -20,57 +21,397 @@ namespace SeleniumTutorial
         [SetUp]
         public void StartBrowser()
         {
-            driver = new ChromeDriver("C:\\Users\\spsetup\\Documents\\Visual Studio 2012\\Projects\\SeleniumTutorial\\.nuget\\selenium.chrome.webdriver.76.0.0\\driver");
+            driver = new ChromeDriver(ConfigurationManager.AppSettings["ChromeDriverPath"]);
+            driver.Manage().Window.Maximize();  //to use the desired width of window
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
         }
 
         [Test]
-        public void CheckFormSubmit()
+        public void CheckFormSubmitEl()
         {
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/greek/Pages/Contact.aspx");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "greek/Pages/Contact.aspx");  //go to contact form
 
             //Fill and submit form
-            driver.FindElement(By.XPath("//*[@id='ctl00_SPWebPartManager1_g_6d3e91d9_a2fa_4a30_8fb8_be04f07ca98b_txtFullName']")).SendKeys("TestName");
-            driver.FindElement(By.XPath("//*[@id='ctl00_SPWebPartManager1_g_6d3e91d9_a2fa_4a30_8fb8_be04f07ca98b_txtContactEmail']")).SendKeys("test@email.com");
-            driver.FindElement(By.XPath("//*[@id='ctl00_SPWebPartManager1_g_6d3e91d9_a2fa_4a30_8fb8_be04f07ca98b_rbPartener_0']")).Click();
-            driver.FindElement(By.XPath("//*[@id='ctl00_SPWebPartManager1_g_6d3e91d9_a2fa_4a30_8fb8_be04f07ca98b_FormPanel']/div/div[2]/div[6]/div/div/div[1]/input")).Click();
-            driver.FindElement(By.XPath("//*[@id='ctl00_SPWebPartManager1_g_6d3e91d9_a2fa_4a30_8fb8_be04f07ca98b_FormPanel']/div/div[2]/div[6]/div/div/div[1]/ul/li[2]")).Click();
-            driver.FindElement(By.XPath("//*[@id='ctl00_SPWebPartManager1_g_6d3e91d9_a2fa_4a30_8fb8_be04f07ca98b_cbContactByEmail']")).Click();
-            driver.FindElement(By.XPath("//*[@id='ctl00_SPWebPartManager1_g_6d3e91d9_a2fa_4a30_8fb8_be04f07ca98b_btnSubmit']")).Click();
+            try
+            {
+                String nameSelector = "[id$='txtFullName']";
+                IWebElement name = driver.FindElement(By.CssSelector(nameSelector));
+                name.SendKeys("TestName");
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Name Field!");
+            }
+            try
+            {
+                String emailSelector = "[id$='txtContactEmail']";
+                IWebElement email = driver.FindElement(By.CssSelector(emailSelector));
+                email.SendKeys("test@email.com");
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Email Field!");
+            }
+            try
+            {
+                String partenerSelector = "[id$='rbPartener_0']";
+                IWebElement partener = driver.FindElement(By.CssSelector(partenerSelector));
+                partener.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Partener Radio Button!");
+            }
+            IWebElement temp = null;
+            try
+            {
+                String tempSelector = "[id$='FormPanel']";
+                temp = driver.FindElement(By.CssSelector(tempSelector));
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find FormPanel element!");
+            }
+            try
+            {
+                String arrowSelector = "./div/div[2]/div[6]/div/div/div[1]/input";
+                IWebElement arrow = temp.FindElement(By.XPath(arrowSelector));
+                arrow.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find arrow next to Choice!");
+            }
+            try
+            {
+                String choiceSelector = "./div/div[2]/div[6]/div/div/div[1]/ul/li[2]";
+                IWebElement choice = temp.FindElement(By.XPath(choiceSelector));
+                choice.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find your choice in the dropdown menu!");
+            }
+            try
+            {
+                String contactBySelector = "[id$='ContactByEmail']";
+                IWebElement contactBy = driver.FindElement(By.CssSelector(contactBySelector));
+                contactBy.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find contact by email radio button!");
+            }
+            try
+            {
+                String submitSelector = "[id$='btnSubmit']";
+                IWebElement submit = driver.FindElement(By.CssSelector(submitSelector));
+                submit.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Submit Button!");
+            }
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/Lists/ContactForms/AllItems.aspx");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "Lists/ContactForms/AllItems.aspx");  //go to contact list
 
-            driver.FindElement(By.XPath("//*[@id='{E75820FC-1EBE-4393-AC2E-69C48B26F864}-{6F01E980-FAAC-4B6F-8945-FD1324AB8966}']/tbody/tr[last()]")).Click();
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='Ribbon.ListItem-title']/a")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='Ribbon.ListItem-title']/a")));
-            driver.FindElement(By.XPath("//*[@id='Ribbon.ListItem-title']/a")).Click();
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='Ribbon.ListItem.Manage.ViewProperties-Large']")));
-            driver.FindElement(By.XPath("//*[@id='Ribbon.ListItem.Manage.ViewProperties-Large']")).Click();
+            try
+            {
+                String lastItemSelector = "//*[@class='ms-listviewtable']/tbody/tr[last()]";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(lastItemSelector)));
+                IWebElement lastItem = driver.FindElement(By.XPath(lastItemSelector));
+                lastItem.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find last item on list!");
+            }
+            try
+            {
+                String itemsOnRibbonSelector = "//*[@id='Ribbon.ListItem-title']/a";
+                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(itemsOnRibbonSelector)));
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(itemsOnRibbonSelector)));
+                IWebElement itemsOnRibbon = driver.FindElement(By.XPath(itemsOnRibbonSelector));
+                itemsOnRibbon.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Items button on Ribbon!");
+            }
+            try
+            {
+                String viewProperiesSelector = "[id^='Ribbon.ListItem.Manage.ViewProperties']";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(viewProperiesSelector)));
+                IWebElement viewProperties = driver.FindElement(By.CssSelector(viewProperiesSelector));
+                viewProperties.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find View Properties button on Ribbon!");
+            }
 
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@class='ms-formtable']/tbody/tr[1]/td[2]")));
-            IWebElement ls = driver.FindElement(By.XPath("//*[@class='ms-formtable']/tbody/tr[1]/td[2]"));
-            Assert.AreEqual(ls.Text, "TestName");
+            //check all the fields to have the correct data
+            try
+            {
+                String nameSelector = "//*[@class='ms-formtable']/tbody/tr[1]/td[2]";
+                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(nameSelector)));
+                IWebElement name = driver.FindElement(By.XPath("//*[@class='ms-formtable']/tbody/tr[1]/td[2]"));
+                Assert.AreEqual(name.Text, "TestName");
 
-            ls = driver.FindElement(By.XPath("//*[@class='ms-formtable']/tbody/tr[7]/td[2]"));
-            Assert.AreEqual(ls.Text, "test@email.com");
+                String emailSelector = "//*[@class='ms-formtable']/tbody/tr[7]/td[2]";
+                IWebElement email = driver.FindElement(By.XPath(emailSelector));
+                Assert.AreEqual(email.Text, "test@email.com");
+                
+                String partenerSelector = "//*[@class='ms-formtable']/tbody/tr[8]/td[2]";
+                IWebElement partener = driver.FindElement(By.XPath(partenerSelector));
+                Assert.AreEqual(partener.Text, "Yes");
 
-            ls = driver.FindElement(By.XPath("//*[@class='ms-formtable']/tbody/tr[8]/td[2]"));
-            Assert.AreEqual(ls.Text, "Yes");
+                String choiceSelector = "//*[@class='ms-formtable']/tbody/tr[9]/td[2]";
+                IWebElement choice = driver.FindElement(By.XPath(choiceSelector));
+                Assert.AreEqual(choice.Text, "Καταθέσεις");
 
-            ls = driver.FindElement(By.XPath("//*[@class='ms-formtable']/tbody/tr[9]/td[2]"));
-            Assert.AreEqual(ls.Text, "Καταθέσεις");
+                String contactBySelector = "//*[@class='ms-formtable']/tbody/tr[11]/td[2]";
+                IWebElement contactBy = driver.FindElement(By.XPath(contactBySelector));
+                Assert.AreEqual(contactBy.Text, "Μέσω Email");
+            }
+            catch
+            {
+                Assert.Fail("Something doesn't match!");
+            }
 
-            ls = driver.FindElement(By.XPath("//*[@class='ms-formtable']/tbody/tr[11]/td[2]"));
-            Assert.AreEqual(ls.Text, "Μέσω Email");
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "/Lists/ContactForms/AllItems.aspx");  //go to the list
 
-            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/Lists/ContactForms/AllItems.aspx");
+            try
+            {
+                String lastItemSelector = "//*[@class='ms-listviewtable']/tbody/tr[last()]";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(lastItemSelector)));
+                IWebElement lastItem = driver.FindElement(By.XPath(lastItemSelector));
+                lastItem.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find last item on list!");
+            }
+            try
+            {
+                String itemsOnRibbonSelector = "//*[@id='Ribbon.ListItem-title']/a";
+                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(itemsOnRibbonSelector)));
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(itemsOnRibbonSelector)));
+                IWebElement itemsOnRibbon = driver.FindElement(By.XPath(itemsOnRibbonSelector));
+                itemsOnRibbon.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Items on Ribbon!");
+            }
+            try
+            {
+                String deleteSelector = "[id^='Ribbon.ListItem.Manage.Delete']";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(deleteSelector)));
+                IWebElement delete = driver.FindElement(By.CssSelector(deleteSelector));
+                delete.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find delete button on ribbon!");
+            }
 
-            driver.FindElement(By.XPath("//*[@id='{E75820FC-1EBE-4393-AC2E-69C48B26F864}-{6F01E980-FAAC-4B6F-8945-FD1324AB8966}']/tbody/tr[last()]")).Click();
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='Ribbon.ListItem-title']/a")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='Ribbon.ListItem-title']/a")));
-            driver.FindElement(By.XPath("//*[@id='Ribbon.ListItem-title']/a")).Click();
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='Ribbon.ListItem.Manage.Delete-Medium']")));
-            driver.FindElement(By.XPath("//*[@id='Ribbon.ListItem.Manage.Delete-Medium']")).Click();
+            wait.Until(ExpectedConditions.AlertIsPresent());
+            driver.SwitchTo().Alert().Accept();
+            Thread.Sleep(1000);
+        }
+
+        [Test]
+        public void CheckFormSubmitEn()
+        {
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "english/Pages/Contact.aspx");  //go to contact form
+
+            //Fill and submit form
+            try
+            {
+                String nameSelector = "[id$='txtFullName']";
+                IWebElement name = driver.FindElement(By.CssSelector(nameSelector));
+                name.SendKeys("TestName");
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Name Field!");
+            }
+            try
+            {
+                String emailSelector = "[id$='txtContactEmail']";
+                IWebElement email = driver.FindElement(By.CssSelector(emailSelector));
+                email.SendKeys("test@email.com");
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Email Field!");
+            }
+            try
+            {
+                String partenerSelector = "[id$='rbPartener_0']";
+                IWebElement partener = driver.FindElement(By.CssSelector(partenerSelector));
+                partener.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Partener Radio Button!");
+            }
+            IWebElement temp = null;
+            try
+            {
+                String tempSelector = "[id$='FormPanel']";
+                temp = driver.FindElement(By.CssSelector(tempSelector));
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find FormPanel element!");
+            }
+            try
+            {
+                String arrowSelector = "./div/div[2]/div[6]/div/div/div[1]/input";
+                IWebElement arrow = temp.FindElement(By.XPath(arrowSelector));
+                arrow.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find arrow next to Choice!");
+            }
+            try
+            {
+                String choiceSelector = "./div/div[2]/div[6]/div/div/div[1]/ul/li[2]";
+                IWebElement choice = temp.FindElement(By.XPath(choiceSelector));
+                choice.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find your choice in the dropdown menu!");
+            }
+            try
+            {
+                String contactBySelector = "[id$='ContactByEmail']";
+                IWebElement contactBy = driver.FindElement(By.CssSelector(contactBySelector));
+                contactBy.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find contact by email radio button!");
+            }
+            try
+            {
+                String submitSelector = "[id$='btnSubmit']";
+                IWebElement submit = driver.FindElement(By.CssSelector(submitSelector));
+                submit.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Submit Button!");
+            }
+
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "Lists/ContactForms/AllItems.aspx");  //go to contact list
+
+            try
+            {
+                String lastItemSelector = "//*[@class='ms-listviewtable']/tbody/tr[last()]";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(lastItemSelector)));
+                IWebElement lastItem = driver.FindElement(By.XPath(lastItemSelector));
+                lastItem.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find last item on list!");
+            }
+            try
+            {
+                String itemsOnRibbonSelector = "//*[@id='Ribbon.ListItem-title']/a";
+                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(itemsOnRibbonSelector)));
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(itemsOnRibbonSelector)));
+                IWebElement itemsOnRibbon = driver.FindElement(By.XPath(itemsOnRibbonSelector));
+                itemsOnRibbon.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Items button on Ribbon!");
+            }
+            try
+            {
+                String viewProperiesSelector = "[id^='Ribbon.ListItem.Manage.ViewProperties']";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(viewProperiesSelector)));
+                IWebElement viewProperties = driver.FindElement(By.CssSelector(viewProperiesSelector));
+                viewProperties.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find View Properties button on Ribbon!");
+            }
+
+            //check all the fields to have the correct data
+            try
+            {
+                String nameSelector = "//*[@class='ms-formtable']/tbody/tr[1]/td[2]";
+                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(nameSelector)));
+                IWebElement name = driver.FindElement(By.XPath("//*[@class='ms-formtable']/tbody/tr[1]/td[2]"));
+                Assert.AreEqual(name.Text, "TestName");
+
+                String emailSelector = "//*[@class='ms-formtable']/tbody/tr[7]/td[2]";
+                IWebElement email = driver.FindElement(By.XPath(emailSelector));
+                Assert.AreEqual(email.Text, "test@email.com");
+
+                String partenerSelector = "//*[@class='ms-formtable']/tbody/tr[8]/td[2]";
+                IWebElement partener = driver.FindElement(By.XPath(partenerSelector));
+                Assert.AreEqual(partener.Text, "Yes");
+
+                String choiceSelector = "//*[@class='ms-formtable']/tbody/tr[9]/td[2]";
+                IWebElement choice = driver.FindElement(By.XPath(choiceSelector));
+                Assert.AreEqual(choice.Text, "Deposits");
+
+                String contactBySelector = "//*[@class='ms-formtable']/tbody/tr[11]/td[2]";
+                IWebElement contactBy = driver.FindElement(By.XPath(contactBySelector));
+                Assert.AreEqual(contactBy.Text, "By e-mail");
+            }
+            catch
+            {
+                Assert.Fail("Something doesn't match!");
+            }
+
+            driver.Navigate().GoToUrl((ConfigurationManager.AppSettings["ServerName"]) + "/Lists/ContactForms/AllItems.aspx");  //go to the list
+
+            try
+            {
+                String lastItemSelector = "//*[@class='ms-listviewtable']/tbody/tr[last()]";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(lastItemSelector)));
+                IWebElement lastItem = driver.FindElement(By.XPath(lastItemSelector));
+                lastItem.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find last item on list!");
+            }
+            try
+            {
+                String itemsOnRibbonSelector = "//*[@id='Ribbon.ListItem-title']/a";
+                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(itemsOnRibbonSelector)));
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(itemsOnRibbonSelector)));
+                IWebElement itemsOnRibbon = driver.FindElement(By.XPath(itemsOnRibbonSelector));
+                itemsOnRibbon.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find Items on Ribbon!");
+            }
+            try
+            {
+                String deleteSelector = "[id^='Ribbon.ListItem.Manage.Delete']";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(deleteSelector)));
+                IWebElement delete = driver.FindElement(By.CssSelector(deleteSelector));
+                delete.Click();
+            }
+            catch
+            {
+                Assert.Fail("Couldn't find delete button on ribbon!");
+            }
+
+            wait.Until(ExpectedConditions.AlertIsPresent());
             driver.SwitchTo().Alert().Accept();
             Thread.Sleep(1000);
         }

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Solution xmlns="http://schemas.microsoft.com/sharepoint/" SolutionId="5db818eb-c139-4555-83d0-92eae27d8476" SharePointProductVersion="15.0">
+  <Assemblies>
+    <Assembly Location="NBG.MyNBGPortal.dll" DeploymentTarget="GlobalAssemblyCache" />
+  </Assemblies>
+  <FeatureManifests>
+    <FeatureManifest Location="NBG.MyNBGPortal_Feature1\Feature.xml" />
+  </FeatureManifests>
+</Solution>
