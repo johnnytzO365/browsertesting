@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Solution xmlns="http://schemas.microsoft.com/sharepoint/" SolutionId="14c3e5d9-2560-4a56-a200-863ee6c9dbbc" SharePointProductVersion="15.0">
+<Solution xmlns="http://schemas.microsoft.com/sharepoint/" SolutionId="accfc91f-1aeb-412d-8b50-c2ba1330533d" SharePointProductVersion="15.0">
   <Assemblies>
     <Assembly Location="NBG.PublicSiteNewApps.dll" DeploymentTarget="GlobalAssemblyCache">
       <SafeControls>
-        <SafeControl Assembly="NBG.PublicSiteNewApps, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4dfb1c6281307489" Namespace="NBG.PublicSiteNewApps.WebParts.ContactFormNew" TypeName="*" />
+        <SafeControl Assembly="NBG.PublicSiteNewApps, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c6d8ad058add9516" Namespace="NBG.PublicSiteNewApps.WebParts.ContactFormNew" TypeName="*" />
       </SafeControls>
     </Assembly>
   </Assemblies>

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using Microsoft.SharePoint;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using Microsoft.SharePoint;
+using NBG.PublicSiteNewApps.CommonLibrary.Log;
 
 namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
 {
@@ -53,17 +53,22 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            /*if (SPContext.Current.FormContext.FormMode != Microsoft.SharePoint.WebControls.SPControlMode.Display)
+            if (SPContext.Current.Web.Language == 1033)
+                LegalPDFLiteral.Text = string.Format(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormPersonalDataLegalLabel"), "/english/contact/Documents/Personal+Data+Protection.pdf");
+            else LegalPDFLiteral.Text = string.Format(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormPersonalDataLegalLabel"), "/greek/contact/Documents/Προστασία+Δεδομένων+Προσωπικού+Χαρακτήρα.pdf");
+
+
+            if (SPContext.Current.FormContext.FormMode != Microsoft.SharePoint.WebControls.SPControlMode.Display)
             {
                 FullNameRequiredFieldValidator.Visible = false;
-                //PartenerRequiredFieldValidator.Visible = false;
+                PartenerRequiredFieldValidator.Visible = false;
                 interestedInRequiredFieldValidator.Visible = false;
                 //recaptchaid.Visible = false;
                 //ContactCustomValidator.Visible = false;
-                //EmailCustomValidator.Visible = false;
-                //TelCustomValidator.Visible = false;
+                EmailFieldValidator.Visible = false;
+                ///TelCustomValidator.Visible = false;
 
-            }*/
+            }
 
             if (!Page.IsPostBack)
             {
@@ -88,84 +93,87 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
 
         private void AddNewContact()
         {
-                 using (SPSite elevatedSite = new SPSite(SPContext.Current.Site.ID))
+            using (SPSite elevatedSite = new SPSite(SPContext.Current.Site.ID))
+            {
+                //SPWeb web = SPContext.Current.Site.RootWeb;
+                SPWeb web = elevatedSite.RootWeb;
+                web.AllowUnsafeUpdates = true;
+                try
                 {
-                    //SPWeb web = SPContext.Current.Site.RootWeb;
-                    SPWeb web = elevatedSite.RootWeb;
-                    web.AllowUnsafeUpdates = true;
-                    try
+                    SPList lst = web.GetList("/Lists/ContactForms");
+                    SPListItemCollection items = GetEmptyItemsCollection(lst);
+
+                    SPContentTypeId ctid = lst.ContentTypes.BestMatch(new SPContentTypeId("0x0100548398963F53464698001F990988DBA7"));
+
+                    SPListItem item = items.Add();
+                    item[SPBuiltInFieldId.ContentTypeId] = ctid;
+                    item[SPBuiltInFieldId.Title] = this.Context.Server.HtmlEncode(txtFullName.Text);
+                    item[SPBuiltInFieldId.WorkAddress] = string.Format("{0} {1}", this.Context.Server.HtmlEncode(txtStreet.Text), this.Context.Server.HtmlEncode(txtStreetNo.Text));
+                    item[SPBuiltInFieldId.WorkCity] = this.Context.Server.HtmlEncode(txtCity.Text);
+                    item[SPBuiltInFieldId.WorkZip] = this.Context.Server.HtmlEncode(txtZipCode.Text);
+                    item[SPBuiltInFieldId.EMail] = this.Context.Server.HtmlEncode(txtEMail.Text);
+                    item[SPBuiltInFieldId.HomePhone] = this.Context.Server.HtmlEncode(txtPhone.Text);
+
+                    //SPFieldMultiChoiceValue val = new SPFieldMultiChoiceValue();
+                    //if (cbContactByEmail.Checked) val.Add(Core.Utils.GetLocString("FLDContactByEmail"));
+                    //if (cbContactByPhone.Checked) val.Add(Core.Utils.GetLocString("FLDContactByPhone"));
+                    //item[NBG.PublicSite.Core.Fields.ContactBy_Id] = val.ToString();
+
+                    item[ContactBankCooperation_Id] = rbPartener.SelectedValue; //rbPartenerYes.Checked;
+                    item[ContactInterestedFor_Id] = ddlInterestedIn.SelectedItem.Value;
+                    item[ContactSubject_Id] = this.Context.Server.HtmlEncode(txtBody.Text);
+
+                    item.Update();//storing
+                    SubmitResultPanel.Visible = true;
+                    StatusLabel.Text = "<div class=\"sub_success\">" + Core.Utils.GetLocString("loanformsubmissionsalut") + "<br /><br />" + Core.Utils.GetLocString("loanformsubmissionbody");
+                    StatusLabel.Text += "<br /><br />" + Core.Utils.GetLocString("FormThankYou") + "<br /><br />";
+                    StatusLabel.Text += Core.Utils.GetLocString("Menunbgbank") + "<br />";
+                    StatusLabel.Text += Core.Utils.GetLocString("FormSignature") + "<br />";
+                    StatusLabel.Text += "</div>";
+                    FormPanel.Visible = false;
+
+                    //send email
+                    string emailAddresses = Core.Configuration.GetValue1(SPContext.Current.Site.RootWeb, Core.Configuration.ConfigurationKeys.FormContact, Core.Configuration.ConfigurationCategories.Data);
+                    string emailUser = item[SPBuiltInFieldId.EMail] as string;
+                    if (string.IsNullOrEmpty(emailUser))
+                        emailUser = item[SPBuiltInFieldId.Email2] as string;
+                    if (!string.IsNullOrEmpty(emailAddresses))
                     {
-                        SPList lst = web.GetList("/Lists/ContactForms");
-                        SPListItemCollection items = GetEmptyItemsCollection(lst);
+                        // Expected format for emailAddresses: user1@test.com;user2@test2.com
 
-                        SPContentTypeId ctid = lst.ContentTypes.BestMatch(new SPContentTypeId("0x0100548398963F53464698001F990988DBA7"));
+                        string emailSubject = Core.Configuration.GetValue2(SPContext.Current.Site.RootWeb, Core.Configuration.ConfigurationKeys.FormContact, Core.Configuration.ConfigurationCategories.Data);
+                        string emailAddressFrom = Core.Configuration.GetValue1(SPContext.Current.Site.RootWeb, Core.Configuration.ConfigurationKeys.FormEMailFrom, Core.Configuration.ConfigurationCategories.Data);
 
-                        SPListItem item = items.Add();
-                        item[SPBuiltInFieldId.ContentTypeId] = ctid;
-                        item[SPBuiltInFieldId.Title] = this.Context.Server.HtmlEncode(txtFullName.Text);
-                        item[SPBuiltInFieldId.WorkAddress] = string.Format("{0} {1}", this.Context.Server.HtmlEncode(txtStreet.Text), this.Context.Server.HtmlEncode(txtStreetNo.Text));
-                        item[SPBuiltInFieldId.WorkCity] = this.Context.Server.HtmlEncode(txtCity.Text);
-                        item[SPBuiltInFieldId.WorkZip] = this.Context.Server.HtmlEncode(txtZipCode.Text);
-                        item[SPBuiltInFieldId.EMail] = this.Context.Server.HtmlEncode(txtEMail.Text);
-                        item[SPBuiltInFieldId.HomePhone] = this.Context.Server.HtmlEncode(txtPhone.Text);
+                        if (string.IsNullOrEmpty(emailAddressFrom))
+                            emailAddressFrom = "Nbg.donotreply@nbg.gr";
+                        if (string.IsNullOrEmpty(emailSubject))
+                            emailSubject = Core.Utils.GetLocString("contactEmailSubject");
 
-                        //SPFieldMultiChoiceValue val = new SPFieldMultiChoiceValue();
-                        //if (cbContactByEmail.Checked) val.Add(Core.Utils.GetLocString("FLDContactByEmail"));
-                        //if (cbContactByPhone.Checked) val.Add(Core.Utils.GetLocString("FLDContactByPhone"));
-                        //item[NBG.PublicSite.Core.Fields.ContactBy_Id] = val.ToString();
-
-                        item[ContactBankCooperation_Id] = rbPartener.SelectedValue; //rbPartenerYes.Checked;
-                        item[ContactInterestedFor_Id] = ddlInterestedIn.SelectedItem.Value;
-                        item[ContactSubject_Id] = this.Context.Server.HtmlEncode(txtBody.Text);
-
-                        item.Update();//storing
-                        SubmitResultPanel.Visible = true;
-                        StatusLabel.Text = "<div class=\"sub_success\">" + Core.Utils.GetLocString("loanformsubmissionsalut") + "<br /><br />" + Core.Utils.GetLocString("loanformsubmissionbody");
-                        StatusLabel.Text += "<br /><br />" + Core.Utils.GetLocString("FormThankYou") + "<br /><br />";
-                        StatusLabel.Text += Core.Utils.GetLocString("Menunbgbank") + "<br />";
-                        StatusLabel.Text += Core.Utils.GetLocString("FormSignature") + "<br />";
-                        StatusLabel.Text += "</div>";
-                        FormPanel.Visible = false;
-
-                        //send email
-                        /*string emailAddresses = Core.Configuration.GetValue1(SPContext.Current.Site.RootWeb, Core.Configuration.ConfigurationKeys.FormContact, Core.Configuration.ConfigurationCategories.Data);
-                        string emailUser = item[SPBuiltInFieldId.EMail] as string;
-                        if (string.IsNullOrEmpty(emailUser))
-                            emailUser = item[SPBuiltInFieldId.Email2] as string;
-                        if (!string.IsNullOrEmpty(emailAddresses))
+                        List<string> emailAddressesList = new List<string>();
+                        emailAddressesList.AddRange(emailAddresses.Split(new char[] { ';' }));
+                        List<string> lm = new List<string>();
+                        if (!string.IsNullOrWhiteSpace(emailUser))
                         {
-                            // Expected format for emailAddresses: user1@test.com;user2@test2.com
+                            lm.Add(emailUser);
+                        }
 
-                            string emailSubject = Core.Configuration.GetValue2(SPContext.Current.Site.RootWeb, Core.Configuration.ConfigurationKeys.FormContact, Core.Configuration.ConfigurationCategories.Data);
-                            string emailAddressFrom = Core.Configuration.GetValue1(SPContext.Current.Site.RootWeb, Core.Configuration.ConfigurationKeys.FormEMailFrom, Core.Configuration.ConfigurationCategories.Data);
-
-                            if (string.IsNullOrEmpty(emailAddressFrom))
-                                emailAddressFrom = "Nbg.donotreply@nbg.gr";
-                            if (string.IsNullOrEmpty(emailSubject))
-                                emailSubject = Core.Utils.GetLocString("contactEmailSubject");
-
-                            List<string> emailAddressesList = new List<string>();
-                            emailAddressesList.AddRange(emailAddresses.Split(new char[] { ';' }));
-                            List<string> lm = new List<string>();
-                            if (!string.IsNullOrWhiteSpace(emailUser))
-                            {
-                                lm.Add(emailUser);
-                            }
-                            Core.EMails.NotifyNewContactRegistration(web, item, emailSubject, lm, emailAddressesList, null, emailAddressFrom);
-                        }*/
-                    }
-                    catch (Exception ex)//uls
-                    {
-                        //Logger.LogEvent(string.Format(Core.Configuration.ERROR_STRING_FORMAT, null, "ContactForm.AddNewContact", null, ex.ToString()), System.Diagnostics.EventLogEntryType.Error);
-                        SubmitResultPanel.Visible = true;
-                        StatusLabel.Text = "σφαλμα αποστολής";
-                        FormPanel.Visible = false;
-                    }
-                    finally
-                    {
-                        web.AllowUnsafeUpdates = false;
+                        List<string> lm1 = new List<string>();
+                        lm1.Add("spsetup@spdev.local");
+                        Core.EMails.NotifyNewContactRegistration(web, item, emailSubject, lm1, emailAddressesList, null, emailAddressFrom);
                     }
                 }
+                catch (Exception ex)//uls
+                {
+                    Logger.LogEvent(string.Format(Core.Configuration.ERROR_STRING_FORMAT, null, "ContactForm.AddNewContact", null, ex.ToString()), System.Diagnostics.EventLogEntryType.Error);
+                    SubmitResultPanel.Visible = true;
+                    StatusLabel.Text = "σφαλμα αποστολής";
+                    FormPanel.Visible = false;
+                }
+                finally
+                {
+                    web.AllowUnsafeUpdates = false;
+                }
+            }
         }
 
         public SPListItemCollection GetEmptyItemsCollection(SPList spList)
@@ -184,7 +192,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
             rbPartener.Items.Add(new ListItem(PartenerYesLabel, "1"));
             rbPartener.Items.Add(new ListItem(PartenerNoLabel, "0"));
             rbPartener.ClearSelection();
-            
+
             uint language = SPContext.Current.Web.Language;
             ddlInterestedIn.Items.Clear();
             if (language.Equals(1032))
@@ -195,9 +203,21 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
             {
                 ddlInterestedIn.Items.Add(new ListItem("Choose", "-1"));
             }
-            string value = Core.Utils.GetLocString("ContactInterestedInDropDown");
+
+            SPList config = SPContext.Current.Web.GetList("/Lists/Configuration"); 
+            SPQuery query = new SPQuery();
+            if (SPContext.Current.Web.Language == 1033)
+            {
+                query.Query = "<Where><Eq><FieldRef Name=\"Title\" /><Value Type=\"Text\">ContactFormDropDownChoicesEn</Value></Eq></Where>";
+            }
+            else
+            {
+                query.Query = "<Where><Eq><FieldRef Name=\"Title\" /><Value Type=\"Text\">ContactFormDropDownChoicesEl</Value></Eq></Where>";
+            }
+            SPListItemCollection item = config.GetItems(query);
+            string value = item[0]["Config Value1"].ToString();
             string[] choices = value.Split(';');
-            foreach(string choice in choices)
+            foreach (string choice in choices)
                 ddlInterestedIn.Items.Add(choice);
             ddlInterestedIn.ClearSelection();
             ddlInterestedIn.SelectedIndex = 0;
