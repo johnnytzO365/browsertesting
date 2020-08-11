@@ -8,6 +8,9 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System.Net;
 using System.Threading;
+<<<<<<< HEAD
+	
+=======
 using System.Configuration;
 using SeleniumExtras.WaitHelpers;
 using OpenQA.Selenium.Support.UI;
@@ -15,11 +18,18 @@ using System.Diagnostics;
 using System.ComponentModel;
 using OpenQA.Selenium.IE;
 
+>>>>>>> 7f1f7c4b2f9e8472b01787fd622d191db50ccaee
 namespace SeleniumTutorial
 {
     class Link
     {
         IWebDriver driver;
+<<<<<<< HEAD
+        [SetUp]
+        public void StartBrowser()
+        {
+            driver = new ChromeDriver("C:\\Users\\spsetup\\Desktop\\SeleniumTutorial\\.nuget\\selenium.chrome.webdriver.76.0.0\\driver");
+=======
         WebDriverWait wait;
         [SetUp]
         public void StartBrowser()
@@ -48,12 +58,18 @@ namespace SeleniumTutorial
 
             Thread.Sleep(4000);
 
+>>>>>>> 7f1f7c4b2f9e8472b01787fd622d191db50ccaee
         }
         [Test]
         public void CheckLinksOnGlobalNav()
         {
+<<<<<<< HEAD
+            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
+            
+=======
             
 
+>>>>>>> 7f1f7c4b2f9e8472b01787fd622d191db50ccaee
             IList<IWebElement> links = driver.FindElements(By.ClassName("expanded"));
             foreach (IWebElement link in links)
             {
@@ -64,6 +80,16 @@ namespace SeleniumTutorial
         }
 
         [Test]
+<<<<<<< HEAD
+        public void CheckLinksOnRetail() 
+        {
+            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
+
+            IWebElement parentMenu = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[1]/div/div[2]/div/ul/li[1]/a"));
+            parentMenu.Click();
+            IList<IWebElement> links = driver.FindElements(By.ClassName("megamenu")).ToList();
+           
+=======
         public void CheckRetailNode()
         {
 
@@ -80,22 +106,34 @@ namespace SeleniumTutorial
             parentMenu.Click();
             IList<IWebElement> links = driver.FindElements(By.ClassName("megamenu")).ToList();
 
+>>>>>>> 7f1f7c4b2f9e8472b01787fd622d191db50ccaee
             foreach (IWebElement link in links)
             {
 
                 var url = link.FindElement(By.CssSelector("a")).GetAttribute("href");
+<<<<<<< HEAD
+                if (url != null) { 
+                     IsLinkWorking(url);
+                }
+                
+=======
                 if (url != null)
                 {
                     IsLinkWorking(url);//ελέγχει αν όλα τα links στο Retail 
                 }
 
+>>>>>>> 7f1f7c4b2f9e8472b01787fd622d191db50ccaee
             }
         }
 
         [Test]
         public void CheckLinksOnBuss()
         {
+<<<<<<< HEAD
+            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
+=======
          
+>>>>>>> 7f1f7c4b2f9e8472b01787fd622d191db50ccaee
 
             IWebElement parentMenu = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[1]/div/div[2]/div/ul/li[2]/a"));
             parentMenu.Click();
@@ -107,7 +145,11 @@ namespace SeleniumTutorial
                 var url = link.FindElement(By.CssSelector("a")).GetAttribute("href");
                 if (url != null)
                 {
+<<<<<<< HEAD
+                    IsLinkWorking(url);
+=======
                     IsLinkWorking(url);//ελέγχει αν όλα τα links στο Buss
+>>>>>>> 7f1f7c4b2f9e8472b01787fd622d191db50ccaee
                 }
 
             }
@@ -116,7 +158,11 @@ namespace SeleniumTutorial
         [Test]
         public void CheckLinksOnCorp()
         {
+<<<<<<< HEAD
+            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
+=======
             
+>>>>>>> 7f1f7c4b2f9e8472b01787fd622d191db50ccaee
 
             IWebElement parentMenu = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[1]/div/div[2]/div/ul/li[3]/a"));
             parentMenu.Click();
@@ -128,7 +174,11 @@ namespace SeleniumTutorial
                 var url = link.FindElement(By.CssSelector("a")).GetAttribute("href");
                 if (url != null)
                 {
+<<<<<<< HEAD
+                    IsLinkWorking(url);
+=======
                     IsLinkWorking(url);//ελέγχει όλα τα links στο Corp
+>>>>>>> 7f1f7c4b2f9e8472b01787fd622d191db50ccaee
                 }
 
             }
@@ -137,7 +187,12 @@ namespace SeleniumTutorial
         [Test]
         public void CheckALink()
         {
+<<<<<<< HEAD
+            driver.Navigate().GoToUrl("http://spsetup:p@ssw0rd@vm-sp2013/el");
+            IWebElement parentMenu= driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[1]/div/div[2]/div/ul/li[1]/a"));
+=======
             IWebElement parentMenu = driver.FindElement(By.XPath("//*[@id='DeltaPlaceHolderMain']/div/div[1]/div/div[2]/div/ul/li[1]/a"));
+>>>>>>> 7f1f7c4b2f9e8472b01787fd622d191db50ccaee
             parentMenu.Click();
             IWebElement brokenLink = parentMenu.FindElement(By.XPath("//*[@id='ctl00_PlaceHolderCustomHeader_PlaceHolderCustomHeaderMain_ctl09_DefaultMobilePanel_tabsRepeater_ctl00_mainCategoriesRepeater_ctl06_MenuItemPanel']/ul/li[1]/a"));
 
@@ -146,7 +201,11 @@ namespace SeleniumTutorial
 
             Thread.Sleep(5000);
         }
+<<<<<<< HEAD
+       
+=======
 
+>>>>>>> 7f1f7c4b2f9e8472b01787fd622d191db50ccaee
         bool IsLinkWorking(string url)
         {
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
@@ -167,6 +226,15 @@ namespace SeleniumTutorial
                     return false;
                 }
             }
+<<<<<<< HEAD
+            catch
+            {
+                return false;
+            }
+ 
+        }
+      
+=======
             catch (AssertionException e)
             {
                 return false;
@@ -174,6 +242,7 @@ namespace SeleniumTutorial
 
         }
 
+>>>>>>> 7f1f7c4b2f9e8472b01787fd622d191db50ccaee
         [TearDown]
         public void CloseBrowser()
         {
