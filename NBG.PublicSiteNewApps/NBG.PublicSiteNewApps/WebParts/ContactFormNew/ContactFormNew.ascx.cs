@@ -204,7 +204,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                 ddlInterestedIn.Items.Add(new ListItem("Choose", "-1"));
             }
 
-            SPList config = SPContext.Current.Web.GetList("/Lists/Configuration"); 
+            SPList config = SPContext.Current.Web.Lists["Configuration"]; 
             SPQuery query = new SPQuery();
             if (SPContext.Current.Web.Language == 1033)
             {
