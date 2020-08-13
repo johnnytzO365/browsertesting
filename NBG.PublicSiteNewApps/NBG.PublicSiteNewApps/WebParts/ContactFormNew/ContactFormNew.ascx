@@ -89,7 +89,9 @@
                 <div class="col">
                     <div class="form-item clearfix">
                         <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormInterestedInLabel")%></label>
+                        <span class="custom-list">
                         <asp:DropDownList ID="ddlInterestedIn" runat="server" CssClass="form-select" ></asp:DropDownList>
+                        </span>
                         <div><asp:RequiredFieldValidator ID="interestedInRequiredFieldValidator" runat="server" ControlToValidate="ddlInterestedIn" ErrorMessage="mandatoryfield" CssClass="errormsg" Display="Dynamic" InitialValue="-1" /></div>
                     </div>
                 </div>
@@ -147,6 +149,5 @@
 			</td>
 		</tr>
 	</table>
-
 
 </asp:Panel>

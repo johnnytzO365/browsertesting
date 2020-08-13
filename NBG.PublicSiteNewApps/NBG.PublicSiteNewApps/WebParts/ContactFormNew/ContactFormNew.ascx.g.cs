@@ -109,11 +109,11 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
             @__ctrl.ID = "SubmitResultPanel";
             @__ctrl.Visible = false;
             System.Web.UI.IParserAccessor @__parser = ((System.Web.UI.IParserAccessor)(@__ctrl));
-            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\n    "));
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\r\n    "));
             global::System.Web.UI.WebControls.Label @__ctrl1;
             @__ctrl1 = this.@__BuildControlStatusLabel();
             @__parser.AddParsedSubObject(@__ctrl1);
-            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\n"));
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\r\n"));
             return @__ctrl;
         }
         
@@ -465,65 +465,65 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
         
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
         private void @__RenderFormPanel(System.Web.UI.HtmlTextWriter @__w, System.Web.UI.Control parameterContainer) {
-            @__w.Write("\n    <div class=\"node contact\">\n        <div class=\"field body\"><p>");
+            @__w.Write("\r\n    <div class=\"node contact\">\r\n        <div class=\"field body\"><p>");
                            @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("contactinfo"));
 
-            @__w.Write("</p></div>\n        <div class=\"field form\">\n            <div class=\"row clearfix\"" +
-                    ">\n                <div class=\"col\">\n                    <div class=\"form-item cl" +
-                    "earfix\">\n                        <label>");
+            @__w.Write("</p></div>\r\n        <div class=\"field form\">\r\n            <div class=\"row clearfi" +
+                    "x\">\r\n                <div class=\"col\">\r\n                    <div class=\"form-ite" +
+                    "m clearfix\">\r\n                        <label>");
                        @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormFullNameLabel"));
 
-            @__w.Write("</label>\n                        ");
+            @__w.Write("</label>\r\n                        ");
             parameterContainer.Controls[0].RenderControl(@__w);
-            @__w.Write("\n                        <div>");
+            @__w.Write("\r\n                        <div>");
             parameterContainer.Controls[1].RenderControl(@__w);
-            @__w.Write("</div>\n                    </div>\n                </div>\n            </div>\n     " +
-                    "       <div class=\"row clearfix\">\n                <div class=\"col\">\n            " +
-                    "        <div class=\"form-item clearfix\">\n                        <label>");
+            @__w.Write("</div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n " +
+                    "           <div class=\"row clearfix\">\r\n                <div class=\"col\">\r\n      " +
+                    "              <div class=\"form-item clearfix\">\r\n                        <label>");
                        @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormStreetLabel"));
 
-            @__w.Write("</label>\n                        ");
+            @__w.Write("</label>\r\n                        ");
             parameterContainer.Controls[2].RenderControl(@__w);
-            @__w.Write("\n                    </div>\n                </div>\n                <div class=\"co" +
-                    "l\">\n                    <div class=\"form-item clearfix\">\n                       " +
-                    " <label>");
+            @__w.Write("\r\n                    </div>\r\n                </div>\r\n                <div class=" +
+                    "\"col\">\r\n                    <div class=\"form-item clearfix\">\r\n                  " +
+                    "      <label>");
                        @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormStreetNoLabel"));
 
-            @__w.Write("</label>\n                        ");
+            @__w.Write("</label>\r\n                        ");
             parameterContainer.Controls[3].RenderControl(@__w);
-            @__w.Write("\n                    </div>\n                </div>\n            </div>\n           " +
-                    " <div class=\"row clearfix\">\n                <div class=\"col\">\n                  " +
-                    "  <div class=\"form-item clearfix\">\n                        <label>");
+            @__w.Write("\r\n                    </div>\r\n                </div>\r\n            </div>\r\n       " +
+                    "     <div class=\"row clearfix\">\r\n                <div class=\"col\">\r\n            " +
+                    "        <div class=\"form-item clearfix\">\r\n                        <label>");
                        @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormCityLabel"));
 
-            @__w.Write("</label>\n                        ");
+            @__w.Write("</label>\r\n                        ");
             parameterContainer.Controls[4].RenderControl(@__w);
-            @__w.Write("\n                    </div>\n                </div>\n                <div class=\"co" +
-                    "l\">\n                    <div class=\"form-item clearfix\">\n                       " +
-                    " <label>");
+            @__w.Write("\r\n                    </div>\r\n                </div>\r\n                <div class=" +
+                    "\"col\">\r\n                    <div class=\"form-item clearfix\">\r\n                  " +
+                    "      <label>");
                        @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormZipCodeLabel"));
 
-            @__w.Write("</label>\n                        ");
+            @__w.Write("</label>\r\n                        ");
             parameterContainer.Controls[5].RenderControl(@__w);
-            @__w.Write("\n                    </div>\n                </div>\n            </div>\n           " +
-                    " <div class=\"row clearfix\">\n                <div class=\"col\">\n                  " +
-                    "  <div class=\"form-item clearfix\">\n                        <label>");
+            @__w.Write("\r\n                    </div>\r\n                </div>\r\n            </div>\r\n       " +
+                    "     <div class=\"row clearfix\">\r\n                <div class=\"col\">\r\n            " +
+                    "        <div class=\"form-item clearfix\">\r\n                        <label>");
                        @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormPhone"));
 
-            @__w.Write("</label>\n                        <div>\n                            ");
+            @__w.Write("</label>\r\n                        <div>\r\n                            ");
             parameterContainer.Controls[6].RenderControl(@__w);
-            @__w.Write("\n                            <div>");
+            @__w.Write("\r\n                            <div>");
             parameterContainer.Controls[7].RenderControl(@__w);
-            @__w.Write("</div>\n                        </div>\n                    </div>\n                " +
-                    "</div>\n                <div class=\"col\">\n                    <div class=\"form-it" +
-                    "em clearfix\">\n                        <label>");
+            @__w.Write("</div>\r\n                        </div>\r\n                    </div>\r\n             " +
+                    "   </div>\r\n                <div class=\"col\">\r\n                    <div class=\"fo" +
+                    "rm-item clearfix\">\r\n                        <label>");
                        @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormEMailLabel"));
 
-            @__w.Write("</label>\n                        ");
+            @__w.Write("</label>\r\n                        ");
             parameterContainer.Controls[8].RenderControl(@__w);
-            @__w.Write("\n                        <div>\n                            ");
+            @__w.Write("\r\n                        <div>\r\n                            ");
             parameterContainer.Controls[9].RenderControl(@__w);
-            @__w.Write("\n                            <div>");
+            @__w.Write("\r\n                            <div>");
             parameterContainer.Controls[10].RenderControl(@__w);
             @__w.Write(@"</div>
                         </div>
@@ -536,30 +536,32 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
                         <label>");
                        @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormPartenerLabel"));
 
-            @__w.Write("</label>\n                        ");
+            @__w.Write("</label>\r\n                        ");
             parameterContainer.Controls[11].RenderControl(@__w);
-            @__w.Write("\n                        ");
+            @__w.Write("\r\n                        ");
             parameterContainer.Controls[12].RenderControl(@__w);
-            @__w.Write("\n                    </div>\n                </div>\n            </div>\n           " +
-                    " <div class=\"row clearfix\">\n                <div class=\"col\">\n                  " +
-                    "  <div class=\"form-item clearfix\">\n                        <label>");
+            @__w.Write("\r\n                    </div>\r\n                </div>\r\n            </div>\r\n       " +
+                    "     <div class=\"row clearfix\">\r\n                <div class=\"col\">\r\n            " +
+                    "        <div class=\"form-item clearfix\">\r\n                        <label>");
                        @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormInterestedInLabel"));
 
-            @__w.Write("</label>\n                        ");
+            @__w.Write("</label>\r\n                        <span class=\"custom-list\">\r\n                   " +
+                    "     ");
             parameterContainer.Controls[13].RenderControl(@__w);
-            @__w.Write("\n                        <div>");
+            @__w.Write("\r\n                        </span>\r\n                        <div>");
             parameterContainer.Controls[14].RenderControl(@__w);
-            @__w.Write("</div>\n                    </div>\n                </div>\n            </div> \n    " +
-                    "        <div class=\"row clearfix\">\n                <div class=\"col full\">\n      " +
-                    "              <div class=\"form-item clearfix\">\n                        <label>");
+            @__w.Write("</div>\r\n                    </div>\r\n                </div>\r\n            </div> \r\n" +
+                    "            <div class=\"row clearfix\">\r\n                <div class=\"col full\">\r\n" +
+                    "                    <div class=\"form-item clearfix\">\r\n                        <l" +
+                    "abel>");
                        @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormBodyLabel"));
 
-            @__w.Write("</label>\n                        ");
+            @__w.Write("</label>\r\n                        ");
             parameterContainer.Controls[15].RenderControl(@__w);
-            @__w.Write("\n                        <span class=\"info\"><span class=\"remaining\">");
+            @__w.Write("\r\n                        <span class=\"info\"><span class=\"remaining\">");
                                                            @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormBodyConstraintLabel"));
 
-            @__w.Write(":<em class=\"lettercount\"></em></span>\n                        <div>");
+            @__w.Write(":<em class=\"lettercount\"></em></span>\r\n                        <div>");
             parameterContainer.Controls[16].RenderControl(@__w);
             @__w.Write(@"</div>
                     </div>
@@ -585,7 +587,8 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
                         <label>");
                        @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormRequiredFieldsLabel"));
 
-            @__w.Write("</label>\n                        <p class=\"light\">\n                            ");
+            @__w.Write("</label>\r\n                        <p class=\"light\">\r\n                            " +
+                    "");
             parameterContainer.Controls[17].RenderControl(@__w);
             @__w.Write(@"
                         </p>
@@ -598,7 +601,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
                     <div class=""form-actions"">
                         ");
             parameterContainer.Controls[18].RenderControl(@__w);
-            @__w.Write("\n                        ");
+            @__w.Write("\r\n                        ");
             parameterContainer.Controls[19].RenderControl(@__w);
             @__w.Write(@"
                     </div>
@@ -614,7 +617,6 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
 			</td>
 		</tr>
 	</table>
-
 
 ");
         }
@@ -633,12 +635,12 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
         
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
         private void @__Render__control1(System.Web.UI.HtmlTextWriter @__w, System.Web.UI.Control parameterContainer) {
-            @__w.Write("\r\n\r\n<div id=\"h1_full_width\">\n    <h1 class=\"with_padding\">");
+            @__w.Write("\r\n\r\n<div id=\"h1_full_width\">\r\n    <h1 class=\"with_padding\">");
                      @__w.Write( NBG.PublicSiteNewApps.Core.Utils.GetLocString("ContactFormTitle") );
 
-            @__w.Write("</h1>\n</div>\n\n");
+            @__w.Write("</h1>\r\n</div>\r\n\r\n");
             parameterContainer.Controls[0].RenderControl(@__w);
-            @__w.Write("\n");
+            @__w.Write("\r\n");
             parameterContainer.Controls[1].RenderControl(@__w);
             @__w.Write("\r\n");
         }

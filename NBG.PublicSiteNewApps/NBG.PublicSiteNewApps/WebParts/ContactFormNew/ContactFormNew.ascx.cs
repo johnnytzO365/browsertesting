@@ -100,7 +100,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                 web.AllowUnsafeUpdates = true;
                 try
                 {
-                    SPList lst = web.GetList("/Lists/ContactForms");
+                    SPList lst = web.GetList("/Lists/Contactform");
                     SPListItemCollection items = GetEmptyItemsCollection(lst);
 
                     SPContentTypeId ctid = lst.ContentTypes.BestMatch(new SPContentTypeId("0x0100548398963F53464698001F990988DBA7"));
@@ -113,12 +113,8 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                     item[SPBuiltInFieldId.WorkZip] = this.Context.Server.HtmlEncode(txtZipCode.Text);
                     item[SPBuiltInFieldId.EMail] = this.Context.Server.HtmlEncode(txtEMail.Text);
                     item[SPBuiltInFieldId.HomePhone] = this.Context.Server.HtmlEncode(txtPhone.Text);
-
-                    //SPFieldMultiChoiceValue val = new SPFieldMultiChoiceValue();
-                    //if (cbContactByEmail.Checked) val.Add(Core.Utils.GetLocString("FLDContactByEmail"));
-                    //if (cbContactByPhone.Checked) val.Add(Core.Utils.GetLocString("FLDContactByPhone"));
-                    //item[NBG.PublicSite.Core.Fields.ContactBy_Id] = val.ToString();
-
+                    //item[ContactBy] = Core.Utils.GetLocString("FLDContactByEmail");
+                    
                     item[ContactBankCooperation_Id] = rbPartener.SelectedValue; //rbPartenerYes.Checked;
                     item[ContactInterestedFor_Id] = ddlInterestedIn.SelectedItem.Value;
                     item[ContactSubject_Id] = this.Context.Server.HtmlEncode(txtBody.Text);
@@ -198,12 +194,15 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
             if (language.Equals(1032))
             {
                 ddlInterestedIn.Items.Add(new ListItem("Επιλέξτε", "-1"));
+                ddlInterestedIn.Attributes.CssStyle.Add("list-style-type", "none");
             }
             else
             {
+                ddlInterestedIn.Attributes.Add("list-style-type", "none");
                 ddlInterestedIn.Items.Add(new ListItem("Choose", "-1"));
+                ddlInterestedIn.Attributes.CssStyle.Add("list-style-type", "none");
             }
-
+            ddlInterestedIn.Style.Add("list-style-type", "none");
             SPList config = SPContext.Current.Web.Lists["Configuration"]; 
             SPQuery query = new SPQuery();
             if (SPContext.Current.Web.Language == 1033)
@@ -215,10 +214,16 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                 query.Query = "<Where><Eq><FieldRef Name=\"Title\" /><Value Type=\"Text\">ContactFormDropDownChoicesEl</Value></Eq></Where>";
             }
             SPListItemCollection item = config.GetItems(query);
-            string value = item[0]["Config Value1"].ToString();
+            string value = item[0]["arwe"].ToString();
             string[] choices = value.Split(';');
-            foreach (string choice in choices)
+            foreach (string choice in choices) {
+                
                 ddlInterestedIn.Items.Add(choice);
+                ddlInterestedIn.Attributes.Add("class","custom-list");
+                ddlInterestedIn.Attributes.CssStyle.Add("list-style-type","none");
+            }
+                
+
             ddlInterestedIn.ClearSelection();
             ddlInterestedIn.SelectedIndex = 0;
             txtBody.Text = null;
