@@ -194,15 +194,11 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
             if (language.Equals(1032))
             {
                 ddlInterestedIn.Items.Add(new ListItem("Επιλέξτε", "-1"));
-                ddlInterestedIn.Attributes.CssStyle.Add("list-style-type", "none");
             }
             else
             {
-                ddlInterestedIn.Attributes.Add("list-style-type", "none");
                 ddlInterestedIn.Items.Add(new ListItem("Choose", "-1"));
-                ddlInterestedIn.Attributes.CssStyle.Add("list-style-type", "none");
             }
-            ddlInterestedIn.Style.Add("list-style-type", "none");
             SPList config = SPContext.Current.Site.RootWeb.Lists[Core.Configuration.ListNames.Configuration]; 
             SPQuery query = new SPQuery();
             if (SPContext.Current.Web.Language == 1033)
@@ -217,10 +213,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
             string value = item[0]["Config Value1"].ToString();
             string[] choices = value.Split(';');
             foreach (string choice in choices) {
-                
                 ddlInterestedIn.Items.Add(choice);
-                ddlInterestedIn.Attributes.Add("class","custom-list");
-                ddlInterestedIn.Attributes.CssStyle.Add("list-style-type","none");
             }
                 
 
