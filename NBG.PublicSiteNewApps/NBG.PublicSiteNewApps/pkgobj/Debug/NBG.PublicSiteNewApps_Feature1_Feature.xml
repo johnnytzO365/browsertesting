@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Feature xmlns="http://schemas.microsoft.com/sharepoint/" Id="2388b083-b270-49d2-bf1b-da62462ac004" Scope="Site" Title="NBG.PublicSiteNewApps Feature1">
+<Feature xmlns="http://schemas.microsoft.com/sharepoint/" Id="2388b083-b270-49d2-bf1b-da62462ac004" ReceiverAssembly="NBG.PublicSiteNewApps, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c6d8ad058add9516" ReceiverClass="NBG.PublicSiteNewApps.Features.Feature1.Feature1EventReceiver" Scope="Site" Title="NBG.PublicSiteNewApps Feature">
   <ElementManifests>
     <ElementManifest Location="ContactFormNew\Elements.xml" />
     <ElementFile Location="ContactFormNew\ContactFormNew.webpart" />

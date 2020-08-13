@@ -23,7 +23,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
         public static Guid ContactBankCooperation_Id = new Guid("{C4080389-C093-4117-8F5D-F58729BFFE1A}");
         public static Guid ContactInterestedFor_Id = new Guid("{0EDCB11A-D7FA-4EC9-A6D9-0F7D6C466FEE}");
         public static Guid ContactSubject_Id = new Guid("{86C5A8CA-1F28-4EAA-9BA5-8C5DE247E3C7}");
-
+        public static Guid ContactBy_Id = new Guid("{285AF751-8A5B-4430-AB32-CB48E579C067}");
         public string PartenerYesLabel { get { return Core.Utils.GetLocString("WPContactFormPartenerYesLabel"); } }
         public string PartenerNoLabel { get { return Core.Utils.GetLocString("WPContactFormPartenerNoLabel"); } }
         public string SubmitBtnLabel { get { return Core.Utils.GetLocString("WPGlobalSend"); } }
@@ -117,8 +117,8 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                     //SPFieldMultiChoiceValue val = new SPFieldMultiChoiceValue();
                     //if (cbContactByEmail.Checked) val.Add(Core.Utils.GetLocString("FLDContactByEmail"));
                     //if (cbContactByPhone.Checked) val.Add(Core.Utils.GetLocString("FLDContactByPhone"));
-                    //item[NBG.PublicSite.Core.Fields.ContactBy_Id] = val.ToString();
-          
+             
+                    item[ContactBy_Id] = "By e-mail";
                     item[ContactBankCooperation_Id] = rbPartener.SelectedValue; //rbPartenerYes.Checked;
                     item[ContactInterestedFor_Id] = ddlInterestedIn.SelectedItem.Value;
                     item[ContactSubject_Id] = this.Context.Server.HtmlEncode(txtBody.Text);
