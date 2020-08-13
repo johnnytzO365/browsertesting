@@ -113,8 +113,12 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                     item[SPBuiltInFieldId.WorkZip] = this.Context.Server.HtmlEncode(txtZipCode.Text);
                     item[SPBuiltInFieldId.EMail] = this.Context.Server.HtmlEncode(txtEMail.Text);
                     item[SPBuiltInFieldId.HomePhone] = this.Context.Server.HtmlEncode(txtPhone.Text);
-                    //item[ContactBy] = Core.Utils.GetLocString("FLDContactByEmail");
-                    
+
+                    //SPFieldMultiChoiceValue val = new SPFieldMultiChoiceValue();
+                    //if (cbContactByEmail.Checked) val.Add(Core.Utils.GetLocString("FLDContactByEmail"));
+                    //if (cbContactByPhone.Checked) val.Add(Core.Utils.GetLocString("FLDContactByPhone"));
+                    //item[NBG.PublicSite.Core.Fields.ContactBy_Id] = val.ToString();
+          
                     item[ContactBankCooperation_Id] = rbPartener.SelectedValue; //rbPartenerYes.Checked;
                     item[ContactInterestedFor_Id] = ddlInterestedIn.SelectedItem.Value;
                     item[ContactSubject_Id] = this.Context.Server.HtmlEncode(txtBody.Text);
