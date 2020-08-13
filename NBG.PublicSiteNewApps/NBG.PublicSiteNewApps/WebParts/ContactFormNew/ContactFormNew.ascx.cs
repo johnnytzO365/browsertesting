@@ -203,7 +203,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                 ddlInterestedIn.Attributes.CssStyle.Add("list-style-type", "none");
             }
             ddlInterestedIn.Style.Add("list-style-type", "none");
-            SPList config = SPContext.Current.Web.Lists["Configuration"]; 
+            SPList config = SPContext.Current.Site.RootWeb.Lists[Core.Configuration.ListNames.Configuration]; 
             SPQuery query = new SPQuery();
             if (SPContext.Current.Web.Language == 1033)
             {
@@ -214,7 +214,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                 query.Query = "<Where><Eq><FieldRef Name=\"Title\" /><Value Type=\"Text\">ContactFormDropDownChoicesEl</Value></Eq></Where>";
             }
             SPListItemCollection item = config.GetItems(query);
-            string value = item[0]["arwe"].ToString();
+            string value = item[0]["Config Value1"].ToString();
             string[] choices = value.Split(';');
             foreach (string choice in choices) {
                 

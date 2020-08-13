@@ -111,7 +111,7 @@ namespace NBG.PublicSiteNewApps.Core
 
         public static class ListNames
         {
-            public static string Configuration = "Configuration";
+            public static string Configuration = "ResourcesConfiguration";
         }
 
         public static class ConfigurationKeys

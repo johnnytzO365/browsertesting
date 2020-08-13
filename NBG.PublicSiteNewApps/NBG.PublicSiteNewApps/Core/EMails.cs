@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CommonSP = NBG.PublicSiteNewApps;
 using NBG.PublicSiteNewApps.CommonLibrary.Log;
+using System.Net;
 
 namespace NBG.PublicSiteNewApps.Core
 {
@@ -288,6 +289,13 @@ namespace NBG.PublicSiteNewApps.Core
                             !string.IsNullOrEmpty(spWeb.Site.WebApplication.OutboundMailServiceInstance.Server.Address))
                         {
                             System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient(spWeb.Site.WebApplication.OutboundMailServiceInstance.Server.Address);
+                            //client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.SpecifiedPickupDirectory;
+                            //client.PickupDirectoryLocation = "C:\\root";
+                            //client.PickupDirectoryLocation = "C:\\root";\
+                            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                            var credentials = new NetworkCredential("spsetup", "p@ssw0rd");
+                            client.UseDefaultCredentials = false;
+                            client.Credentials = credentials;
                             client.Send(msg);
                         }
                     }
