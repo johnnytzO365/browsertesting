@@ -100,7 +100,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                 web.AllowUnsafeUpdates = true;
                 try
                 {
-                    SPList lst = web.GetList("/Lists/Contactform");
+                    SPList lst = web.Lists["Contact Forms"];
                     SPListItemCollection items = GetEmptyItemsCollection(lst);
 
                     SPContentTypeId ctid = lst.ContentTypes.BestMatch(new SPContentTypeId("0x0100548398963F53464698001F990988DBA7"));
