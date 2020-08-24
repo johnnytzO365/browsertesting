@@ -61,13 +61,15 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
             if (SPContext.Current.FormContext.FormMode != Microsoft.SharePoint.WebControls.SPControlMode.Display)
             {
                 FullNameRequiredFieldValidator.Visible = false;
+                FullNameRequiredFieldValidator.Enabled = false;
                 PartenerRequiredFieldValidator.Visible = false;
+                PartenerRequiredFieldValidator.Enabled = false;
                 interestedInRequiredFieldValidator.Visible = false;
-                //recaptchaid.Visible = false;
-                //ContactCustomValidator.Visible = false;
+                interestedInRequiredFieldValidator.Enabled = false;
                 EmailFieldValidator.Visible = false;
-                ///TelCustomValidator.Visible = false;
-
+                EmailFieldValidator.Enabled = false;
+                formBodyRequiredFieldValidator.Visible = false;
+                formBodyRequiredFieldValidator.Enabled = false;
             }
 
             if (!Page.IsPostBack)
