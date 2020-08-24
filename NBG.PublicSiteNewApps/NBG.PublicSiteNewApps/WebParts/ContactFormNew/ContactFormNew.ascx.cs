@@ -159,9 +159,9 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                             lm.Add(emailUser);
                         }
 
-                        List<string> lm1 = new List<string>();
-                        lm1.Add("spsetup@spdev.local");
-                        Core.EMails.NotifyNewContactRegistration(web, item, emailSubject, lm1, emailAddressesList, null, emailAddressFrom);
+                        //List<string> lm1 = new List<string>();
+                        //lm1.Add("spsetup@spdev.local");
+                        Core.EMails.NotifyNewContactRegistration(web, item, emailSubject, lm, emailAddressesList, null, emailAddressFrom);
                     }
                 }
                 catch (Exception ex)//uls
