@@ -95,6 +95,8 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
 
         private void AddNewContact()
         {
+            SPSecurity.RunWithElevatedPrivileges(delegate
+            {
             using (SPSite elevatedSite = new SPSite(SPContext.Current.Site.ID))
             {
                 //SPWeb web = SPContext.Current.Site.RootWeb;
@@ -176,6 +178,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew
                     web.AllowUnsafeUpdates = false;
                 }
             }
+            });
         }
 
         public SPListItemCollection GetEmptyItemsCollection(SPList spList)
