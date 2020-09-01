@@ -61,7 +61,7 @@
                         <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormPhone")%></label>
                         <div>
                             <asp:TextBox ID="txtPhone" runat="server" CssClass="form-text" />
-                            <div><asp:RegularExpressionValidator ID="telRegularExpressionValidator" runat="server" ErrorMessage="" ValidationExpression="^\d+$" ControlToValidate="txtPhone" CssClass="errormsg" ValidateEmptyText="true" Display="Dynamic"></asp:RegularExpressionValidator></div>
+                            <div><asp:RegularExpressionValidator ID="telRegularExpressionValidator" runat="server" ErrorMessage="" ValidationExpression="^\d+$" ControlToValidate="txtPhone" CssClass="errormsg" Display="Dynamic"></asp:RegularExpressionValidator></div>
                         </div>
                     </div>
                 </div>
@@ -90,7 +90,7 @@
                     <div class="form-item clearfix">
                         <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormInterestedInLabel")%></label>
                         <span class="custom-list">
-                        <asp:DropDownList ID="ddlInterestedIn" runat="server" CssClass="form-select" ></asp:DropDownList>
+                            <asp:DropDownList ID="ddlInterestedIn" runat="server" CssClass="form-select" ></asp:DropDownList>
                         </span>
                         <div><asp:RequiredFieldValidator ID="interestedInRequiredFieldValidator" runat="server" ControlToValidate="ddlInterestedIn" ErrorMessage="mandatoryfield" CssClass="errormsg" Display="Dynamic" InitialValue="-1" /></div>
                     </div>
@@ -100,8 +100,8 @@
                 <div class="col full">
                     <div class="form-item clearfix">
                         <label><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormBodyLabel")%></label>
-                        <asp:TextBox ID="txtBody" runat="server" CssClass="form-textarea" TextMode="MultiLine" onKeyUp="javascript:Count(this);" onChange="javascript:Count(this);" />
-                        <span class="info"><span class="remaining"><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormBodyConstraintLabel")%>:<em class="lettercount"></em></span>
+                        <asp:TextBox ID="txtBody" runat="server" CssClass="form-textarea" TextMode="MultiLine" />
+                        <span class="info"><span class="remaining"><%=NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormBodyConstraintLabel")%>:<em class="lettercount"></em></span></span>
                         <div><asp:RequiredFieldValidator ID="formBodyRequiredFieldValidator" ControlToValidate="txtBody" ErrorMessage="" CssClass="errormsg" runat="server" Display="Dynamic" /></div>
                     </div>
                 </div>
@@ -141,9 +141,9 @@
             </div>    
         </div>
     </div>
-    <table width="135" border="0" cellpadding="2" cellspacing="0" style="margin-top:20px;" title="Click to Verify - This site chose Symantec SSL for secure e-commerce and confidential communications.">
+    <table style="width:135px;border:0;padding:2px;border-spacing:0;margin-top:20px;" title="Click to Verify - This site chose Symantec SSL for secure e-commerce and confidential communications.">
 		<tr>
-			<td width="135" align="center" valign="top">
+			<td style="width:135px;text-align:center;vertical-align:top">
 				<script type="text/javascript" src="https://seal.verisign.com/getseal?host_name=www.nbg.gr&amp;size=L&amp;use_flash=NO&amp;use_transparent=NO&amp;lang=en"></script><br />
 				<a href="http://www.symantec.com/ssl-certificates" target="_blank"  style="color:#000000; text-decoration:none; font:bold 7px verdana,sans-serif; letter-spacing:.5px; text-align:center; margin:0px; padding:0px;">ABOUT SSL CERTIFICATES</a>
 			</td>

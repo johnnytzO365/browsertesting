@@ -208,7 +208,6 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
             @__ctrl.ValidationExpression = "^\\d+$";
             @__ctrl.ControlToValidate = "txtPhone";
             @__ctrl.CssClass = "errormsg";
-            ((System.Web.UI.IAttributeAccessor)(@__ctrl)).SetAttribute("ValidateEmptyText", "true");
             @__ctrl.Display = global::System.Web.UI.WebControls.ValidatorDisplay.Dynamic;
             return @__ctrl;
         }
@@ -315,8 +314,6 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
             @__ctrl.ID = "txtBody";
             @__ctrl.CssClass = "form-textarea";
             @__ctrl.TextMode = global::System.Web.UI.WebControls.TextBoxMode.MultiLine;
-            ((System.Web.UI.IAttributeAccessor)(@__ctrl)).SetAttribute("onKeyUp", "javascript:Count(this);");
-            ((System.Web.UI.IAttributeAccessor)(@__ctrl)).SetAttribute("onChange", "javascript:Count(this);");
             return @__ctrl;
         }
         
@@ -546,7 +543,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
                        @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormInterestedInLabel"));
 
             @__w.Write("</label>\r\n                        <span class=\"custom-list\">\r\n                   " +
-                    "     ");
+                    "         ");
             parameterContainer.Controls[13].RenderControl(@__w);
             @__w.Write("\r\n                        </span>\r\n                        <div>");
             parameterContainer.Controls[14].RenderControl(@__w);
@@ -561,7 +558,7 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
             @__w.Write("\r\n                        <span class=\"info\"><span class=\"remaining\">");
                                                            @__w.Write(NBG.PublicSiteNewApps.Core.Utils.GetLocString("WPContactFormBodyConstraintLabel"));
 
-            @__w.Write(":<em class=\"lettercount\"></em></span>\r\n                        <div>");
+            @__w.Write(":<em class=\"lettercount\"></em></span></span>\r\n                        <div>");
             parameterContainer.Controls[16].RenderControl(@__w);
             @__w.Write(@"</div>
                     </div>
@@ -609,9 +606,9 @@ namespace NBG.PublicSiteNewApps.WebParts.ContactFormNew {
             </div>    
         </div>
     </div>
-    <table width=""135"" border=""0"" cellpadding=""2"" cellspacing=""0"" style=""margin-top:20px;"" title=""Click to Verify - This site chose Symantec SSL for secure e-commerce and confidential communications."">
+    <table style=""width:135px;border:0;padding:2px;border-spacing:0;margin-top:20px;"" title=""Click to Verify - This site chose Symantec SSL for secure e-commerce and confidential communications."">
 		<tr>
-			<td width=""135"" align=""center"" valign=""top"">
+			<td style=""width:135px;text-align:center;vertical-align:top"">
 				<script type=""text/javascript"" src=""https://seal.verisign.com/getseal?host_name=www.nbg.gr&amp;size=L&amp;use_flash=NO&amp;use_transparent=NO&amp;lang=en""></script><br />
 				<a href=""http://www.symantec.com/ssl-certificates"" target=""_blank""  style=""color:#000000; text-decoration:none; font:bold 7px verdana,sans-serif; letter-spacing:.5px; text-align:center; margin:0px; padding:0px;"">ABOUT SSL CERTIFICATES</a>
 			</td>
