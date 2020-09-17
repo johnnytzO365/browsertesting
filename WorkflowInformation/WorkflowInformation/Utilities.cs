@@ -92,11 +92,9 @@ namespace WorkflowInformation
                 if(wf.InternalName.Equals("Item Publication"))
                 {
                     string associationData = wf.AssociationData;
-                    int index = associationData.IndexOf("<stages>");
-                    if(index != -1)
-                    {
-                        WorkflowInfo.stages = Int32.Parse(associationData.Substring(index + 8, 1));
-                    }
+                    WorkflowInfo.stages = getStages(associationData);
+                    WorkflowInfo.stage2group = getApprovers(associationData);
+                    WorkflowInfo.stage4group = getPublishers(associationData);
                 }
 
             }
@@ -104,6 +102,47 @@ namespace WorkflowInformation
             return WorkflowInfo;
         }
 
-        
+        private static int getStages(string associationData)
+        {
+            int index = associationData.IndexOf("<stages>");
+            if (index != -1)
+                return Int32.Parse(associationData.Substring(index + 8, 1));
+            else
+            {
+                //find from Configuration List
+                return 0;
+            }
+        }
+
+        private static string getApprovers(string associationData)
+        {
+            int startIndex = associationData.IndexOf("<approvers>");
+            if (startIndex != -1)
+            {
+                int endIndex = associationData.IndexOf("</approvers>");
+                return associationData.Substring(startIndex + 11, endIndex - startIndex - 11);
+            }
+            else
+            {
+                //find from Configuration List
+                return "";
+            }
+        }
+
+        private static string getPublishers(string associationData)
+        {
+            int startIndex = associationData.IndexOf("<publishers>");
+            if (startIndex != -1)
+            {
+                int endIndex = associationData.IndexOf("</publishers>");
+                return associationData.Substring(startIndex + 12, endIndex - startIndex - 12);
+            }
+            else
+            {
+                //find from Configuration List
+                return "";
+            }
+        }
+
     }
 }
