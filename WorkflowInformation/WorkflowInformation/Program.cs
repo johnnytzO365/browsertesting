@@ -20,7 +20,8 @@ namespace WorkflowInformation
             {
                 Utilities.Connect(ctx, siteUrl);
                 ListItem item = Utilities.GetItem(ctx, itemUrl);
-                //Utilities.GetCurrentState();
+                Utilities.GetItemInfo(ctx, item);
+                //Utilities.GetCurrentState(item);
                 //Utilities.GetPredictions();
 
 

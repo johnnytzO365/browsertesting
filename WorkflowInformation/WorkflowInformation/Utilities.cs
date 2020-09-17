@@ -1,4 +1,5 @@
 ﻿using Microsoft.SharePoint.Client;
+using Microsoft.SharePoint.Client.Workflow;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,5 +75,35 @@ namespace WorkflowInformation
 
             return events;
         }
+
+        public static WorkflowClass.WorkflowInfo GetItemInfo(ClientContext ctx, ListItem item)
+        {
+            WorkflowClass.WorkflowInfo WorkflowInfo;
+            WorkflowInfo.stages = 0;
+            WorkflowInfo.stage1group = "";
+            WorkflowInfo.stage2group = "";
+            WorkflowInfo.stage3group = "";
+            WorkflowInfo.stage4group = "";
+            ctx.Load(item.ParentList.WorkflowAssociations);
+            ctx.ExecuteQuery();
+            WorkflowAssociationCollection wfs = item.ParentList.WorkflowAssociations;
+            foreach (var wf in wfs)
+            {
+                if(wf.InternalName.Equals("Item Publication"))
+                {
+                    string associationData = wf.AssociationData;
+                    int index = associationData.IndexOf("<stages>");
+                    if(index != -1)
+                    {
+                        WorkflowInfo.stages = Int32.Parse(associationData.Substring(index + 8, 1));
+                    }
+                }
+
+            }
+
+            return WorkflowInfo;
+        }
+
+        
     }
 }
