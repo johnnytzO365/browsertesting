@@ -13,51 +13,19 @@ namespace WorkflowInformation
     {
         static void Main(string[] args)
         {
-            string pageUrl = "http://vm-sp2013/english/contact/Pages/TestW.aspx";
-            int index = pageUrl.LastIndexOf('/');
-            string siteUrl = pageUrl.Substring(0, index - 6);
-            using (ClientContext clientContext = new ClientContext(siteUrl))
+            string itemUrl = "http://vm-sp2013/english/contact/Pages/TestW.aspx";
+            int index = itemUrl.LastIndexOf('/');
+            string siteUrl = itemUrl.Substring(0, index - 6);
+            using (ClientContext ctx = new ClientContext(siteUrl))
             {
-                string username = "spsetup";
-                string password = "p@ssw0rd";
-                try
-                {
-                    NetworkCredential _myCredentials = new NetworkCredential(username, password);
-                    clientContext.Credentials = _myCredentials;
-                    clientContext.ExecuteQuery();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Couldn't connect to " + siteUrl + " with your credentials! " + ex);
-                    Console.ReadLine();
-                    Environment.Exit(-1);
-                }
+                Utilities.Connect(ctx, siteUrl);
+                ListItem item = Utilities.GetItem(ctx, itemUrl);
+                //Utilities.GetCurrentState();
+                //Utilities.GetPredictions();
 
-                List Pages = clientContext.Web.Lists.GetByTitle("Pages");
-                CamlQuery query = new CamlQuery();
-                string serverRelativeUrl = pageUrl.Substring(16, pageUrl.Length - 16);
-                query.ViewXml = "<View><Query><Where><Eq><FieldRef Name='FileRef'/><Value Type='Url'>" + serverRelativeUrl + "</Value></Eq></Where></Query></View>";
-                ListItemCollection pages = Pages.GetItems(query);
-                clientContext.Load(pages);
-                clientContext.ExecuteQuery();
-                ListItem page = pages[0];
-                clientContext.Load(page, i => i["ID"]);
-                clientContext.ExecuteQuery();
 
-                List WFHistory = clientContext.Web.Lists.GetByTitle("Workflow History");
-                CamlQuery query2 = new CamlQuery();
-                query2.ViewXml = "<View><Query><Where><And><Eq><FieldRef Name='Outcome' /><Value Type='Text'>Workflow Started</Value></Eq><Eq><FieldRef Name='Item' /><Value Type='Integer'>" + page["ID"] + "</Value></Eq></And></Where><OrderBy><FieldRef Name='Created' Ascending='False' /></OrderBy></Query></View>";
-                ListItemCollection startEvents = WFHistory.GetItems(query2);
-                clientContext.Load(startEvents);
-                clientContext.ExecuteQuery();
-
-                ListItem startEvent = startEvents[0];
-                
-                CamlQuery query3 = new CamlQuery();
-                query3.ViewXml = "<View><Query><Where><Eq><FieldRef Name='WorkflowInstance' /><Value Type='Text'>" + startEvent["WorkflowInstance"].ToString() + "</Value></Eq></Where></Query></View>";
-                ListItemCollection events = WFHistory.GetItems(query3);
-                clientContext.Load(events);
-                clientContext.ExecuteQuery();
+                ListItemCollection events = Utilities.GetWorkflowHistory(ctx, item);
+                              
                 string stages = "";
                 string stage1user = "";
                 string stage2group = "";
